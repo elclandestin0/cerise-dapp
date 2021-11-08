@@ -246,7 +246,7 @@ function App(props) {
   ]);
 
   // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  const purpose = useContractReader(readContracts, "CeriseCryptoadzV1", "purpose");
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -452,7 +452,7 @@ function App(props) {
               }}
               to="/"
             >
-              YourContract
+              CRYPTOADZ V1
             </Link>
           </Menu.Item>
           <Menu.Item key="/hints">
@@ -506,7 +506,7 @@ function App(props) {
             */}
 
             <Contract
-              name="YourContract"
+              name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}
               provider={localProvider}
