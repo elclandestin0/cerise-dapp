@@ -19,7 +19,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import WalletLink from "walletlink";
 import Web3Modal from "web3modal";
 import "./App.css";
-import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account, Contract, ThemeSwitch } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -27,6 +27,11 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { ExampleUI, Hints, Subgraph } from "./views";
+
+// MUI
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 const { ethers } = require("ethers");
 /*
@@ -95,7 +100,18 @@ const walletLinkProvider = walletLink.makeWeb3Provider(`https://mainnet.infura.i
 // Portis ID: 6255fb2b-58c8-433b-a2c9-62098c05ddc9
 /*
   Web3 modal helps us "connect" external wallets:
-*/
+*/ const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  height: 1000,
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 const web3Modal = new Web3Modal({
   network: "mainnet", // Optional. If using WalletConnect on xDai, change network to "xdai" and add RPC info below for xDai chain.
   cacheProvider: true, // optional
@@ -171,6 +187,15 @@ function App(props) {
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
+  const [open, setOpen] = useState();
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
@@ -434,51 +459,27 @@ function App(props) {
       {/* <Header /> */}
       {networkDisplay}
       <BrowserRouter>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
-          <Menu.Item key="/">
-            <Link
-              onClick={() => {
-                setRoute("/");
-              }}
-              to="/"
-            >
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/home">
-            <Link
-              onClick={() => {
-                setRoute("/home");
-              }}
-              to="/home"
-            >
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/collections">
-            <Link
-              onClick={() => {
-                setRoute("/collections");
-              }}
-              to="/collections"
-            >
-              Collections
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/about">
-            <Link
-              onClick={() => {
-                setRoute("/about");
-              }}
-              to="/about"
-            >
-              About
-            </Link>
-          </Menu.Item>
-        </Menu>
-
         <Switch>
           <Route exact path="/">
+            {/*
+                🎛 this scaffolding is full of commonly used components
+                this <Contract/> component will automatically parse your ABI
+                and give you a form to interact with it locally
+            */}
+            <ExampleUI
+              address={address}
+              userSigner={userSigner}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+            />
+          </Route>
+          <Route exact path="/collections/cryptoadz">
             {/*
                 🎛 this scaffolding is full of commonly used components
                 this <Contract/> component will automatically parse your ABI
@@ -522,16 +523,74 @@ function App(props) {
             />
           </Route>
           <Route path="/about">
-            <Subgraph
-              subgraphUri={props.subgraphUri}
+            <ExampleUI
+              address={address}
+              userSigner={userSigner}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
               tx={tx}
               writeContracts={writeContracts}
-              mainnetProvider={mainnetProvider}
+              readContracts={readContracts}
+              purpose={purpose}
             />
           </Route>
         </Switch>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/home"
+            >
+              <Typography id="modal-modal-title" variant="h2" component="h2">
+                Home
+              </Typography>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/collections"
+            >
+              <Typography id="modal-modal-title" variant="h2" component="h2">
+                Collections
+              </Typography>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/about");
+                handleClose();
+              }}
+              to="/about"
+            >
+              <Typography id="modal-modal-title" variant="h2" component="h2">
+                About
+              </Typography>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cryptoadz");
+                handleClose();
+              }}
+              to="/collections/cryptoadz"
+            >
+              <Typography id="modal-modal-title" variant="h2" component="h2">
+                CrypTOADZ
+              </Typography>
+            </Link>
+          </Box>
+        </Modal>
       </BrowserRouter>
-
       <ThemeSwitch />
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
@@ -546,6 +605,7 @@ function App(props) {
           loadWeb3Modal={loadWeb3Modal}
           logoutOfWeb3Modal={logoutOfWeb3Modal}
           blockExplorer={blockExplorer}
+          handleOpen={handleOpen}
         />
       </div>
     </div>

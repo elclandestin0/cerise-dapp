@@ -15,6 +15,7 @@ import MenuIcon from "../assets/menubutton.gif";
 
 // CERISE COMPONENTS
 import ConnectButton from "./CeriseComponents/ConnectButton";
+import MenuButton from "./CeriseComponents/MenuButton";
 
 /*
   ~ What it does? ~
@@ -61,6 +62,7 @@ export default function Account({
   loadWeb3Modal,
   logoutOfWeb3Modal,
   blockExplorer,
+  handleOpen,
 }) {
   const modalButtons = [];
   if (web3Modal) {
@@ -106,9 +108,7 @@ export default function Account({
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            <img src={MenuIcon} style={{ width: 64 }} />
-          </IconButton>
+          <MenuButton handleOpen={handleOpen} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <img src={CeriseLogo} style={{ width: 64 }} />
           </Typography>
