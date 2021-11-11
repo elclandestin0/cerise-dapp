@@ -1,9 +1,20 @@
-import { Button } from "antd";
+// import { Button } from "antd";
 import React from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
-import Balance from "./Balance";
-import Wallet from "./Wallet";
+import { PageHeader } from "antd";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import CeriseLogo from "../assets/ceriselogo.gif";
+import MintButton from "../assets/mint.gif";
+import MenuIcon from "../assets/menubutton.gif";
+
+// CERISE COMPONENTS
+import ConnectButton from "./CeriseComponents/ConnectButton";
 
 /*
   ~ What it does? ~
@@ -66,18 +77,7 @@ export default function Account({
         </Button>,
       );
     } else {
-      modalButtons.push(
-        <Button
-          key="loginbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-          onClick={loadWeb3Modal}
-        >
-          connect
-        </Button>,
-      );
+      modalButtons.push(<ConnectButton loadWeb3Modal={loadWeb3Modal} />);
     }
   }
 
@@ -102,11 +102,28 @@ export default function Account({
       /> */}
     </span>
   );
-
   return (
-    <div>
-      {display}
-      {modalButtons}
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" color="transparent">
+        <Toolbar>
+          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+            <img src={MenuIcon} style={{ width: 64 }} />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <img src={CeriseLogo} style={{ width: 64 }} />
+          </Typography>
+          {display}
+          {modalButtons}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
+
+const Header = () => {
+  return (
+    <a href="https://github.com/austintgriffith/scaffold-eth" target="_blank" rel="noopener noreferrer">
+      <PageHeader title="CERISE" style={{ cursor: "pointer" }} />
+    </a>
+  );
+};
