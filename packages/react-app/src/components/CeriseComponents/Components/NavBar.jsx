@@ -62,12 +62,12 @@ export default function NavBar({
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
-        <Toolbar>
+        <Toolbar className="flex justify-between">
           <MenuButton handleOpen={handleOpen} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className="text-center">
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <img src={CeriseLogo} style={{ width: 64 }} />
           </Typography>
-          {display}
+          {/* {display} */}
           {modalButtons}
         </Toolbar>
       </AppBar>

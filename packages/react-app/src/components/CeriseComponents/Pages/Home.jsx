@@ -1,17 +1,14 @@
 import React from "react";
 
 // MUI
-import Typography from "@mui/material/Typography";
+import H2 from "@material-tailwind/react/Heading1";
 
 const Home = () => {
   return (
     <div>
-      <Typography id="modal-modal-title" className="text-primary" variant="h2" component="h2">
-        Home
-      </Typography>
-      <p>hello</p>
+      <H2 className="lightBlue">Home</H2>
     </div>
   );
 };
 
-export default Home;
+export default Home;  
