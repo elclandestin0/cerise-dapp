@@ -6,9 +6,9 @@ import H2 from "@material-tailwind/react/Heading1";
 const Home = () => {
   return (
     <div>
-      <H2 className="lightBlue">Home</H2>
+      <H2 color="lightBlue">Home</H2>
     </div>
   );
 };
 
-export default Home;  
+export default Home;

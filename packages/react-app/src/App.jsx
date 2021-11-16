@@ -28,10 +28,10 @@ import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { ExampleUI, Hints, Subgraph } from "./views";
 
-// MUI
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+// material tailwind
+import Modal from "@material-tailwind/react/Modal";
+import ModalHeader from "@material-tailwind/react/ModalHeader";
+import H2 from "@material-tailwind/react/Heading1";
 
 // CERISE-COMPONENTS
 import Home from "./components/CeriseComponents/Pages/Home";
@@ -202,6 +202,7 @@ function App(props) {
 
   const handleClose = () => {
     setOpen(false);
+    console.log("false");
   };
 
   const logoutOfWeb3Modal = async () => {
@@ -492,57 +493,56 @@ function App(props) {
           </Route>
         </Switch>
         <Modal
-          open={open}
+          active={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
-            <Link
-              onClick={() => {
-                setRoute("/home");
-                handleClose();
-              }}
-              to="/home"
-            >
-              <Typography id="modal-modal-title" variant="h2" component="h2">
-                Home
-              </Typography>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/home");
-                handleClose();
-              }}
-              to="/collections"
-            >
-              <Typography id="modal-modal-title" variant="h2" component="h2">
-                Collections
-              </Typography>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/about");
-                handleClose();
-              }}
-              to="/about"
-            >
-              <Typography id="modal-modal-title" variant="h2" component="h2">
-                About
-              </Typography>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/collections/cryptoadz");
-                handleClose();
-              }}
-              to="/collections/cryptoadz"
-            >
-              <Typography id="modal-modal-title" variant="h2" component="h2">
-                CrypTOADZ
-              </Typography>
-            </Link>
-          </Box>
+          <ModalHeader toggler={() => setShowModal(false)}>Modal Title</ModalHeader>
+          <Link
+            onClick={() => {
+              setRoute("/home");
+              handleClose();
+            }}
+            to="/home"
+          >
+            <H2 id="modal-modal-title" variant="h2" component="h2">
+              Home
+            </H2>
+          </Link>
+          <Link
+            onClick={() => {
+              setRoute("/home");
+              handleClose();
+            }}
+            to="/collections"
+          >
+            <H2 id="modal-modal-title" variant="h2" component="h2">
+              Collections
+            </H2>
+          </Link>
+          <Link
+            onClick={() => {
+              setRoute("/about");
+              handleClose();
+            }}
+            to="/about"
+          >
+            <H2 id="modal-modal-title" variant="h2" component="h2">
+              About
+            </H2>
+          </Link>
+          <Link
+            onClick={() => {
+              setRoute("/collections/cryptoadz");
+              handleClose();
+            }}
+            to="/collections/cryptoadz"
+          >
+            <H2 id="modal-modal-title" variant="h2" component="h2">
+              CrypTOADZ
+            </H2>
+          </Link>
         </Modal>
       </BrowserRouter>
       <div className="bg-footer">

@@ -1,14 +1,13 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import Button from "@material-tailwind/react/Button";
 import ConnectGif from "../../../assets/connect.gif";
 
 const ConnectButton = ({ loadWeb3Modal }) => {
   return (
     <Button
-      key="loginbutton"
       style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4, alignItems: "right" }}
-      shape="round"
-      size="large"
+      buttonType="filled"
+      size="regular"
       /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
       onClick={loadWeb3Modal}
     >

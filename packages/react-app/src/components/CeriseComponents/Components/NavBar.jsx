@@ -3,16 +3,18 @@ import React from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "../../Address";
 import { PageHeader } from "antd";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import H2 from "@material-tailwind/react/Heading1";
+import Button from "@material-tailwind/react/Button";
 
 // CERISE COMPONENTS
 import ConnectButton from "../Buttons/ConnectButton";
 import MenuButton from "../Buttons/MenuButton";
 import CeriseLogo from "../../../assets/ceriselogo.gif";
+
+// tailwind material
+import Navbar from "@material-tailwind/react/Navbar";
+import NavbarContainer from "@material-tailwind/react/NavbarContainer";
+import NavItem from "@material-tailwind/react/NavItem";
 
 export default function NavBar({
   address,
@@ -60,18 +62,14 @@ export default function NavBar({
     </span>
   );
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent">
-        <Toolbar className="flex justify-between">
-          <MenuButton handleOpen={handleOpen} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <img src={CeriseLogo} style={{ width: 64 }} />
-          </Typography>
-          {/* {display} */}
-          {modalButtons}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <NavbarContainer>
+      <MenuButton handleOpen={handleOpen} />
+      <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <img src={CeriseLogo} style={{ width: 64 }} />
+      </H2>
+      {/* {display} */}
+      {modalButtons}
+    </NavbarContainer>
   );
 }
 
