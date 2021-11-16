@@ -9,7 +9,7 @@ import Button from "@material-tailwind/react/Button";
 // CERISE COMPONENTS
 import ConnectButton from "../Buttons/ConnectButton";
 import MenuButton from "../Buttons/MenuButton";
-import CeriseLogo from "../../../assets/ceriselogo.gif";
+import CeriseLogo from "../../../assets/x.gif";
 
 // tailwind material
 import Navbar from "@material-tailwind/react/Navbar";
@@ -62,7 +62,7 @@ export default function NavBar({
     </span>
   );
   return (
-    <NavbarContainer>
+    <NavbarContainer className="pt-4 pb-4">
       <MenuButton handleOpen={handleOpen} />
       <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <img src={CeriseLogo} style={{ width: 64 }} />

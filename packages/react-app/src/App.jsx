@@ -463,6 +463,22 @@ function App(props) {
 
   return (
     <div className="text-primary bg-primary min-h-screen">
+      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
+      {/* <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}> */}
+      <NavBar
+        style={{ position: "fixed" }}
+        address={address}
+        localProvider={localProvider}
+        userSigner={userSigner}
+        mainnetProvider={mainnetProvider}
+        price={price}
+        web3Modal={web3Modal}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+        blockExplorer={blockExplorer}
+        handleOpen={handleOpen}
+      />
+      {/* </div> */}
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
       <BrowserRouter>
@@ -498,7 +514,9 @@ function App(props) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <ModalHeader toggler={() => setShowModal(false)}>Modal Title</ModalHeader>
+          <ModalHeader color="red" toggler={() => setOpen(false)}>
+            Pages
+          </ModalHeader>
           <Link
             onClick={() => {
               setRoute("/home");
@@ -506,9 +524,7 @@ function App(props) {
             }}
             to="/home"
           >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              Home
-            </H2>
+            <H2>Home</H2>
           </Link>
           <Link
             onClick={() => {
@@ -548,23 +564,7 @@ function App(props) {
       <div className="bg-footer">
         <p>This is the footer</p>
       </div>
-
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
-        <NavBar
-          address={address}
-          localProvider={localProvider}
-          userSigner={userSigner}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
-          handleOpen={handleOpen}
-        />
-      </div>
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
     </div>
   );
 }
