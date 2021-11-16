@@ -454,10 +454,9 @@ function App(props) {
   }
 
   return (
-    <div className="App">
+    <div className="bg-primary min-h-screen text-primary">
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
-      {networkDisplay}
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
@@ -591,7 +590,9 @@ function App(props) {
           </Box>
         </Modal>
       </BrowserRouter>
-      <ThemeSwitch />
+      <div className="bg-footer">
+        <p>That is my name</p>
+      </div>
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
       <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
