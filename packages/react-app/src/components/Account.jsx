@@ -8,14 +8,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import CeriseLogo from "../assets/ceriselogo.gif";
-import MintButton from "../assets/mint.gif";
-import MenuIcon from "../assets/menubutton.gif";
 
 // CERISE COMPONENTS
-import ConnectButton from "./CeriseComponents/ConnectButton";
-import MenuButton from "./CeriseComponents/MenuButton";
+import ConnectButton from "./CeriseComponents/Buttons/ConnectButton";
+import MenuButton from "./CeriseComponents/Buttons/MenuButton";
 
 /*
   ~ What it does? ~

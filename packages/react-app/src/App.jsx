@@ -33,6 +33,12 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
+// CERISE-COMPONENTS
+import Home from "./components/CeriseComponents/Pages/Home";
+import Collections from "./components/CeriseComponents/Pages/Collections";
+import About from "./components/CeriseComponents/Pages/About";
+import Collection from "./components/CeriseComponents/Pages/Collection";
+
 const { ethers } = require("ethers");
 /*
     Welcome to 🏗 scaffold-eth !
@@ -454,38 +460,17 @@ function App(props) {
   }
 
   return (
-    <div className="bg-primary min-h-screen text-primary">
+    <div className="text-primary bg-primary min-h-screen">
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-            <ExampleUI
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              purpose={purpose}
-            />
+            <Home />
           </Route>
           <Route exact path="/collections/cryptoadz">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-
-            <Contract
+            <Collection />
+            {/* <Contract
               name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}
@@ -493,47 +478,16 @@ function App(props) {
               address={address}
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
-            />
+            /> */}
           </Route>
           <Route path="/home">
-            <ExampleUI
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              purpose={purpose}
-            />
+            <Home />
           </Route>
           <Route path="/collections">
-            <Contract
-              name="DAI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-              contractConfig={contractConfig}
-              chainId={1}
-            />
+            <Collections />
           </Route>
           <Route path="/about">
-            <ExampleUI
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              purpose={purpose}
-            />
+            <About />
           </Route>
         </Switch>
         <Modal
@@ -591,7 +545,7 @@ function App(props) {
         </Modal>
       </BrowserRouter>
       <div className="bg-footer">
-        <p>That is my name</p>
+        <p>This is the footer</p>
       </div>
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
@@ -609,6 +563,7 @@ function App(props) {
           handleOpen={handleOpen}
         />
       </div>
+      <ThemeSwitch />
     </div>
   );
 }
