@@ -19,7 +19,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import WalletLink from "walletlink";
 import Web3Modal from "web3modal";
 import "./App.css";
-import { Account, Contract, ThemeSwitch } from "./components";
+import { Contract, ThemeSwitch } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -38,6 +38,7 @@ import Home from "./components/CeriseComponents/Pages/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import Collection from "./components/CeriseComponents/Pages/Collection";
+import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 const { ethers } = require("ethers");
 /*
@@ -550,7 +551,7 @@ function App(props) {
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
       <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
-        <Account
+        <NavBar
           address={address}
           localProvider={localProvider}
           userSigner={userSigner}
