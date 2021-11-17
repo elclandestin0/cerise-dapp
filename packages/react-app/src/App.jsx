@@ -463,32 +463,31 @@ function App(props) {
 
   return (
     <div className="text-primary bg-primary min-h-screen">
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      {/* <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}> */}
-      <NavBar
-        style={{ position: "fixed" }}
-        address={address}
-        localProvider={localProvider}
-        userSigner={userSigner}
-        mainnetProvider={mainnetProvider}
-        price={price}
-        web3Modal={web3Modal}
-        loadWeb3Modal={loadWeb3Modal}
-        logoutOfWeb3Modal={logoutOfWeb3Modal}
-        blockExplorer={blockExplorer}
-        handleOpen={handleOpen}
-      />
-      {/* </div> */}
+      <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
+        <NavBar
+          address={address}
+          localProvider={localProvider}
+          userSigner={userSigner}
+          mainnetProvider={mainnetProvider}
+          price={price}
+          web3Modal={web3Modal}
+          loadWeb3Modal={loadWeb3Modal}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+          blockExplorer={blockExplorer}
+          handleOpen={handleOpen}
+        />
+      </div>
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/collections/cryptoadz">
-            <Collection />
-            {/* <Contract
+      <div className="container pt-10">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/collections/cryptoadz">
+              <Collection />
+              {/* <Contract
               name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}
@@ -497,70 +496,72 @@ function App(props) {
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
             /> */}
-          </Route>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/collections">
-            <Collections />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-        </Switch>
-        <Modal
-          active={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <ModalHeader color="red" toggler={() => setOpen(false)}>
-            Pages
-          </ModalHeader>
-          <Link
-            onClick={() => {
-              setRoute("/home");
-              handleClose();
-            }}
-            to="/home"
+            </Route>
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path="/collections">
+              <Collections />
+            </Route>
+            <Route path="/about">
+              <About />
+            </Route>
+          </Switch>
+          <Modal
+            active={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            className="bg-primary"
           >
-            <H2>Home</H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/home");
-              handleClose();
-            }}
-            to="/collections"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              Collections
-            </H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/about");
-              handleClose();
-            }}
-            to="/about"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              About
-            </H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/collections/cryptoadz");
-              handleClose();
-            }}
-            to="/collections/cryptoadz"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              CrypTOADZ
-            </H2>
-          </Link>
-        </Modal>
-      </BrowserRouter>
+            <ModalHeader color="red" toggler={() => setOpen(false)}>
+              Pages
+            </ModalHeader>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/home"
+            >
+              <H2>Home</H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/collections"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                Collections
+              </H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/about");
+                handleClose();
+              }}
+              to="/about"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                About
+              </H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cryptoadz");
+                handleClose();
+              }}
+              to="/collections/cryptoadz"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                CrypTOADZ
+              </H2>
+            </Link>
+          </Modal>
+        </BrowserRouter>
+      </div>
       <div className="bg-footer">
         <p>This is the footer</p>
       </div>

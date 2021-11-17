@@ -16,7 +16,49 @@ const Home = () => {
     <Card>
       <CardImage src={Toad} alt="Card Image" />
       <CardBody>
-        <H6 color="gray">Card Title</H6>
+        <H6 className="text-primary">Card Title</H6>
+        <Paragraph color="gray">
+          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+          Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+        </Paragraph>
+      </CardBody>
+
+      <CardFooter>
+        <Button color="lightBlue" size="lg" ripple="light">
+          Read More
+        </Button>
+      </CardFooter>
+      <CardImage src={Toad} alt="Card Image" />
+      <CardBody>
+        <H6 className="text-primary">Card Title</H6>
+        <Paragraph color="gray">
+          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+          Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+        </Paragraph>
+      </CardBody>
+
+      <CardFooter>
+        <Button color="lightBlue" size="lg" ripple="light">
+          Read More
+        </Button>
+      </CardFooter>
+      <CardImage src={Toad} alt="Card Image" />
+      <CardBody>
+        <H6 className="text-primary">Card Title</H6>
+        <Paragraph color="gray">
+          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+          Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+        </Paragraph>
+      </CardBody>
+
+      <CardFooter>
+        <Button color="lightBlue" size="lg" ripple="light">
+          Read More
+        </Button>
+      </CardFooter>
+      <CardImage src={Toad} alt="Card Image" />
+      <CardBody>
+        <H6 className="text-primary">Card Title</H6>
         <Paragraph color="gray">
           Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
           Kanye loves Kanye I love Rick Owens’ bed design but the back is...
