@@ -34,7 +34,7 @@ import ModalHeader from "@material-tailwind/react/ModalHeader";
 import H2 from "@material-tailwind/react/Heading1";
 
 // CERISE-COMPONENTS
-import Home from "./components/CeriseComponents/Pages/Home";
+import Home from "./components/CeriseComponents/Pages/Home/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import Collection from "./components/CeriseComponents/Pages/Collection";
