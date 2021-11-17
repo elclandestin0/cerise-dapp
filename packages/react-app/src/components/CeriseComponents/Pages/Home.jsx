@@ -1,22 +1,16 @@
 import React from "react";
-import Card from "@material-tailwind/react/Card";
-import CardImage from "@material-tailwind/react/CardImage";
-import CardBody from "@material-tailwind/react/CardBody";
-import CardFooter from "@material-tailwind/react/CardFooter";
-import H6 from "@material-tailwind/react/Heading6";
-import Paragraph from "@material-tailwind/react/Paragraph";
-import Button from "@material-tailwind/react/Button";
-import Toad from "../../../assets/1.jpg";
+import H1 from "@material-tailwind/react/Heading1";
 import "./home.css";
+import DemonSplayerz from "../../../assets/DS.png";
 
 // MUI
 import H2 from "@material-tailwind/react/Heading1";
 
 const Home = () => {
   return (
-    <div className="bg-test bg-no-repeat bg-center text-primary anything">
+    <div className="bg-test bg-cover bg-no-repeat bg-center text-primary anything">
       <div className="h-full flex items-center justify-center">
-        <H2> some text </H2>
+        <img class="w-72 tiny:w-auto md:w-1/2 lg:w-1/2 xl:w-1/2" src={DemonSplayerz} />
       </div>
     </div>
   );
