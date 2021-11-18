@@ -511,53 +511,55 @@ function App(props) {
             <About />
           </Route>
         </Switch>
-        <Modal styles={{ backgroundColor: "black" }} active={open} onClose={handleClose}>
-          <ModalHeader toggler={() => setOpen(false)}>Pages</ModalHeader>
-          <ModalBody className="bg-footer">
-            <Link
-              onClick={() => {
-                setRoute("/home");
-                handleClose();
-              }}
-              to="/home"
-            >
-              <H2>Home</H2>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/home");
-                handleClose();
-              }}
-              to="/collections"
-            >
-              <H2 id="modal-modal-title" variant="h2" component="h2">
-                Collections
-              </H2>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/about");
-                handleClose();
-              }}
-              to="/about"
-            >
-              <H2 id="modal-modal-title" variant="h2" component="h2">
-                About
-              </H2>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/collections/cryptoadz");
-                handleClose();
-              }}
-              to="/collections/cryptoadz"
-            >
-              <H2 id="modal-modal-title" variant="h2" component="h2">
-                CrypTOADZ
-              </H2>
-            </Link>
-          </ModalBody>
-        </Modal>
+        <div style={{ backgroundColor: "black" }}>
+          <Modal active={open} onClose={handleClose}>
+            <ModalHeader toggler={() => setOpen(false)}>Pages</ModalHeader>
+            <ModalBody>
+              <Link
+                onClick={() => {
+                  setRoute("/home");
+                  handleClose();
+                }}
+                to="/home"
+              >
+                <H2>Home</H2>
+              </Link>
+              <Link
+                onClick={() => {
+                  setRoute("/home");
+                  handleClose();
+                }}
+                to="/collections"
+              >
+                <H2 id="modal-modal-title" variant="h2" component="h2">
+                  Collections
+                </H2>
+              </Link>
+              <Link
+                onClick={() => {
+                  setRoute("/about");
+                  handleClose();
+                }}
+                to="/about"
+              >
+                <H2 id="modal-modal-title" variant="h2" component="h2">
+                  About
+                </H2>
+              </Link>
+              <Link
+                onClick={() => {
+                  setRoute("/collections/cryptoadz");
+                  handleClose();
+                }}
+                to="/collections/cryptoadz"
+              >
+                <H2 id="modal-modal-title" variant="h2" component="h2">
+                  CrypTOADZ
+                </H2>
+              </Link>
+            </ModalBody>
+          </Modal>
+        </div>
       </BrowserRouter>
 
       <div className="flex justify-center bg-footer">
