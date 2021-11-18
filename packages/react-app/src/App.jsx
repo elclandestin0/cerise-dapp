@@ -31,6 +31,7 @@ import { ExampleUI, Hints, Subgraph } from "./views";
 // material tailwind
 import Modal from "@material-tailwind/react/Modal";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
+import ModalBody from "@material-tailwind/react/ModalBody";
 import H2 from "@material-tailwind/react/Heading1";
 
 // CERISE-COMPONENTS
@@ -39,6 +40,10 @@ import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import Collection from "./components/CeriseComponents/Pages/Collection";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
+
+// assets
+import CeriseLogo from "./assets/cerise-logo.png";
+import { black } from "chalk";
 
 const { ethers } = require("ethers");
 /*
@@ -506,62 +511,59 @@ function App(props) {
             <About />
           </Route>
         </Switch>
-        <Modal
-          active={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          className="bg-primary"
-        >
-          <ModalHeader color="red" toggler={() => setOpen(false)}>
-            Pages
-          </ModalHeader>
-          <Link
-            onClick={() => {
-              setRoute("/home");
-              handleClose();
-            }}
-            to="/home"
-          >
-            <H2>Home</H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/home");
-              handleClose();
-            }}
-            to="/collections"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              Collections
-            </H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/about");
-              handleClose();
-            }}
-            to="/about"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              About
-            </H2>
-          </Link>
-          <Link
-            onClick={() => {
-              setRoute("/collections/cryptoadz");
-              handleClose();
-            }}
-            to="/collections/cryptoadz"
-          >
-            <H2 id="modal-modal-title" variant="h2" component="h2">
-              CrypTOADZ
-            </H2>
-          </Link>
+        <Modal styles={{ backgroundColor: "black" }} active={open} onClose={handleClose}>
+          <ModalHeader toggler={() => setOpen(false)}>Pages</ModalHeader>
+          <ModalBody className="bg-footer">
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/home"
+            >
+              <H2>Home</H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/collections"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                Collections
+              </H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/about");
+                handleClose();
+              }}
+              to="/about"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                About
+              </H2>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cryptoadz");
+                handleClose();
+              }}
+              to="/collections/cryptoadz"
+            >
+              <H2 id="modal-modal-title" variant="h2" component="h2">
+                CrypTOADZ
+              </H2>
+            </Link>
+          </ModalBody>
         </Modal>
       </BrowserRouter>
-      <div className="bg-footer">
-        <p>This is the footer</p>
+
+      <div className="flex justify-center bg-footer">
+        <div className="h-full flex items-center justify-center text-center pb-5 pt-5">
+          <img class="w-1/2 tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={CeriseLogo} />
+        </div>
       </div>
       {/* <ThemeSwitch /> */}
     </div>

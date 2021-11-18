@@ -65,7 +65,7 @@ export default function NavBar({
     <NavbarContainer className="pt-4 pb-4">
       <MenuButton handleOpen={handleOpen} />
       <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        <img src={CeriseLogo} style={{ width: 64 }} />
+        <img src={CeriseLogo} style={{ width: 80 }} />
       </H2>
       {/* {display} */}
       {modalButtons}
