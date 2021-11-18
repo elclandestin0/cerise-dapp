@@ -29,7 +29,7 @@ import { Transactor } from "./helpers";
 import { ExampleUI, Hints, Subgraph } from "./views";
 
 // material tailwind
-import Modal from "@material-tailwind/react/Modal";
+import Modal from "./components/CeriseComponents/Components/Modal";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import H2 from "@material-tailwind/react/Heading1";
@@ -43,7 +43,6 @@ import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
 import CeriseLogo from "./assets/cerise-logo.png";
-import { black } from "chalk";
 
 const { ethers } = require("ethers");
 /*
@@ -207,7 +206,6 @@ function App(props) {
 
   const handleClose = () => {
     setOpen(false);
-    console.log("false");
   };
 
   const logoutOfWeb3Modal = async () => {
@@ -467,7 +465,7 @@ function App(props) {
   }
 
   return (
-    <div className="text-primary bg-primary min-h-screen flex flex-col">
+    <div className="text-primary min-h-screen flex flex-col bg-primary">
       <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
         <NavBar
           address={address}
@@ -511,55 +509,49 @@ function App(props) {
             <About />
           </Route>
         </Switch>
-        <div style={{ backgroundColor: "black" }}>
-          <Modal active={open} onClose={handleClose}>
-            <ModalHeader toggler={() => setOpen(false)}>Pages</ModalHeader>
-            <ModalBody>
-              <Link
-                onClick={() => {
-                  setRoute("/home");
-                  handleClose();
-                }}
-                to="/home"
-              >
-                <H2>Home</H2>
-              </Link>
-              <Link
-                onClick={() => {
-                  setRoute("/home");
-                  handleClose();
-                }}
-                to="/collections"
-              >
-                <H2 id="modal-modal-title" variant="h2" component="h2">
-                  Collections
-                </H2>
-              </Link>
-              <Link
-                onClick={() => {
-                  setRoute("/about");
-                  handleClose();
-                }}
-                to="/about"
-              >
-                <H2 id="modal-modal-title" variant="h2" component="h2">
-                  About
-                </H2>
-              </Link>
-              <Link
-                onClick={() => {
-                  setRoute("/collections/cryptoadz");
-                  handleClose();
-                }}
-                to="/collections/cryptoadz"
-              >
-                <H2 id="modal-modal-title" variant="h2" component="h2">
-                  CrypTOADZ
-                </H2>
-              </Link>
-            </ModalBody>
-          </Modal>
-        </div>
+        <Modal active={open} toggler={() => setOpen(false)}>
+          <ModalHeader toggler={() => setOpen(false)}>
+            <h1 className="text-primary text-3xl">Pages</h1>
+          </ModalHeader>
+          <ModalBody>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/home"
+            >
+              <h1 className="text-primary text-6xl">Home</h1>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/home");
+                handleClose();
+              }}
+              to="/collections"
+            >
+              <h1 className="text-primary text-6xl">Collections</h1>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/about");
+                handleClose();
+              }}
+              to="/about"
+            >
+              <h1 className="text-primary text-6xl">About</h1>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cryptoadz");
+                handleClose();
+              }}
+              to="/collections/cryptoadz"
+            >
+              <h1 className="text-primary text-6xl">CrypTOADZ</h1>
+            </Link>
+          </ModalBody>
+        </Modal>
       </BrowserRouter>
       {/* FOOTER */}
       <footer>

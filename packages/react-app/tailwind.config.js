@@ -10,6 +10,7 @@ module.exports = {
     backgroundColor: theme => ({
       primary: "#380000",
       footer: "#000000",
+      red: "#ff0000",
     }),
     backgroundImage: {
       test: "url('https://i.shgcdn.com/07f41899-180a-4c3a-abe5-5161f62d860c/-/format/auto/-/preview/3000x3000/-/quality/lighter/')",
