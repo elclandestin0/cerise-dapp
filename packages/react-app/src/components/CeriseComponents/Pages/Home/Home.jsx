@@ -23,7 +23,7 @@ const Home = () => {
         </h1>
       </div>
       <div className="flex justify-center">
-        <p className="text-3xl text-center px-5 md:px-24 lg:px-48 xl:px-96">
+        <p className="text-3xl text-justify px-9 md:px-24 lg:px-48 xl:px-96">
           There are 20 exclusive street wearables items available to mint for any CrypTOADZ owners. These include cargo
           pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and get
           your tokenized street wearable!

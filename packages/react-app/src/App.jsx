@@ -467,7 +467,7 @@ function App(props) {
   }
 
   return (
-    <div className="text-primary bg-primary min-h-screen">
+    <div className="text-primary bg-primary min-h-screen flex flex-col">
       <div style={{ position: "fixed", textAlign: "center", right: 0, top: 0, padding: 10, width: "100%" }}>
         <NavBar
           address={address}
@@ -561,12 +561,14 @@ function App(props) {
           </Modal>
         </div>
       </BrowserRouter>
-
-      <div className="flex justify-center bg-footer">
-        <div className="h-full flex items-center justify-center text-center pb-5 pt-5">
-          <img class="w-1/2 tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={CeriseLogo} />
+      {/* FOOTER */}
+      <footer>
+        <div className="flex justify-center bg-footer">
+          <div className="h-full flex items-center justify-center text-center pb-5 pt-5">
+            <img class="w-1/2 tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={CeriseLogo} />
+          </div>
         </div>
-      </div>
+      </footer>
       {/* <ThemeSwitch /> */}
     </div>
   );
