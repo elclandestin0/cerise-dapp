@@ -1,6 +1,7 @@
 import React from "react";
 
 const Collections = () => {
+  const collectionsAddresses = ["0x5fbdb2315678afecb367f032d93f642f64180aa3"];
   return (
     <div className="flex-grow">
       <div className="flex justify-center">
