@@ -564,8 +564,8 @@ function App(props) {
       {/* FOOTER */}
       <footer>
         <div className="flex justify-center bg-footer">
-          <div className="h-full flex items-center justify-center text-center pb-5 pt-5">
-            <img class="w-1/2 tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={CeriseLogo} />
+          <div className="h-full flex items-center justify-center text-center">
+            <img class="tiny:w-2/12 md:w-2/12 lg:w-2/12 xl:w-1/4" src={CeriseLogo} />
           </div>
         </div>
       </footer>

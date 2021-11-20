@@ -67,7 +67,7 @@ export default function NavBar({
       <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <img src={CeriseLogo} style={{ width: 80 }} />
       </H2>
-      {/* {display} */}
+      {display}
       {modalButtons}
     </NavbarContainer>
   );
