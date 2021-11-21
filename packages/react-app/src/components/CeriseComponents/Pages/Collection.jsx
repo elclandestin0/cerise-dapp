@@ -24,7 +24,7 @@ export default function Collection({
   const contracts = useContractLoader(provider, contractConfig, chainId);
   let contract;
   if (!customContract) {
-    contract = contracts ? contracts[name] : "";
+    contract = contracts ? contracts[name] :   "";
   } else {
     contract = customContract;
   }
