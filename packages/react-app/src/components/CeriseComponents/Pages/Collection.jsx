@@ -7,10 +7,17 @@ import DigFashion from "../../../assets/dig-fashion-sample.gif";
 // material tailwind
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
+import { Button } from "antd";
+
+// merkle tree stuff
+import { MerkleTree } from "merkletreejs";
+const keccak256 = require("keccak256");
+const tree = require("../../../utils/merkle-tree.json");
+import { ethers } from "ethers";
 
 export default function Collection({
   customContract,
-  account,
+  address,
   gasPrice,
   signer,
   provider,
@@ -20,22 +27,40 @@ export default function Collection({
   blockExplorer,
   chainId,
   contractConfig,
+  writeContracts,
 }) {
+  const [claimable, setClaimable] = useState();
+  // reconstruct merkletree
+  const merkleTree = new MerkleTree(
+    tree.leaves.map(leaf => Buffer.from(leaf.data)),
+    keccak256,
+    { sortPairs: true },
+  );
+
+  const hashOwner = owner => {
+    return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
+  };
+
+  if (address && claimable == undefined) {
+    const proof = merkleTree.getHexProof(hashOwner(address));
+    const leaf = hashOwner(address);
+    const root = merkleTree.getHexRoot();
+    console.log(claimable);
+    setClaimable(merkleTree.verify(proof, leaf, root));
+  }
+
+  const popCherry = async () => {
+    const proof = merkleTree.getHexProof(hashOwner(address));
+    await writeContracts.CeriseCryptoadzV1.popCherry(proof);
+  };
+
   const contracts = useContractLoader(provider, contractConfig, chainId);
   let contract;
   if (!customContract) {
-    contract = contracts ? contracts[name] :   "";
+    contract = contracts ? contracts[name] : "";
   } else {
     contract = customContract;
   }
-
-  const getContractVariables = async () => {
-    const name = await contract.name();
-    console.log(name);
-  };
-  getContractVariables();
-  const address = contract ? contract.address : "";
-
   return (
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
@@ -48,9 +73,13 @@ export default function Collection({
       </div>
       <div className="flex justify-center">
         <p className="text-3xl text-justify px-9 md:px-24 lg:px-48 xl:px-96">
-          There are 20 exclusive street wearables items available to mint for any CrypTOADZ owners. These include cargo
-          pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and get
-          your tokenized street wearable!
+          <Button
+            onClick={() => {
+              popCherry();
+            }}
+          >
+            {claimable ? "Mint!" : "Sorry, you don't own a toad!"}
+          </Button>
         </p>
       </div>
       <div className="flex justify-center pb-5 pt-5 px-10">

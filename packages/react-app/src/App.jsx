@@ -265,6 +265,7 @@ function App(props) {
 
   // If you want to make 🔐 write transactions to your contracts, use the userSigner:
   const writeContracts = useContractLoader(userSigner, contractConfig, localChainId);
+  console.log(writeContracts);
 
   // EXTERNAL CONTRACT EXAMPLE:
   //
@@ -496,6 +497,7 @@ function App(props) {
               address={address}
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
+              writeContracts={writeContracts}
             />
             {/* <Contract
               name="CeriseCryptoadzV1"
