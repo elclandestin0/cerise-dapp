@@ -65,7 +65,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -229,6 +229,7 @@ function App(props) {
 
   useEffect(() => {
     async function getAddress() {
+      console.log(userSigner);
       if (userSigner) {
         const newAddress = await userSigner.getAddress();
         setAddress(newAddress);
@@ -257,15 +258,16 @@ function App(props) {
   const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // const contractConfig = useContractConfig();
-
   const contractConfig = { deployedContracts: deployedContracts || {}, externalContracts: externalContracts || {} };
 
   // Load in your local 📝 contract and read a value from it:
-  const readContracts = useContractLoader(localProvider, contractConfig);
+  const readContracts = useContractLoader(localProvider, contractConfig, 4);
+  console.log(readContracts);
+
+  // keep track of a variable from the contract in the local React state:
 
   // If you want to make 🔐 write transactions to your contracts, use the userSigner:
-  const writeContracts = useContractLoader(userSigner, contractConfig, localChainId);
-  console.log(writeContracts);
+  const writeContracts = useContractLoader(userSigner, contractConfig, 4);
 
   // EXTERNAL CONTRACT EXAMPLE:
   //
@@ -281,9 +283,6 @@ function App(props) {
   const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
     "0x34aA3F359A9D614239015126635CE7732c18fDF3",
   ]);
-
-  // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "CeriseCryptoadzV1", "purpose");
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");

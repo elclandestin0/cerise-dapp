@@ -14,7 +14,7 @@ function hashOwner(account) {
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
-  const { deployer } = await getNamedAccounts();
+  const accounts = await getNamedAccounts();
   const merkleTree = new MerkleTree(
     ownerz.map((owner) => hashOwner(owner)),
     keccak256,
@@ -22,15 +22,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   );
   const root = merkleTree.getHexRoot();
 
+  // await deployerWallet.sendTransaction({
+  //   to: "0x9b68e31981dd220e682c491ea7593be01bd7b709",
+  //   value: ethers.utils.parseEther("100"),
+  // });
+
   await deploy("CeriseCryptoadzV1", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
-    from: deployer,
+    from: accounts.deployer,
     args: [root],
     log: true,
   });
-  getTree = () => {
-    return merkleTree;
-  };
 
   /*
     // Getting a previously deployed contract
@@ -43,12 +45,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   */
-
-  const deployerWallet = ethers.provider.getSigner();
-  await deployerWallet.sendTransaction({
-    to: "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17",
-    value: ethers.utils.parseEther("100"),
-  });
 
   /*
   //If you want to send some ETH to a contract on deploy (make your constructor payable!)

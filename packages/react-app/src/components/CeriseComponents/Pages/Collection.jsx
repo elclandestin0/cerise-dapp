@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useContractLoader } from "eth-hooks";
 // assets
 import DemonSplayerz from "../../../assets/DS.png";
@@ -30,6 +30,18 @@ export default function Collection({
   writeContracts,
 }) {
   const [claimable, setClaimable] = useState();
+  useEffect(() => {
+    if (!address) {
+      console.log("no address");
+      return;
+    }
+    const proof = merkleTree.getHexProof(hashOwner(address));
+    const leaf = hashOwner(address);
+    const root = merkleTree.getHexRoot();
+    console.log(claimable);
+    console.log(address);
+    setClaimable(merkleTree.verify(proof, leaf, root));
+  }, [address]);
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
     tree.leaves.map(leaf => Buffer.from(leaf.data)),
@@ -40,14 +52,6 @@ export default function Collection({
   const hashOwner = owner => {
     return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
   };
-
-  if (address && claimable == undefined) {
-    const proof = merkleTree.getHexProof(hashOwner(address));
-    const leaf = hashOwner(address);
-    const root = merkleTree.getHexRoot();
-    console.log(claimable);
-    setClaimable(merkleTree.verify(proof, leaf, root));
-  }
 
   const popCherry = async () => {
     const proof = merkleTree.getHexProof(hashOwner(address));
