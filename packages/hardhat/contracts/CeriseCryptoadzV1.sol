@@ -11,8 +11,8 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract CeriseCryptoadzV1 is Ownable, ERC721 {
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
     address public infernalToast = 0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B;
-    address public faorkh = 0xc5f59709974262c4afacc5386287820bdbc7eb3a;
-    address public moti = 0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2;
+    address public faorkh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
+    address public moti = 0x8Bd8795CbeED15F8D5074f493C53b39C11Ed37B2;
     bytes32 immutable public root;
     uint256 public tokenId = 1;
     mapping(address => bool) public didMint;
@@ -23,8 +23,9 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         _;
     }
 
-    constructor(bytes32 merkleRoot) ERC721("CeriseToadz", "CTz") {
+    constructor(bytes32 merkleRoot, string baseURI) ERC721("CeriseToadz", "CTz") {
         root = merkleRoot;
+        _setBaseURI(baseURI);
     }
 
     
@@ -39,7 +40,7 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         return value;
     }
 
-    function popCherry(bytes32[] calldata proof) onlyMintOnce public
+    function popCherry(bytes32[] calldata proof) public
     {
         require(_verify(_leaf(msg.sender), proof), "Invalid merkle proof");
         if (msg.sender == infernalToast) {
