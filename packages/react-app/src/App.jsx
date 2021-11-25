@@ -10,6 +10,7 @@ import {
   useGasPrice,
   useOnBlock,
   useUserProviderAndSigner,
+  useBurnerSigner,
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import Fortmatic from "fortmatic";
@@ -43,6 +44,7 @@ import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
 import CeriseLogo from "./assets/cerise-logo.png";
+import useUserSigner from "./hooks/UserSigner";
 
 const { ethers } = require("ethers");
 /*
@@ -73,8 +75,8 @@ const NETWORKCHECK = true;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-// const mainnetProvider = getDefaultProvider("mainnet", { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, quorum: 1 });
-// const mainnetProvider = new InfuraProvider("mainnet",INFURA_ID);
+// const mainnetProvider = getDefaultProvider("rinkeby", { infura: INFURA_ID});
+// const rinkebyInfura = new InfuraProvider("rinkeby", INFURA_ID);
 //
 // attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
 // Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
@@ -89,6 +91,9 @@ const poktMainnetProvider = navigator.onLine
 const mainnetInfura = navigator.onLine
   ? new ethers.providers.StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID)
   : null;
+// const rinkebyInfura = navigator.onLine
+//   ? new ethers.providers.StaticJsonRpcProvider("https://rinkeby.infura.io/v3/" + INFURA_ID)
+//   : null;
 // ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 // 🏠 Your local provider is usually pointed at your local blockchain
 const localProviderUrl = targetNetwork.rpcUrl;
@@ -106,7 +111,7 @@ const walletLink = new WalletLink({
 });
 
 // WalletLink provider
-const walletLinkProvider = walletLink.makeWeb3Provider(`https://mainnet.infura.io/v3/${INFURA_ID}`, 1);
+const walletLinkProvider = walletLink.makeWeb3Provider(`https://rinkeby.infura.io/v3/${INFURA_ID}`, 4);
 
 // Portis ID: 6255fb2b-58c8-433b-a2c9-62098c05ddc9
 /*
@@ -135,6 +140,7 @@ const web3Modal = new Web3Modal({
         infuraId: INFURA_ID,
         rpc: {
           1: `https://mainnet.infura.io/v3/${INFURA_ID}`, // mainnet // For more WalletConnect providers: https://docs.walletconnect.org/quick-start/dapps/web3-provider#required
+          4: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
           42: `https://kovan.infura.io/v3/${INFURA_ID}`,
           100: "https://dai.poa.network", // xDai
         },
@@ -194,7 +200,7 @@ function App(props) {
       ? poktMainnetProvider
       : scaffoldEthProvider && scaffoldEthProvider._network
       ? scaffoldEthProvider
-      : mainnetInfura;
+      : rinkebyInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
@@ -224,12 +230,11 @@ function App(props) {
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
+  console.log(injectedProvider);
   const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider);
-  const userSigner = userProviderAndSigner.signer;
-
+  const userSigner = useUserSigner(injectedProvider, localProvider);
   useEffect(() => {
     async function getAddress() {
-      console.log(userSigner);
       if (userSigner) {
         const newAddress = await userSigner.getAddress();
         setAddress(newAddress);
@@ -240,9 +245,9 @@ function App(props) {
 
   // You can warn the user if you would like them to be on a specific network
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
+  console.log(localChainId);
   const selectedChainId =
     userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
-
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   // The transactor wraps transactions and provides notificiations
@@ -262,13 +267,11 @@ function App(props) {
 
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider, contractConfig, 4);
-  console.log(readContracts);
 
   // keep track of a variable from the contract in the local React state:
 
   // If you want to make 🔐 write transactions to your contracts, use the userSigner:
   const writeContracts = useContractLoader(userSigner, contractConfig, 4);
-
   // EXTERNAL CONTRACT EXAMPLE:
   //
   // If you want to bring in the mainnet DAI contract it would look like:
