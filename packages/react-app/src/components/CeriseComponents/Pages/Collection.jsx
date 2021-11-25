@@ -29,12 +29,24 @@ export default function Collection({
   contractConfig,
   writeContracts,
 }) {
+  // States to show different mint types on the button
   const [claimable, setClaimable] = useState();
+  const [isInfernal, setIsInfernal] = useState(false);
+  const [isGremplin, setIsGremplin] = useState(false);
+  const [isFarokh, setIsFarokh] = useState(false);
+  const [isMoti, setIsMoti] = useState(false);
+  const [isCerise, setIsCerise] = useState(false);
+
   useEffect(() => {
     if (!address) {
       console.log("no address");
       return;
     }
+    if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernalToast(true); 
+    if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
+    if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
+    if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
+    if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
     const proof = merkleTree.getHexProof(hashOwner(address));
     const leaf = hashOwner(address);
     const root = merkleTree.getHexRoot();
@@ -82,7 +94,12 @@ export default function Collection({
               popCherry();
             }}
           >
-            {claimable ? "Mint!" : "Sorry, you don't own a toad!"}
+            {claimable && isGremplin ? "!vibe" : 
+            claimable && isInfernal ? "!tech" :
+            claimable && isFarokh ? "!rug" :
+            claimable && isMoti ? "!moti" :
+            claimable && isCerise ? "!cherry" :
+            claimable ? "!pop" : "Sorry, you don't own a toad!"}
           </Button>
         </p>
       </div>

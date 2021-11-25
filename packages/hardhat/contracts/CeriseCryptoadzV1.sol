@@ -11,19 +11,18 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract CeriseCryptoadzV1 is Ownable, ERC721 {
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
     address public infernalToast = 0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B;
+    address public faorkh = 0xc5f59709974262c4afacc5386287820bdbc7eb3a;
+    address public moti = 0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2;
     bytes32 immutable public root;
     uint256 public tokenId = 1;
+    mapping(address => bool) public didMint;
     // modifiers
-    modifier onlyGremplin() {
-        require(msg.sender == gremplin, "Only Gremplin can mint!");
+    
+    modifier onlyMintOnce() {
+        require(didMint[msg.sender] == true, "Cannot mint more than once!");
         _;
     }
 
-    modifier onlyInfernalToast() {
-        require(msg.sender == infernalToast, "Only InfernalToast can mint!");
-        _;
-    }
-    
     constructor(bytes32 merkleRoot) ERC721("CeriseToadz", "CTz") {
         root = merkleRoot;
     }
@@ -40,7 +39,7 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         return value;
     }
 
-    function popCherry(bytes32[] calldata proof) public
+    function popCherry(bytes32[] calldata proof) onlyMintOnce public
     {
         require(_verify(_leaf(msg.sender), proof), "Invalid merkle proof");
         if (msg.sender == infernalToast) {
@@ -50,16 +49,6 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         } else {
             _mint(msg.sender, tokenId++);
         }
+        didMint[msg.sender] = true;
     }
-
-    // Mints only for Gremplin
-    function gremplinMint(bytes32[] calldata proof) external onlyGremplin {
-        popCherry(proof);
-    }
-
-    // Mints only for Infernal toast
-    function infernalToastMint(bytes32[] calldata proof) external onlyInfernalToast {
-        popCherry(proof);
-    }
-
 }
