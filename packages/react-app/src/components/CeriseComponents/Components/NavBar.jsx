@@ -57,7 +57,7 @@ export default function NavBar({
       {address ? (
         <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
       ) : (
-        "Connecting..."
+        ""
       )}
     </span>
   );
