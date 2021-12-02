@@ -533,7 +533,7 @@ function App(props) {
               }}
               to="/home"
             >
-              <h1 className="text-primary text-6xl">Home</h1>
+              <h1 className="font-h1 text-h1 hover:text-neon text-neonRed text-5xl">Home</h1>
             </Link>
             <Link
               onClick={() => {
@@ -542,7 +542,7 @@ function App(props) {
               }}
               to="/collections"
             >
-              <h1 className="text-primary text-6xl">Collections</h1>
+              <h1 className="font-h1 hover:text-neon text-neonBlue text-5xl">Collections</h1>
             </Link>
             <Link
               onClick={() => {
@@ -551,7 +551,7 @@ function App(props) {
               }}
               to="/about"
             >
-              <h1 className="text-primary text-6xl">About</h1>
+              <h1 className="font-h1 hover:text-neon text-neonPink text-5xl">About</h1>
             </Link>
             <Link
               onClick={() => {
@@ -560,7 +560,7 @@ function App(props) {
               }}
               to="/collections/cryptoadz"
             >
-              <h1 className="text-primary text-6xl">CrypTOADZ</h1>
+              <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CrypTOADZ</h1>
             </Link>
           </ModalBody>
         </Modal>

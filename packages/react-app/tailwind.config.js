@@ -6,7 +6,8 @@ module.exports = {
     fontFamily: {
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
-      h1: ["'Press Start 2P'", "cursive"]
+      h1: ["'Press Start 2P'", "cursive"],
+      body:["'Be Vietnam Pro'", "cursive"]
     },
     backgroundColor: theme => ({
       primary: "#380000",
@@ -19,7 +20,10 @@ module.exports = {
     textColor: {
       primary: "#ff0000",
       neon: "#39FF14",
-      neonRed: "ff1818"
+      neonRed: "#ff1818",
+      neonPink: "#de00ff",
+      neonYellow: "#f6fe00",
+      neonBlue: "#00e4ff"
     },
     variants: {
       extend: {},

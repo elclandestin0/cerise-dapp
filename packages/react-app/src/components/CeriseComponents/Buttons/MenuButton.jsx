@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-tailwind/react/Button";
-import MenuIcon from "../../../assets/menubutton.gif";
+import MenuIcon from "../../../assets/2.gif";
 
 const MenuButton = ({ handleOpen }) => {
   return (
