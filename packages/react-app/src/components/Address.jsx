@@ -78,7 +78,7 @@ export default function Address(props) {
     text = (
       <Text editable={{ onChange: props.onChange }} copyable={{ text: address }}>
         <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+          className="font-h1 hover:text-neon text-neonPink"
           target="_blank"
           href={etherscanLink}
           rel="noopener noreferrer"
@@ -90,7 +90,12 @@ export default function Address(props) {
   } else {
     text = (
       <Text copyable={{ text: address }}>
-        <a className="text-primary font-h1" target="_blank" href={etherscanLink} rel="noopener noreferrer">
+        <a
+          className="font-h1 hover:text-neon text-neonPink"
+          target="_blank"
+          href={etherscanLink}
+          rel="noopener noreferrer"
+        >
           {displayAddress}
         </a>
       </Text>

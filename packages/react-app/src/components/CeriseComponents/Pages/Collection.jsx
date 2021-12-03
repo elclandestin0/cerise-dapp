@@ -4,6 +4,9 @@ import { useContractLoader } from "eth-hooks";
 import DemonSplayerz from "../../../assets/DS.png";
 import DigFashion from "../../../assets/dig-fashion-sample.gif";
 
+// cerise components
+import MintButton from "../Buttons/MintButton";
+
 // material tailwind
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
@@ -87,28 +90,32 @@ export default function Collection({
       <div className="flex justify-center">
         <h1 className="text-6xl px-5 pt-16 text-center text-primary">{name}</h1>
       </div>
-      <div className="flex justify-center">
-        <p className="text-3xl text-justify px-9 md:px-24 lg:px-48 xl:px-96">
-          <Button
-            onClick={() => {
-              popCherry();
-            }}
-          >
-            {claimable && isGremplin
-              ? "!vibe"
-              : claimable && isInfernal
-              ? "!tech"
-              : claimable && isFarokh
-              ? "!rug"
-              : claimable && isMoti
-              ? "!moti"
-              : claimable && isCerise
-              ? "!cherry"
-              : claimable
-              ? "!pop"
-              : "Sorry, you don't own a toad!"}
-          </Button>
-        </p>
+      <div>
+        {claimable && (
+          <div>
+            <div className="flex justify-center">
+              <MintButton
+                onClick={() => {
+                  popCherry();
+                }}
+              />
+            </div>
+            <div>
+              <p class="text-center text-2xl font-h1 p-4">
+                {isGremplin
+                  ? "Thanks for making the coolest NFT collection ever!"
+                  : claimable && isInfernal
+                  ? "Thanks for sending me down the NFT rabbit hole!"
+                  : claimable && isFarokh
+                  ? "Thanks for sharing about TOADZ on Twitter!"
+                  : claimable && isMoti
+                  ? "Thanks for creating the best community ever!"
+                  : "Enjoy!"}
+              </p>
+            </div>
+          </div>
+        )}
+        {!claimable && <div>Sorry! You do not own a toad.</div>}
       </div>
       <div className="flex justify-center pb-5 pt-5 px-10">
         <Card className="bg-footer">
