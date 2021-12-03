@@ -16,16 +16,19 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
     bytes32 immutable public root;
     uint256 public tokenId = 1;
     mapping(address => bool) public didMint;
-    // modifiers
-    
+
     modifier onlyMintOnce() {
         require(didMint[msg.sender] == true, "Cannot mint more than once!");
         _;
     }
 
-    constructor(bytes32 merkleRoot, string baseURI) ERC721("CeriseToadz", "CTz") {
+    modifier hasFunds() {
+        require(msg.value == 0.08 ether, "Not enough funds!");
+        _;
+    }
+
+    constructor(bytes32 merkleRoot) ERC721("CeriseToadz", "CTz") {
         root = merkleRoot;
-        _setBaseURI(baseURI);
     }
 
     
@@ -40,7 +43,7 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         return value;
     }
 
-    function popCherry(bytes32[] calldata proof) public
+    function popCherry(bytes32[] calldata proof) payable public hasFunds onlyMintOnce
     {
         require(_verify(_leaf(msg.sender), proof), "Invalid merkle proof");
         if (msg.sender == infernalToast) {
