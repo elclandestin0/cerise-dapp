@@ -29,11 +29,12 @@ import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { ExampleUI, Hints, Subgraph } from "./views";
 
-// material tailwind
+// packages
 import Modal from "./components/CeriseComponents/Components/Modal";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import H2 from "@material-tailwind/react/Heading1";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // CERISE-COMPONENTS
 import Home from "./components/CeriseComponents/Pages/Home/Home";
@@ -178,7 +179,8 @@ const web3Modal = new Web3Modal({
     // },
     "custom-walletlink": {
       display: {
-        logo: "https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0",
+        logo:
+          "https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0",
         name: "Coinbase",
         description: "Connect to Coinbase Wallet (not Coinbase App)",
       },
@@ -567,10 +569,11 @@ function App(props) {
       </BrowserRouter>
       {/* FOOTER */}
       <footer>
-        <div className="flex justify-center bg-footer">
-          <div className="h-full flex items-center justify-center text-center">
-            <img class="tiny:w-2/12 md:w-2/12 lg:w-2/12 xl:w-1/4" src={CeriseLogo} />
+        <div className="flex flex-wrap justify-center bg-footer pt-16 pl-8 pb-16">
+          <div className="flex items-center justify-center text-center p-2">
+            <img class="tiny:w-2/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
           </div>
+          <div className="flex items-center justify-center text-center p-2">2021 Cerise Supply All Rights Reserved</div>
         </div>
       </footer>
       {/* <ThemeSwitch /> */}

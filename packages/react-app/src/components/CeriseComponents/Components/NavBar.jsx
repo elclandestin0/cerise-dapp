@@ -30,18 +30,22 @@ export default function NavBar({
   handleOpen,
 }) {
   const modalButtons = [];
+  const display = minimized ? (
+    ""
+  ) : (
+    <span>
+      {address ? <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} /> : ""}
+    </span>
+  );
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button
-          key="logoutbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          onClick={logoutOfWeb3Modal}
-        >
-          logout
-        </Button>,
+        <div>
+          {display}
+          <Button className="font-h1" key="logoutbutton" shape="round" size="large" onClick={logoutOfWeb3Modal}>
+            logout
+          </Button>
+        </div>,
       );
     } else {
       modalButtons.push(<ConnectButton loadWeb3Modal={loadWeb3Modal} />);
@@ -50,24 +54,13 @@ export default function NavBar({
 
   const { currentTheme } = useThemeSwitcher();
 
-  const display = minimized ? (
-    ""
-  ) : (
-    <span>
-      {address ? (
-        <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
-      ) : (
-        ""
-      )}
-    </span>
-  );
   return (
     <NavbarContainer className="pt-4 pb-4">
       <MenuButton handleOpen={handleOpen} />
       <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <img src={CeriseLogo} style={{ width: 80 }} />
       </H2>
-      {display}
+      {/* {display} */}
       {modalButtons}
     </NavbarContainer>
   );
