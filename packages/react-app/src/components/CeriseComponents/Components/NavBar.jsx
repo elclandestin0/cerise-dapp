@@ -48,21 +48,31 @@ export default function NavBar({
         </div>,
       );
     } else {
-      modalButtons.push(<ConnectButton loadWeb3Modal={loadWeb3Modal} />);
+      modalButtons.push(
+        <div>
+          <ConnectButton loadWeb3Modal={loadWeb3Modal} />{" "}
+        </div>,
+      );
     }
   }
 
   const { currentTheme } = useThemeSwitcher();
 
   return (
-    <NavbarContainer className="pt-4 pb-4">
-      <MenuButton handleOpen={handleOpen} />
-      <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        <img src={CeriseLogo} style={{ width: 80 }} />
-      </H2>
-      {/* {display} */}
-      {modalButtons}
-    </NavbarContainer>
+    <Navbar>
+      <NavbarContainer className="pt-4 pb-4">
+        <NavItem>
+          <MenuButton handleOpen={handleOpen} />
+        </NavItem>
+        <NavItem>
+          <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <img src={CeriseLogo} style={{ width: 80 }} />
+          </H2>
+        </NavItem>
+        {/* {display} */}
+        <NavItem>{modalButtons}</NavItem>
+      </NavbarContainer>
+    </Navbar>
   );
 }
 

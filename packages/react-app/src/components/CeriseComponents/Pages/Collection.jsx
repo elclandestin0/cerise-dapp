@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContractLoader } from "eth-hooks";
 // assets
-import DemonSplayerz from "../../../assets/DS.png";
+import Toadz from "../../../assets/toadz.png";
 import DigFashion from "../../../assets/dig-fashion-sample.gif";
 
 // cerise components
@@ -10,7 +10,7 @@ import MintButton from "../Buttons/MintButton";
 // material tailwind
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
-import { Button } from "antd";
+import { Transactor } from "../../../helpers";
 
 // merkle tree stuff
 import { MerkleTree } from "merkletreejs";
@@ -32,6 +32,7 @@ export default function Collection({
   contractConfig,
   writeContracts,
 }) {
+  const tx = Transactor(signer, gasPrice);
   // States to show different mint types on the button
   const [claimable, setClaimable] = useState();
   const [isInfernal, setIsInfernal] = useState(false);
@@ -69,8 +70,15 @@ export default function Collection({
   };
 
   const popCherry = async () => {
+    console.log("wait");
     const proof = merkleTree.getHexProof(hashOwner(address));
-    await writeContracts.CeriseCryptoadzV1.popCherry(proof);
+    console.log("wait");
+    await tx(
+      writeContracts.CeriseCryptoadzV1.popCherry(proof, {
+        value: ethers.utils.parseEther('0.08'),
+        gasLimit: 300000,
+      }),
+    );
   };
 
   const contracts = useContractLoader(provider, contractConfig, chainId);
@@ -84,7 +92,7 @@ export default function Collection({
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
         <div className="h-full flex items-center justify-center text-center">
-          <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={DemonSplayerz} />
+          <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={Toadz} />
         </div>
       </div>
       <div className="flex justify-center">
@@ -94,11 +102,7 @@ export default function Collection({
         {claimable && (
           <div>
             <div className="flex justify-center">
-              <MintButton
-                onClick={() => {
-                  popCherry();
-                }}
-              />
+              <MintButton popCherry={popCherry}>Mint</MintButton>
             </div>
             <div>
               <p class="text-center text-2xl font-h1 p-4">
@@ -115,7 +119,13 @@ export default function Collection({
             </div>
           </div>
         )}
-        {!claimable && <div>Sorry! You do not own a toad.</div>}
+        {!claimable && (
+          <div>
+            <p class="text-center text-2xl font-h1 p-4">
+              Sorry <span class="text-neonYellow text-xl">{address?.substring(0, 6)}</span>! You do not own a toad.{" "}
+            </p>
+          </div>
+        )}
       </div>
       <div className="flex justify-center pb-5 pt-5 px-10">
         <Card className="bg-footer">

@@ -2,9 +2,9 @@ import React from "react";
 import Button from "@material-tailwind/react/Button";
 import Mint from "../../../assets/mint.gif";
 
-const MintButton = () => {
+const MintButton = ({ popCherry }) => {
   return (
-    <Button size="large">
+    <Button size="large" onClick={popCherry}>
       <img src={Mint} style={{ width: 250 }} />
     </Button>
   );
