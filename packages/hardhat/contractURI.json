@@ -1,0 +1,8 @@
+{
+    "name": "CherryToadz by Cerise!",
+    "description": "CherryToadz are tokenized goods (from street wearables to music) only mintable by Toadz. When you burn a token, you earn .",
+    "image": "ipfs://QmTytkTWUK7ULDhzza8zshmWx9ekwtLxrAqdkpUYm56LBs",
+    "external_link": "https://cerise.wtf",
+    "seller_fee_basis_points": 500,
+    "fee_recipient": "0xCBAb6505F1521029278c2382c1De3B46102cB1B6" 
+  }

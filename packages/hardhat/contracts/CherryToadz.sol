@@ -6,9 +6,10 @@ import "hardhat/console.sol";
 
 // OpenZeppelin contracts
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
-contract CeriseCryptoadzV1 is Ownable, ERC721 {
+
+contract CherryToadz is Ownable, ERC721URIStorage {
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
     address public infernalToast = 0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B;
     address public faorkh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
@@ -16,21 +17,31 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
     bytes32 immutable public root;
     uint256 public tokenId = 1;
     mapping(address => bool) public didMint;
+    string private _contractURI = "ipfs://QmXSFC9Q47qhRQYiRDehc13RkErra6oWw9kZFFVe9EQQfS";
+    // string private baseURI = "ipfs://QmTytkTWUK7ULDhzza8zshmWx9ekwtLxrAqdkpUYm56LBs";
 
-    modifier onlyMintOnce() {
-        require(didMint[msg.sender] == true, "Cannot mint more than once!");
-        _;
-    }
-
-    modifier hasFunds() {
-        require(msg.value == 0.08 ether, "Not enough funds!");
-        _;
-    }
-
-    constructor(bytes32 merkleRoot) ERC721("CeriseToadz", "CTz") {
+    constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
         root = merkleRoot;
+        // setBaseURI(baseURI);
+    }
+    
+
+    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
+        _setTokenURI(tokenId, _tokenURI);
     }
 
+    function contractURI() public view returns (string memory)
+    {
+        return _contractURI;
+    }
+
+    // //Set Base URI
+    // function setBaseURI(string memory _baseURI) 
+    //     external 
+    //     onlyOwner 
+    // {
+    //     _setBaseURI(_baseURI);
+    // }
     
     function _leaf(address account) internal pure returns (bytes32)
     {
@@ -43,9 +54,11 @@ contract CeriseCryptoadzV1 is Ownable, ERC721 {
         return value;
     }
 
-    function popCherry(bytes32[] calldata proof) payable public hasFunds onlyMintOnce
+    function popCherry(bytes32[] calldata proof) payable public 
     {
+        require(didMint[msg.sender] == false, "Cannot mint more than once!");
         require(_verify(_leaf(msg.sender), proof), "Invalid merkle proof");
+        require(msg.value == 0.08 ether, "Not enough funds!");
         if (msg.sender == infernalToast) {
             _mint(infernalToast, 22);
         } else if (msg.sender == gremplin) {

@@ -27,7 +27,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   //   value: ethers.utils.parseEther("100"),
   // });
 
-  await deploy("CeriseCryptoadzV1", {
+  await deploy("CherryToadz", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: accounts.deployer,
     args: [root],
@@ -61,4 +61,3 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   });
   */
 };
-module.exports.tags = ["CeriseCryptoadzV1"];

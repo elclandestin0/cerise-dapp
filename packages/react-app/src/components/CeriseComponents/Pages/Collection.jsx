@@ -74,7 +74,7 @@ export default function Collection({
     const proof = merkleTree.getHexProof(hashOwner(address));
     console.log("wait");
     await tx(
-      writeContracts.CeriseCryptoadzV1.popCherry(proof, {
+      writeContracts.CherryToadz.popCherry(proof, {
         value: ethers.utils.parseEther('0.08'),
         gasLimit: 300000,
       }),
