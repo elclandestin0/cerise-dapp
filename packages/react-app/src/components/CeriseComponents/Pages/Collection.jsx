@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContractLoader } from "eth-hooks";
 // assets
-import Toadz from "../../../assets/toadz.png";
+import Toadz from "../../../assets/logo";
 import DigFashion from "../../../assets/dig-fashion-sample.gif";
 
 // cerise components

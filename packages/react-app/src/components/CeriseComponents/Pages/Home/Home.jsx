@@ -2,7 +2,7 @@ import React from "react";
 import "./home.css";
 
 // assets
-import DemonSplayerz from "../../../../assets/DS.png";
+import DemonSplayerz from "../../../../assets/logo";
 import DigFashion from "../../../../assets/dig-fashion-sample.gif";
 
 // material tailwind
@@ -13,6 +13,13 @@ const Home = () => {
   return (
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
+      {/* <video loop autoPlay>
+        <source
+          src="https://www.dropbox.com/s/3ihmt9sbevdj6xq/token%2325.mp4?raw=1"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video> */}
         <div className="h-full flex items-center justify-center text-center">
           <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={DemonSplayerz} />
         </div>
