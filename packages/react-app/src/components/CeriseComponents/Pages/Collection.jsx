@@ -35,6 +35,7 @@ export default function Collection({
   const tx = Transactor(signer, gasPrice);
   // States to show different mint types on the button
   const [claimable, setClaimable] = useState();
+  const [nullAddress, setNullAddress] = useState(false);
   const [isInfernal, setIsInfernal] = useState(false);
   const [isGremplin, setIsGremplin] = useState(false);
   const [isFarokh, setIsFarokh] = useState(false);
@@ -43,19 +44,20 @@ export default function Collection({
 
   useEffect(() => {
     if (!address) {
+      setNullAddress(true);
       console.log("no address");
       return;
     }
-    if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernalToast(true);
+    if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernal(true);
     if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
+    console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
     const leaf = hashOwner(address);
     const root = merkleTree.getHexRoot();
-    console.log(claimable);
-    console.log(address);
+    setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
   }, [address]);
   // reconstruct merkletree
@@ -96,7 +98,7 @@ export default function Collection({
         </div>
       </div>
       <div className="flex justify-center">
-        <h1 className="text-6xl px-5 pt-16 text-center text-primary">{name}</h1>
+        <h1 className="text-4xl px-5 pt-16 font-h1 text-center text-primary">Pop the cherry!</h1>
       </div>
       <div>
         {claimable && (
@@ -119,10 +121,17 @@ export default function Collection({
             </div>
           </div>
         )}
-        {!claimable && (
+        {!claimable && !nullAddress && (
           <div>
             <p class="text-center text-2xl font-h1 p-4">
               Sorry <span class="text-neonYellow text-xl">{address?.substring(0, 6)}</span>! You do not own a toad.{" "}
+            </p>
+          </div>
+        )}
+        {!claimable && nullAddress &&(
+          <div>
+            <p class="text-center text-2xl font-h1 p-4">
+              Login to check if you own a toad!
             </p>
           </div>
         )}
