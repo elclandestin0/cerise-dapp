@@ -21,6 +21,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     { sortPairs: true }
   );
   const root = merkleTree.getHexRoot();
+  console.log(root);
 
   // await deployerWallet.sendTransaction({
   //   to: "0x9b68e31981dd220e682c491ea7593be01bd7b709",
