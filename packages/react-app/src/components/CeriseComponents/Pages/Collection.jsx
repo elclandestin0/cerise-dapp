@@ -41,6 +41,7 @@ export default function Collection({
   const [isFarokh, setIsFarokh] = useState(false);
   const [isMoti, setIsMoti] = useState(false);
   const [isCerise, setIsCerise] = useState(false);
+  const [didMint, setDidMint] = useState(false);
 
   useEffect(() => {
     if (!address) {
@@ -53,6 +54,12 @@ export default function Collection({
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
+
+    // checks if whether the user has minted or not
+    checkIfMint(address).then(x => {
+      setDidMint(x);
+    });
+
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
     const leaf = hashOwner(address);
@@ -71,13 +78,17 @@ export default function Collection({
     return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
   };
 
+  const checkIfMint = async address => {
+    return await writeContracts.CherryToadz.didMint(address);
+  };
+
   const popCherry = async () => {
     console.log("wait");
     const proof = merkleTree.getHexProof(hashOwner(address));
     console.log("wait");
     await tx(
       writeContracts.CherryToadz.popCherry(proof, {
-        value: ethers.utils.parseEther('0.08'),
+        value: ethers.utils.parseEther("0.08"),
         gasLimit: 300000,
       }),
     );
@@ -101,7 +112,7 @@ export default function Collection({
         <h1 className="text-4xl px-5 pt-16 font-h1 text-center text-primary">Pop the cherry!</h1>
       </div>
       <div>
-        {claimable && (
+        {claimable && !didMint && (
           <div>
             <div className="flex justify-center">
               <MintButton popCherry={popCherry}>Mint</MintButton>
@@ -121,6 +132,13 @@ export default function Collection({
             </div>
           </div>
         )}
+        {claimable && didMint && (
+          <div>
+            <p class="text-center text-2xl font-h1 p-4">
+              You can only mint once from the V1 collection!
+            </p>
+          </div>
+        )}
         {!claimable && !nullAddress && (
           <div>
             <p class="text-center text-2xl font-h1 p-4">
@@ -128,11 +146,9 @@ export default function Collection({
             </p>
           </div>
         )}
-        {!claimable && nullAddress &&(
+        {!claimable && nullAddress && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4">
-              Login to check if you own a toad!
-            </p>
+            <p class="text-center text-2xl font-h1 p-4">Login to check if you own a toad!</p>
           </div>
         )}
       </div>
