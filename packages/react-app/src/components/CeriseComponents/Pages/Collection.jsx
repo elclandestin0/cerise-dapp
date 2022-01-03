@@ -1,5 +1,10 @@
+// react
 import React, { useState, useEffect } from "react";
+
+// scaffold hooks
 import { useContractLoader } from "eth-hooks";
+import { Transactor } from "../../../helpers";
+
 // assets
 import Toadz from "../../../assets/logo";
 import DigFashion from "../../../assets/dig-fashion-sample.gif";
@@ -10,7 +15,7 @@ import MintButton from "../Buttons/MintButton";
 // material tailwind
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
-import { Transactor } from "../../../helpers";
+import Button from "@material-tailwind/react/Button";
 
 // merkle tree stuff
 import { MerkleTree } from "merkletreejs";
@@ -42,6 +47,9 @@ export default function Collection({
   const [isMoti, setIsMoti] = useState(false);
   const [isCerise, setIsCerise] = useState(false);
   const [didMint, setDidMint] = useState(false);
+  const [ownedToken, setOwnedToken] = useState(0);
+  const [ifOwner, setIfOwner] = useState(false);
+  const [ifBurnt, setIfBurnt] = useState("");
 
   useEffect(() => {
     if (!address) {
@@ -60,13 +68,27 @@ export default function Collection({
       setDidMint(x);
     });
 
+    checkOwnedToken(address).then(x => {
+      setOwnedToken(x);
+      checkIfBurnt(x).then(y => {
+        console.log("if burnt", y);
+        setIfBurnt(y);
+        if (!y) {
+          checkOwnerOf(x).then(z => {
+            console.log("owned", z);
+            address == z ? setIfOwner(true) : setIfOwner(false);
+          });
+        }
+      });
+    });
+
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
     const leaf = hashOwner(address);
     const root = merkleTree.getHexRoot();
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
-  }, [address]);
+  }, [address, didMint, ifBurnt]);
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
     tree.leaves.map(leaf => Buffer.from(leaf.data)),
@@ -82,16 +104,31 @@ export default function Collection({
     return await writeContracts.CherryToadz.didMint(address);
   };
 
+  const checkOwnedToken = async address => {
+    return await writeContracts.CherryToadz.tokenOwned(address);
+  };
+
+  const checkOwnerOf = async tokenId => {
+    const whoOwns = await writeContracts.CherryToadz.ownerOf(tokenId);
+    return whoOwns;
+  };
+
+  const checkIfBurnt = async tokenId => {
+    return await writeContracts.CherryToadz.didBurn(address);
+  };
+
   const popCherry = async () => {
-    console.log("wait");
     const proof = merkleTree.getHexProof(hashOwner(address));
-    console.log("wait");
     await tx(
       writeContracts.CherryToadz.popCherry(proof, {
         value: ethers.utils.parseEther("0.08"),
         gasLimit: 300000,
       }),
     );
+  };
+
+  const burnToken = async tokenId => {
+    await tx(writeContracts.CherryToadz.burn(tokenId));
   };
 
   const contracts = useContractLoader(provider, contractConfig, chainId);
@@ -134,9 +171,34 @@ export default function Collection({
         )}
         {claimable && didMint && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4">
-              You can only mint once from the V1 collection!
-            </p>
+            <p class="text-center text-2xl font-h1 p-4">You can only mint once from the V1 collection!</p>
+          </div>
+        )}
+        {!ifBurnt && ifOwner && (
+          <div>
+            <div className="flex justify-center">
+              <Button
+                onClick={() => {
+                  burnToken(ownedToken);
+                }}
+                color="lightBlue"
+                buttonType="filled"
+                size="lg"
+                rounded={false}
+                block={false}
+                iconOnly={false}
+                ripple="light"
+              >
+                Burn Your Token To Receive The IRL CherryToadz
+              </Button>
+            </div>
+          </div>
+        )}
+        {ifBurnt && ifOwner && (
+          <div>
+            <div>
+              <p class="text-center text-2xl font-h1 p-4">You have already burnt!</p>
+            </div>
           </div>
         )}
         {!claimable && !nullAddress && (
