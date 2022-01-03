@@ -66,21 +66,29 @@ export default function Collection({
     // checks if whether the user has minted or not
     checkIfMint(address).then(x => {
       setDidMint(x);
-    });
 
-    checkOwnedToken(address).then(x => {
-      setOwnedToken(x);
-      checkIfBurnt(x).then(y => {
-        console.log("if burnt", y);
-        setIfBurnt(y);
-        if (!y) {
-          checkOwnerOf(x).then(z => {
-            console.log("owned", z);
-            address == z ? setIfOwner(true) : setIfOwner(false);
-          });
-        }
+      // if the user has minted, check what the user owns
+      // if (x) {
+      // }
+    });
+    
+    checkOwnedToken(address).then(token => {
+      // if the user owns a token id of zero, this means the user has transferred the token
+      if (Number(token.toString()) == 0) return;
+      setOwnedToken(token);
+      console.log(token);
+      // has this user who minted the token burnt it also?
+      checkIfBurnt(address).then(burnt => {
+        setIfBurnt(burnt);
+        checkOwnerOf(token).then(owner => { 
+          address == owner ? setIfOwner(true) : setIfOwner(false);
+        });
       });
     });
+
+    checkIfBurnt(address).then(burnt => {
+      setIfBurnt(true);
+    })
 
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
@@ -88,7 +96,9 @@ export default function Collection({
     const root = merkleTree.getHexRoot();
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
-  }, [address, didMint, ifBurnt]);
+  }, [address, didMint, ifBurnt, ifOwner]);
+
+
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
     tree.leaves.map(leaf => Buffer.from(leaf.data)),
@@ -113,7 +123,7 @@ export default function Collection({
     return whoOwns;
   };
 
-  const checkIfBurnt = async tokenId => {
+  const checkIfBurnt = async address => {
     return await writeContracts.CherryToadz.didBurn(address);
   };
 
@@ -145,12 +155,12 @@ export default function Collection({
           <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={Toadz} />
         </div>
       </div>
-      <div className="flex justify-center">
-        <h1 className="text-4xl px-5 pt-16 font-h1 text-center text-primary">Pop the cherry!</h1>
-      </div>
       <div>
         {claimable && !didMint && (
           <div>
+            <div className="flex justify-center">
+              <h1 className="text-4xl px-5 pt-16 font-h1 text-center text-primary">Pop the cherry!</h1>
+            </div>
             <div className="flex justify-center">
               <MintButton popCherry={popCherry}>Mint</MintButton>
             </div>
@@ -171,11 +181,14 @@ export default function Collection({
         )}
         {claimable && didMint && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4">You can only mint once from the V1 collection!</p>
+            <p class="text-center text-2xl px-5 pt-16 font-h1 p-4">You can only mint once from the V1 collection!</p>
           </div>
         )}
         {!ifBurnt && ifOwner && (
           <div>
+            <div>
+              <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">Burn your token!</p>
+            </div>
             <div className="flex justify-center">
               <Button
                 onClick={() => {
@@ -194,23 +207,24 @@ export default function Collection({
             </div>
           </div>
         )}
-        {ifBurnt && ifOwner && (
+        {ifBurnt && (
           <div>
             <div>
-              <p class="text-center text-2xl font-h1 p-4">You have already burnt!</p>
+              <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">You have already burnt!</p>
+              {/* ADD FORM TO ENTER ADDRESS OF USER TO SUBMIT */}
             </div>
           </div>
         )}
-        {!claimable && !nullAddress && (
+        {!claimable && !nullAddress && !ifOwner && !ifBurnt && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4">
+            <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">
               Sorry <span class="text-neonYellow text-xl">{address?.substring(0, 6)}</span>! You do not own a toad.{" "}
             </p>
           </div>
         )}
         {!claimable && nullAddress && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4">Login to check if you own a toad!</p>
+            <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
           </div>
         )}
       </div>

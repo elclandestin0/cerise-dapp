@@ -77,10 +77,6 @@ contract CherryToadz is Ownable, ERC721 {
             ownerOf(id) == msg.sender,
             "Only the owner of the token can burn"
         );
-        require(
-            didMint[msg.sender] == true,
-            "You can only burn if you have minted!"
-        );
         require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
         _burn(id);
         didBurn[msg.sender] = true;
