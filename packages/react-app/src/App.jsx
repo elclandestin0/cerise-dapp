@@ -490,7 +490,7 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Collection />
           </Route>
           <Route exact path="/collections/cryptoadz">
             <Collection
@@ -528,7 +528,7 @@ function App(props) {
             <h1 className="text-primary text-3xl">Pages</h1>
           </ModalHeader>
           <ModalBody>
-            <Link
+            {/* <Link
               onClick={() => {
                 setRoute("/home");
                 handleClose();
@@ -545,7 +545,7 @@ function App(props) {
               to="/collections"
             >
               <h1 className="font-h1 hover:text-neon text-neonBlue text-5xl">Collections</h1>
-            </Link>
+            </Link> */}
             <Link
               onClick={() => {
                 setRoute("/about");
@@ -562,7 +562,7 @@ function App(props) {
               }}
               to="/collections/cryptoadz"
             >
-              <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CrypTOADZ</h1>
+              <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
             </Link>
           </ModalBody>
         </Modal>

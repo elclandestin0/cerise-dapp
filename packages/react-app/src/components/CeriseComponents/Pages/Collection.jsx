@@ -156,6 +156,18 @@ export default function Collection({
         </div>
       </div>
       <div>
+      <div className="flex justify-center">
+        <h1 className="font-h1 text-neon text-4xl px-5 pt-16 text-center text-neonRed">
+          <span>20(5)</span> CrypToadz Street Wearables
+        </h1>
+      </div>
+      <div className="flex justify-center">
+        <p className="text-3xl text-neonRed text-justify px-9 md:px-24 lg:px-48 xl:px-96">
+          There are 20(5) exclusive street wearables items available to mint for any CrypTOADZ owners. These include cargo
+          pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and get
+          your tokenized street wearable!
+        </p>
+      </div>
         {claimable && !didMint && (
           <div>
             <div className="flex justify-center">
@@ -215,7 +227,7 @@ export default function Collection({
             </div>
           </div>
         )}
-        {!claimable && !nullAddress && !ifOwner && !ifBurnt && (
+        {!claimable && !nullAddress && !ifBurnt && (
           <div>
             <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">
               Sorry <span class="text-neonYellow text-xl">{address?.substring(0, 6)}</span>! You do not own a toad.{" "}
