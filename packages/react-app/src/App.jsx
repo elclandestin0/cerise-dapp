@@ -40,7 +40,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Home from "./components/CeriseComponents/Pages/Home/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
-import Collection from "./components/CeriseComponents/Pages/Collection";
+import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
@@ -490,10 +490,19 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <Collection />
+          <CherryToadz
+              name="CeriseCryptoadzV1"
+              price={price}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+              contractConfig={contractConfig}
+              writeContracts={writeContracts}
+            />
           </Route>
-          <Route exact path="/collections/cryptoadz">
-            <Collection
+          <Route exact path="/collections/cherrytoadz">
+            <CherryToadz
               name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}
@@ -557,10 +566,10 @@ function App(props) {
             </Link>
             <Link
               onClick={() => {
-                setRoute("/collections/cryptoadz");
+                setRoute("/collections/cherrytoadz");
                 handleClose();
               }}
-              to="/collections/cryptoadz"
+              to="/collections/cherrytoadz"
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
             </Link>

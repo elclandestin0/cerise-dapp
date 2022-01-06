@@ -23,7 +23,7 @@ const keccak256 = require("keccak256");
 const tree = require("../../../utils/merkle-tree.json");
 import { ethers } from "ethers";
 
-export default function Collection({
+export default function CherryToadz({
   customContract,
   address,
   gasPrice,
@@ -65,30 +65,9 @@ export default function Collection({
 
     // checks if whether the user has minted or not
     checkIfMint(address).then(x => {
+      console.log("mint? ", x);
       setDidMint(x);
-
-      // if the user has minted, check what the user owns
-      // if (x) {
-      // }
     });
-    
-    checkOwnedToken(address).then(token => {
-      // if the user owns a token id of zero, this means the user has transferred the token
-      if (Number(token.toString()) == 0) return;
-      setOwnedToken(token);
-      console.log(token);
-      // has this user who minted the token burnt it also?
-      checkIfBurnt(address).then(burnt => {
-        setIfBurnt(burnt);
-        checkOwnerOf(token).then(owner => { 
-          address == owner ? setIfOwner(true) : setIfOwner(false);
-        });
-      });
-    });
-
-    checkIfBurnt(address).then(burnt => {
-      setIfBurnt(true);
-    })
 
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
@@ -97,7 +76,6 @@ export default function Collection({
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
   }, [address, didMint, ifBurnt, ifOwner]);
-
 
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
@@ -111,7 +89,7 @@ export default function Collection({
   };
 
   const checkIfMint = async address => {
-    return await writeContracts.CherryToadz.didMint(address);
+    return await writeContracts?.CherryToadz?.didMint(address);
   };
 
   const checkOwnedToken = async address => {
@@ -156,23 +134,14 @@ export default function Collection({
         </div>
       </div>
       <div>
-      <div className="flex justify-center">
-        <h1 className="font-h1 text-neon text-4xl px-5 pt-16 text-center text-neonRed">
-          <span>20(5)</span> CrypToadz Street Wearables
-        </h1>
-      </div>
-      <div className="flex justify-center">
-        <p className="text-3xl text-neonRed text-justify px-9 md:px-24 lg:px-48 xl:px-96">
-          There are 20(5) exclusive street wearables items available to mint for any CrypTOADZ owners. These include cargo
-          pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and get
-          your tokenized street wearable!
-        </p>
-      </div>
+        <div className="flex justify-center">
+          <h1 className="font-h1 text-neon text-4xl px-5 pt-16 text-center text-neonRed">
+            <span>20(5)</span> CrypToadz Street Wearables
+          </h1>
+        </div>
+
         {claimable && !didMint && (
           <div>
-            <div className="flex justify-center">
-              <h1 className="text-4xl px-5 pt-16 font-h1 text-center text-primary">Pop the cherry!</h1>
-            </div>
             <div className="flex justify-center">
               <MintButton popCherry={popCherry}>Mint</MintButton>
             </div>
@@ -186,7 +155,7 @@ export default function Collection({
                   ? "Thanks for sharing about TOADZ on Twitter!"
                   : claimable && isMoti
                   ? "Thanks for creating the best community ever!"
-                  : "Enjoy!"}
+                  : "!vibe"}
               </p>
             </div>
           </div>
@@ -194,37 +163,6 @@ export default function Collection({
         {claimable && didMint && (
           <div>
             <p class="text-center text-2xl px-5 pt-16 font-h1 p-4">You can only mint once from the V1 collection!</p>
-          </div>
-        )}
-        {!ifBurnt && ifOwner && (
-          <div>
-            <div>
-              <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">Burn your token!</p>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                onClick={() => {
-                  burnToken(ownedToken);
-                }}
-                color="lightBlue"
-                buttonType="filled"
-                size="lg"
-                rounded={false}
-                block={false}
-                iconOnly={false}
-                ripple="light"
-              >
-                Burn Your Token To Receive The IRL CherryToadz
-              </Button>
-            </div>
-          </div>
-        )}
-        {ifBurnt && (
-          <div>
-            <div>
-              <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">You have already burnt!</p>
-              {/* ADD FORM TO ENTER ADDRESS OF USER TO SUBMIT */}
-            </div>
           </div>
         )}
         {!claimable && !nullAddress && !ifBurnt && (
@@ -239,6 +177,13 @@ export default function Collection({
             <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
           </div>
         )}
+        <div className="flex justify-center">
+          <p className="text-3xl text-neonRed text-justify px-3 md:px-24 lg:px-48 xl:px-96">
+            There are 20(5) exclusive street wearables items available to mint for any CrypTOADZ owners. These include
+            cargo pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and
+            get your tokenized street wearable!
+          </p>
+        </div>
       </div>
       <div className="flex justify-center pb-5 pt-5 px-10">
         <Card className="bg-footer">

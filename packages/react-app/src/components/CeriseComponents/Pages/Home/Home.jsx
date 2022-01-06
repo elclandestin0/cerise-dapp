@@ -26,7 +26,7 @@ const Home = () => {
       </div>
       <div className="flex justify-center">
         <h1 className="font-h1 text-neon text-4xl px-5 pt-16 text-center text-neonRed">
-          <span>20(3)</span> CrypToadz Street Wearables
+          <span>20(5)</span> CrypToadz Street Wearables
         </h1>
       </div>
       <div className="flex justify-center">
