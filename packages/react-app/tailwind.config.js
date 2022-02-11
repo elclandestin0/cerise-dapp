@@ -23,7 +23,8 @@ module.exports = {
       neonRed: "#ff1818",
       neonPink: "#de00ff",
       neonYellow: "#f6fe00",
-      neonBlue: "#00e4ff"
+      neonBlue: "#00e4ff",
+      neonGreen: "#39FF14"
     },
     variants: {
       extend: {},

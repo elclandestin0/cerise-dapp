@@ -45,17 +45,17 @@ export default function RedeemCherryToadz({
       console.log("no address");
       return;
     }
+
     if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernal(true);
     if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
 
-    // checks if whether the user has minted or not
-    checkIfMint(address).then(x => {
-      setDidMint(x);
+
+    checkIfBurnt(address).then(async(x) => {
+
     });
-    
     // checkOwnedToken(address).then(token => {
     //   // if the user owns a token id of zero, this means the user has transferred the token
     //   if (Number(token.toString()) == 0) return;

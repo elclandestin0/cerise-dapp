@@ -14,6 +14,8 @@ import MintButton from "../Buttons/MintButton";
 
 // material tailwind
 import Card from "@material-tailwind/react/Card";
+import CardImage from "@material-tailwind/react/CardImage";
+import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
 
@@ -37,6 +39,7 @@ export default function CherryToadz({
   contractConfig,
   writeContracts,
 }) {
+  const ipfsFolder = `ipfs.io/ipfs/QmYS3HzeGNr5jVbSsRfv9pH7DeinEsvtiTtPuTzD7DBAKR/1`;
   const tx = Transactor(signer, gasPrice);
   // States to show different mint types on the button
   const [claimable, setClaimable] = useState();
@@ -51,12 +54,15 @@ export default function CherryToadz({
   const [ifOwner, setIfOwner] = useState(false);
   const [ifBurnt, setIfBurnt] = useState("");
 
+  // states to set selected metadata
+  const [token, setToken] = useState({});
   useEffect(() => {
     if (!address) {
       setNullAddress(true);
       console.log("no address");
       return;
     }
+    fetchTokenMetaData('1');
     if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernal(true);
     if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
@@ -76,6 +82,15 @@ export default function CherryToadz({
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
   }, [address, didMint, ifBurnt, ifOwner]);
+
+  const fetchTokenMetaData = async tokenId => {
+    console.log(token.imageURL);
+    await fetch(`https://ipfs.io/ipfs/QmYS3HzeGNr5jVbSsRfv9pH7DeinEsvtiTtPuTzD7DBAKR/${tokenId}`)
+      .then(response => response.json())
+      .then(data => {
+        setToken({"name": `${data.name}`, "imageURL": `${data.image}`, "description": `${data.description}`})
+      });
+  };
 
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
@@ -135,7 +150,7 @@ export default function CherryToadz({
       </div>
       <div>
         <div className="flex justify-center">
-          <h1 className="font-h1 text-neon text-4xl px-5 pt-16 text-center text-neonRed">
+          <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
             <span>20(5)</span> CrypToadz Street Wearables
           </h1>
         </div>
@@ -146,7 +161,7 @@ export default function CherryToadz({
               <MintButton popCherry={popCherry}>Mint</MintButton>
             </div>
             <div>
-              <p class="text-center text-2xl font-h1 p-4">
+              <p class="text-center text-2xl font-h1 p-4 text-neonGreen">
                 {isGremplin
                   ? "Thanks for making the coolest NFT collection ever!"
                   : claimable && isInfernal
@@ -174,22 +189,40 @@ export default function CherryToadz({
         )}
         {!claimable && nullAddress && (
           <div>
-            <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
+            <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
           </div>
         )}
         <div className="flex justify-center">
-          <p className="text-3xl text-neonRed text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-            There are 20(5) exclusive street wearables items available to mint for any CrypTOADZ owners. These include
-            cargo pants, jackets, hoodies and tees. Burning your token will allow you to enter your shipping address and
-            get your tokenized street wearable!
+          <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
+            There are 20(5) exclusive street wearables items available to mint for any{" "}
+            <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include cargo pants, jackets, hoodies and tees.
+            Burning your token will allow you to enter your shipping address and get your tokenized street wearable!
           </p>
         </div>
       </div>
       <div className="flex justify-center pb-5 pt-5 px-10">
         <Card className="bg-footer">
+          {/* <CardImage
+                src={DigFashion}
+                alt="Card Image"
+            /> */}
+          <CardHeader color="lightBlue" size="lg">
+          <div className="flex justify-center">
+          <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
+            {token.name}
+          </h1>
+        </div>
+          </CardHeader>
           <CardBody>
+          <div className="flex justify-center">
+          <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
+            {token.description}
+          </p>
+        </div>
             <div className="h-full flex items-center justify-center text-center">
-              <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={DigFashion} />
+              <video width="1000" controls>
+                <source src="https://ipfs.io/ipfs/QmdZsTgDtStFokBW2CmDUQ6bWZyYTQ7cT67UfJLbVawQtk/1.mp4" type="video/mp4"/>
+              </video>
             </div>
           </CardBody>
         </Card>

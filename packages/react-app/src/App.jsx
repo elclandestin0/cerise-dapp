@@ -41,6 +41,7 @@ import Home from "./components/CeriseComponents/Pages/Home/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
+import RedeemCherryToadz from "./components/CeriseComponents/Pages/RedeemCherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
@@ -512,7 +513,9 @@ function App(props) {
               contractConfig={contractConfig}
               writeContracts={writeContracts}
             />
-            {/* <Contract
+          </Route>
+          <Route exact path="/collections/cherrytoadz/slushie">
+            <RedeemCherryToadz
               name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}
@@ -520,7 +523,8 @@ function App(props) {
               address={address}
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
-            /> */}
+              writeContracts={writeContracts}
+            />
           </Route>
           <Route path="/home">
             <Home />
@@ -572,6 +576,15 @@ function App(props) {
               to="/collections/cherrytoadz"
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cherrytoadz");
+                handleClose();
+              }}
+              to="/collections/cherrytoadz"
+            >
+              <h1 className="font-h1 hover:text-neon text-neonGreen text-5xl">Slushie</h1>
             </Link>
           </ModalBody>
         </Modal>
