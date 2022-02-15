@@ -1,5 +1,6 @@
 // react
 import React, { useState, useEffect } from "react";
+import ReactPlayer from "react-player";
 
 // scaffold hooks
 import { useContractLoader } from "eth-hooks";
@@ -18,6 +19,9 @@ import CardImage from "@material-tailwind/react/CardImage";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
+
+// metadata object
+import metadata from "../../../metadata.json";
 
 // merkle tree stuff
 import { MerkleTree } from "merkletreejs";
@@ -56,24 +60,30 @@ export default function CherryToadz({
 
   // states to set selected metadata
   const [token, setToken] = useState({});
+  const [tokenId, setTokenId] = useState(0);
+
   useEffect(() => {
+    console.log(tokenId);
     if (!address) {
       setNullAddress(true);
       console.log("no address");
       return;
     }
-    fetchTokenMetaData('1');
+
+    // set initial tokenId to 0
+    setToken(metadata[tokenId]);
+
     if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernal(true);
     if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
 
-    // checks if whether the user has minted or not
-    checkIfMint(address).then(x => {
-      console.log("mint? ", x);
-      setDidMint(x);
-    });
+    // // checks if whether the user has minted or not
+    // checkIfMint(address).then(x => {
+    //   console.log("mint? ", x);
+    //   setDidMint(x);
+    // });
 
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
@@ -81,15 +91,29 @@ export default function CherryToadz({
     const root = merkleTree.getHexRoot();
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
-  }, [address, didMint, ifBurnt, ifOwner]);
+  }, [address, didMint, ifBurnt, ifOwner, tokenId]);
 
-  const fetchTokenMetaData = async tokenId => {
-    console.log(token.imageURL);
-    await fetch(`https://ipfs.io/ipfs/QmYS3HzeGNr5jVbSsRfv9pH7DeinEsvtiTtPuTzD7DBAKR/${tokenId}`)
-      .then(response => response.json())
-      .then(data => {
-        setToken({"name": `${data.name}`, "imageURL": `${data.image}`, "description": `${data.description}`})
-      });
+
+  const moveTokenId = forward => {
+    if (forward) {
+      let increment = tokenId + 1;
+      console.log(increment);
+      if (increment >= metadata.length) {
+        increment = 0;
+        setTokenId(increment);
+      } else {
+        setTokenId(increment);
+      }
+    } else {
+      let decrement = tokenId - 1;
+      console.log(decrement)
+      if (decrement <  0) {
+        decrement = metadata.length - 1;
+        setTokenId(decrement);
+      } else {
+        setTokenId(decrement);
+      }
+    }
   };
 
   // reconstruct merkletree
@@ -207,22 +231,32 @@ export default function CherryToadz({
                 alt="Card Image"
             /> */}
           <CardHeader color="lightBlue" size="lg">
-          <div className="flex justify-center">
-          <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
-            {token.name}
-          </h1>
-        </div>
+            <div className="flex justify-center">
+              <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">{token.name}</h1>
+            </div>
           </CardHeader>
           <CardBody>
-          <div className="flex justify-center">
-          <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-            {token.description}
-          </p>
-        </div>
+            <div className="flex justify-center">
+              <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
+                {token.description}
+              </p>
+            </div>
             <div className="h-full flex items-center justify-center text-center">
-              <video width="1000" controls>
-                <source src="https://ipfs.io/ipfs/QmdZsTgDtStFokBW2CmDUQ6bWZyYTQ7cT67UfJLbVawQtk/1.mp4" type="video/mp4"/>
-              </video>
+              <Button
+                onClick={() => {
+                  moveTokenId(false);
+                }}
+              >
+                test
+              </Button>
+              <ReactPlayer url={token.image} />
+              <Button
+                onClick={() => {
+                  moveTokenId(true);
+                }}
+              >
+                test{" "}
+              </Button>
             </div>
           </CardBody>
         </Card>
