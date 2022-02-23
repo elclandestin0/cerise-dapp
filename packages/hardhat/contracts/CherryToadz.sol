@@ -37,19 +37,12 @@ contract CherryToadz is Ownable, ERC721 {
 
     // contract URIs
     string private _contractURI =
-        "ipfs://QmXSFC9Q47qhRQYiRDehc13RkErra6oWw9kZFFVe9EQQfS";
+        "ipfs://QmRYcnsr1dCKmP3zUBs4fyar5dcdQThow95CQ1fdmL8GsY";
     string private _ipfsFolder =
-        "ipfs://QmTX14z3rEApENH56SAcwoeaj1izaqbDgvc1oZzv3AHp6L/";
-    string private _baseURIextended =
-        "ipfs://QmRHCfBzjeLBiB9CoUeRsn3FRAokqZSgH53qtZ52upDSki";
+        "ipfs://QmVFnYrN4FavA65uzN4C2SNtUL8zPrTns47H4FJSthwSeC/";
 
-    constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
+    constructor(bytes32 merkleRoot) ERC721("CherryTOADZ", "CT") {
         root = merkleRoot;
-    }
-
-    // we set base URI and the overridden `_baseURI()` returns it
-    function setBaseURI(string memory baseURI_) external onlyOwner {
-        _baseURIextended = baseURI_;
     }
 
     // for opensea standards
@@ -59,18 +52,19 @@ contract CherryToadz is Ownable, ERC721 {
 
     function popCherry(bytes32[] calldata proof) public payable {
         require(tokenId < 25, "Max amount of tokens reached!");
-        require(didMint[msg.sender] == false, "Cannot mint more than once!");
+        // require(didMint[msg.sender] == false, "Cannot mint more than once!");
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
-        require(msg.value == 0.08 ether, "Not enough funds!");
-        if (msg.sender == infernalToast) {
-            _pop(infernalToast, 22);
-        } else if (msg.sender == gremplin) {
-            _pop(gremplin, 21);
-        } else if (msg.sender == cerise) {
-            _pop(cerise, 25);
-        } else {
-            _pop(msg.sender, ++tokenId);
-        }
+        // require(msg.value == 0.08 ether, "Not enough funds!");
+        // if (msg.sender == infernalToast) {
+        //     _pop(infernalToast, 22);
+        // } else if (msg.sender == gremplin) {
+        //     _pop(gremplin, 21);
+        // } else if (msg.sender == cerise) {
+        //     _pop(cerise, 25);
+        // } else {
+        //     _pop(msg.sender, ++tokenId);
+        // }
+        _pop(msg.sender, tokenId++);
     }
 
     function burn(uint256 id) public {

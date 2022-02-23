@@ -79,12 +79,6 @@ export default function CherryToadz({
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
 
-    // // checks if whether the user has minted or not
-    // checkIfMint(address).then(x => {
-    //   console.log("mint? ", x);
-    //   setDidMint(x);
-    // });
-
     console.log("address", address);
     const proof = merkleTree.getHexProof(hashOwner(address));
     const leaf = hashOwner(address);
@@ -127,28 +121,12 @@ export default function CherryToadz({
     return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
   };
 
-  const checkIfMint = async address => {
-    return await writeContracts?.CherryToadz?.didMint(address);
-  };
-
-  const checkOwnedToken = async address => {
-    return await writeContracts.CherryToadz.tokenOwned(address);
-  };
-
-  const checkOwnerOf = async tokenId => {
-    const whoOwns = await writeContracts.CherryToadz.ownerOf(tokenId);
-    return whoOwns;
-  };
-
-  const checkIfBurnt = async address => {
-    return await writeContracts.CherryToadz.didBurn(address);
-  };
 
   const popCherry = async () => {
     const proof = merkleTree.getHexProof(hashOwner(address));
     await tx(
       writeContracts.CherryToadz.popCherry(proof, {
-        value: ethers.utils.parseEther("0.08"),
+        // value: ethers.utils.parseEther("0.08"),
         gasLimit: 300000,
       }),
     );
@@ -230,17 +208,7 @@ export default function CherryToadz({
                 src={DigFashion}
                 alt="Card Image"
             /> */}
-          <CardHeader color="lightBlue" size="lg">
-            <div className="flex justify-center">
-              <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">{token.name}</h1>
-            </div>
-          </CardHeader>
           <CardBody>
-            <div className="flex justify-center">
-              <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-                {token.description}
-              </p>
-            </div>
             <div className="h-full flex items-center justify-center text-center">
               <Button
                 onClick={() => {
