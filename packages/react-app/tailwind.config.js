@@ -15,7 +15,7 @@ module.exports = {
       red: "#ff0000",
     }),
     backgroundImage: {
-      test: "url('https://www.dropbox.com/s/qer6f9c2n9zzjb2/token%2325-extended.gif?raw=1')",
+      test: "url('https://www.dropbox.com/s/fb3vhqzehmpm1t6/promo.gif?raw=1')",
     },
     textColor: {
       primary: "#ff0000",
