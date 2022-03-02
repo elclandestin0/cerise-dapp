@@ -21,6 +21,7 @@ contract CherryToadz is Ownable, ERC721 {
     address public faorkh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
     address public moti = 0x8Bd8795CbeED15F8D5074f493C53b39C11Ed37B2;
     address public cerise = 0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17;
+    address public cozomo = 0xce90a7949bb78892f159f428d0dc23a8e3584d75;
     
     // to payout to
     address public save_the_children = 0xF84a7177E59F4A07799E36043b749E8D0c57AF11;
@@ -58,23 +59,28 @@ contract CherryToadz is Ownable, ERC721 {
     // payout 
     function pay() public payable onlyOwner {
         payable(save_the_children).send((address(this).balance * 25) / 100);
-        payable(we_are_studios).send((address(this).balance * 25) / 100);
+        payable(we_are_studios).send((address(this).balance * 75) / 100);
     }
 
     function popCherry(bytes32[] calldata proof) public payable {
-        require(tokenId < 25, "Max amount of tokens reached!");
-        // require(didMint[msg.sender] == false, "Cannot mint more than once!");
+        require(tokenId < 22, "Max amount of tokens reached!");
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
         require(msg.value == 0.08 ether, "Not enough funds!");
-        // if (msg.sender == infernalToast) {
-        //     _pop(infernalToast, 22);
-        // } else if (msg.sender == gremplin) {
-        //     _pop(gremplin, 21);
-        // } else if (msg.sender == cerise) {
-        //     _pop(cerise, 25);
-        // } else {
-        //     _pop(msg.sender, ++tokenId);
-        // }
+        if (msg.sender == infernalToast) {
+            _pop(infernalToast, 5);
+        } else if (msg.sender == gremplin) {
+            _pop(gremplin, 1);
+        } else if (msg.sender == cozomo) {
+            _pop(cozomo, 3);
+        } else if (msg.sender == moti) {
+            _pop(moti, 2);
+        } else if (msg.sender == farokh) {
+            _pop(farokh, 4);
+        } else if (msg.sender == cerise) {
+            _pop(cerise, 6);
+        }else {
+            _pop(msg.sender, ++tokenId);
+        }
         _pop(msg.sender, tokenId++);
     }
 
