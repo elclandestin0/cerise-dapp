@@ -5,7 +5,6 @@ const returnColoredText = (className, text) => {
 }
 
 const charityCopy = "100% of the mint sales go to a charity organization with a wallet on a blockchain";
-const bloodShedCopy = "bloodshed around the world with regards to human rights issues, animal harm, domestic violence and other causes."
 const About = () => {
   return (
     <div className="flex-grow">

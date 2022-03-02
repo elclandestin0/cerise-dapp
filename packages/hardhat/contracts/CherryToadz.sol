@@ -39,7 +39,7 @@ contract CherryToadz is Ownable, ERC721 {
     string private _contractURI =
         "ipfs://QmRYcnsr1dCKmP3zUBs4fyar5dcdQThow95CQ1fdmL8GsY";
     string private _ipfsFolder =
-        "ipfs://QmVFnYrN4FavA65uzN4C2SNtUL8zPrTns47H4FJSthwSeC/";
+        "ipfs://QmRi3qCW4sHjLWN6K9QNYNPwayNa6yM6zkP4TAjb3VKdtY/";
 
     constructor(bytes32 merkleRoot) ERC721("CherryTOADZ", "CT") {
         root = merkleRoot;
