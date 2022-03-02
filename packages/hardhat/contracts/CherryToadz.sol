@@ -1,5 +1,5 @@
-pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
+pragma solidity >=0.8.0 <0.9.0;
 
 // hardhat
 import "hardhat/console.sol";
@@ -18,7 +18,7 @@ contract CherryToadz is Ownable, ERC721 {
     // Honorary members
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
     address public infernalToast = 0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B;
-    address public faorkh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
+    address public farokh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
     address public moti = 0x8Bd8795CbeED15F8D5074f493C53b39C11Ed37B2;
     address public cerise = 0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17;
     address public cozomo = 0xce90a7949bb78892f159f428d0dc23a8e3584d75;
@@ -58,8 +58,8 @@ contract CherryToadz is Ownable, ERC721 {
 
     // payout 
     function pay() public payable onlyOwner {
-        payable(save_the_children).send((address(this).balance * 25) / 100);
-        payable(we_are_studios).send((address(this).balance * 75) / 100);
+        payable(save_the_children).send((address(this).balance * 50) / 100);
+        payable(we_are_studios).send((address(this).balance * 50) / 100);
     }
 
     function popCherry(bytes32[] calldata proof) public payable {
