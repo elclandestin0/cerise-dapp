@@ -147,9 +147,11 @@ export default function CherryToadz({
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
         <div className="h-full flex items-center justify-center text-center">
-          <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={Toadz} />
+          <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={Toadz} /> <br/>
+          <MintButton popCherry={popCherry}>Mint</MintButton>
         </div>
       </div>
+
       <div>
         <div className="flex justify-center">
           <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
