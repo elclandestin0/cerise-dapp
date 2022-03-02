@@ -52,7 +52,7 @@ contract CherryToadz is Ownable, ERC721 {
 
     // for opensea standards
     function contractURI() public view returns (string memory) {
-        return _contractURI;
+        return _contractURI; 
     }
 
     // payout 
