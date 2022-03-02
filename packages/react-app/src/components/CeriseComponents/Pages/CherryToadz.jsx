@@ -126,7 +126,7 @@ export default function CherryToadz({
     const proof = merkleTree.getHexProof(hashOwner(address));
     await tx(
       writeContracts.CherryToadz.popCherry(proof, {
-        // value: ethers.utils.parseEther("0.08"),
+        value: ethers.utils.parseEther("0.08"),
         gasLimit: 300000,
       }),
     );
@@ -153,7 +153,7 @@ export default function CherryToadz({
       <div>
         <div className="flex justify-center">
           <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
-            <span>20(5)</span> CrypToadz Street Wearables
+            <span>22</span> CrypToadz Street Wearables
           </h1>
         </div>
 
@@ -196,7 +196,7 @@ export default function CherryToadz({
         )}
         <div className="flex justify-center">
           <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-            There are 20(5) exclusive street wearables items available to mint for any{" "}
+            There are 22 exclusive street wearables items available to mint for any{" "}
             <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include cargo pants, jackets, hoodies and tees.
             Burning your token will allow you to enter your shipping address and get your tokenized street wearable!
           </p>

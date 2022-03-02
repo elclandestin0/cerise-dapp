@@ -21,6 +21,11 @@ contract CherryToadz is Ownable, ERC721 {
     address public faorkh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
     address public moti = 0x8Bd8795CbeED15F8D5074f493C53b39C11Ed37B2;
     address public cerise = 0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17;
+    
+    // to payout to
+    address public save_the_children = 0xF84a7177E59F4A07799E36043b749E8D0c57AF11;
+    address public we_are_studios = 0xCBAb6505F1521029278c2382c1De3B46102cB1B6;
+
 
     // merkle root
     bytes32 public immutable root;
@@ -37,11 +42,11 @@ contract CherryToadz is Ownable, ERC721 {
 
     // contract URIs
     string private _contractURI =
-        "ipfs://QmRYcnsr1dCKmP3zUBs4fyar5dcdQThow95CQ1fdmL8GsY";
+        "ipfs://QmRqerzgDbidKwNW8h24PQRfKbtqSns3FSwLWSWnLtkrnP";
     string private _ipfsFolder =
-        "ipfs://QmRi3qCW4sHjLWN6K9QNYNPwayNa6yM6zkP4TAjb3VKdtY/";
+        "ipfs://Qmcw9PxcpC3R4YQhQ62NzwSUdrvwGeTKKYobTksc8cpyYM/";
 
-    constructor(bytes32 merkleRoot) ERC721("CherryTOADZ", "CT") {
+    constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
         root = merkleRoot;
     }
 
@@ -50,11 +55,17 @@ contract CherryToadz is Ownable, ERC721 {
         return _contractURI;
     }
 
+    // payout 
+    function pay() public payable onlyOwner {
+        payable(save_the_children).send((address(this).balance * 25) / 100);
+        payable(we_are_studios).send((address(this).balance * 25) / 100);
+    }
+
     function popCherry(bytes32[] calldata proof) public payable {
         require(tokenId < 25, "Max amount of tokens reached!");
         // require(didMint[msg.sender] == false, "Cannot mint more than once!");
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
-        // require(msg.value == 0.08 ether, "Not enough funds!");
+        require(msg.value == 0.08 ether, "Not enough funds!");
         // if (msg.sender == infernalToast) {
         //     _pop(infernalToast, 22);
         // } else if (msg.sender == gremplin) {
