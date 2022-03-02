@@ -32,7 +32,7 @@ contract CherryToadz is Ownable, ERC721 {
     bytes32 public immutable root;
 
     // first tokenID
-    uint256 public tokenId = 1;
+    uint256 public tokenId = 7;
 
     // Optional mapping for token URIs
     mapping(address => bool) public didMint;
@@ -78,10 +78,9 @@ contract CherryToadz is Ownable, ERC721 {
             _pop(farokh, 4);
         } else if (msg.sender == cerise) {
             _pop(cerise, 6);
-        }else {
+        } else {
             _pop(msg.sender, ++tokenId);
         }
-        _pop(msg.sender, tokenId++);
     }
 
     function burn(uint256 id) public {
