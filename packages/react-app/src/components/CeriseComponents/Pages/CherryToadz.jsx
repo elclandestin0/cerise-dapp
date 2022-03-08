@@ -87,7 +87,6 @@ export default function CherryToadz({
     setClaimable(merkleTree.verify(proof, leaf, root));
   }, [address, didMint, ifBurnt, ifOwner, tokenId]);
 
-
   const moveTokenId = forward => {
     if (forward) {
       let increment = tokenId + 1;
@@ -100,8 +99,8 @@ export default function CherryToadz({
       }
     } else {
       let decrement = tokenId - 1;
-      console.log(decrement)
-      if (decrement <  0) {
+      console.log(decrement);
+      if (decrement < 0) {
         decrement = metadata.length - 1;
         setTokenId(decrement);
       } else {
@@ -120,7 +119,6 @@ export default function CherryToadz({
   const hashOwner = owner => {
     return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
   };
-
 
   const popCherry = async () => {
     const proof = merkleTree.getHexProof(hashOwner(address));
@@ -146,9 +144,15 @@ export default function CherryToadz({
   return (
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
-        <div className="h-full flex items-center justify-center text-center">
-          <img class="tiny:w-1/4 md:w-1/2 lg:w-1/2 xl:w-1/2" src={Toadz} /> <br/>
-          <MintButton popCherry={popCherry}>Mint</MintButton>
+        <div className="pt-56 flex items-center justify-center text-center">
+          <div>
+            <img class="" src={Toadz} />
+          </div>
+        </div>
+        <div className="pt-40 flex items-center justify-center text-center">
+          <div>
+            <MintButton popCherry={popCherry}>Mint</MintButton>
+          </div>
         </div>
       </div>
 

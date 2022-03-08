@@ -58,8 +58,8 @@ contract CherryToadz is Ownable, ERC721 {
 
     // payout 
     function pay() public payable onlyOwner {
-        payable(save_the_children).send((address(this).balance * 50) / 100);
-        payable(we_are_studios).send((address(this).balance * 50) / 100);
+        payable(save_the_children).transfer((address(this).balance * 50) / 100);
+        payable(we_are_studios).transfer((address(this).balance * 50) / 100);
     }
 
     function popCherry(bytes32[] calldata proof) public payable {
