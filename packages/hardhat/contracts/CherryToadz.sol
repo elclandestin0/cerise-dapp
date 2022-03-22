@@ -21,7 +21,7 @@ contract CherryToadz is Ownable, ERC721 {
     address public farokh = 0xc5F59709974262c4AFacc5386287820bDBC7eB3A;
     address public moti = 0x8Bd8795CbeED15F8D5074f493C53b39C11Ed37B2;
     address public cerise = 0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17;
-    address public cozomo = 0xce90a7949bb78892f159f428d0dc23a8e3584d75;
+    address public cozomo = 0xCe90a7949bb78892F159F428D0dC23a8E3584d75;
     
     // to payout to
     address public save_the_children = 0xF84a7177E59F4A07799E36043b749E8D0c57AF11;
@@ -45,7 +45,7 @@ contract CherryToadz is Ownable, ERC721 {
     string private _contractURI =
         "ipfs://QmRqerzgDbidKwNW8h24PQRfKbtqSns3FSwLWSWnLtkrnP";
     string private _ipfsFolder =
-        "ipfs://Qmcw9PxcpC3R4YQhQ62NzwSUdrvwGeTKKYobTksc8cpyYM/";
+        "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
 
     constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
         root = merkleRoot;
