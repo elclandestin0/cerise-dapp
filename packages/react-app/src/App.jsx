@@ -577,7 +577,7 @@ function App(props) {
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
             </Link>
-            <Link
+            {/* <Link
               onClick={() => {
                 setRoute("/collections/cherrytoadz");
                 handleClose();
@@ -585,7 +585,7 @@ function App(props) {
               to="/collections/cherrytoadz"
             >
               <h1 className="font-h1 hover:text-neon text-neonGreen text-5xl">Slushie</h1>
-            </Link>
+            </Link> */}
           </ModalBody>
         </Modal>
       </BrowserRouter>
