@@ -45,7 +45,7 @@ import RedeemCherryToadz from "./components/CeriseComponents/Pages/RedeemCherryT
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
-import CeriseLogo from "./assets/cerise-logo.png";
+import CeriseLogo from "./assets/cherry_updated.png";
 import useUserSigner from "./hooks/UserSigner";
 
 const { ethers } = require("ethers");
@@ -591,14 +591,13 @@ function App(props) {
       </BrowserRouter>
       {/* FOOTER */}
       <footer>
-        <div className="flex flex-wrap justify-center bg-footer pt-16 pl-8 pb-16">
+        <div className="bg-footer pt-16 pl-8 pb-16">
           <div className="flex items-center justify-center text-center p-2">
-            <img class="tiny:w-2/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
+            <img class="w-3/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
           </div>
-          <div className="flex items-center justify-center text-center p-2">2021 Cerise Supply All Rights Reserved</div>
+          <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">cerise.eth</div>
         </div>
       </footer>
-      {/* <ThemeSwitch /> */}
     </div>
   );
 }

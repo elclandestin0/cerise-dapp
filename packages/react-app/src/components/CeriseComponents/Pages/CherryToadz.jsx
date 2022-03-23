@@ -46,8 +46,7 @@ export default function CherryToadz({
 }) {
   const ipfsFolder = `ipfs.io/ipfs/QmYS3HzeGNr5jVbSsRfv9pH7DeinEsvtiTtPuTzD7DBAKR/1`;
   const tx = Transactor(signer, gasPrice);
-  
-  
+
   // States to show different mint types on the button
   const [claimable, setClaimable] = useState();
   const [nullAddress, setNullAddress] = useState(false);
@@ -56,11 +55,11 @@ export default function CherryToadz({
   const [isFarokh, setIsFarokh] = useState(false);
   const [isMoti, setIsMoti] = useState(false);
   const [isCerise, setIsCerise] = useState(false);
+  const [isCozomo, setIsCozomo] = useState(false);
   const [didMint, setDidMint] = useState(false);
   const [ownedToken, setOwnedToken] = useState(0);
   const [ifOwner, setIfOwner] = useState(false);
   const [ifBurnt, setIfBurnt] = useState("");
-
 
   // fix states
   const [tokenId, setTokenId] = useState(1);
@@ -69,13 +68,13 @@ export default function CherryToadz({
     console.log(tokenId);
     if (!address) {
       setNullAddress(true);
-      console.log("no address");
       return;
     }
 
     if (address == "0x7132c9f36abe62eab74cdfdd08c154c9ae45691b") setIsInfernal(true);
     if (address == "0xc5f59709974262c4afacc5386287820bdbc7eb3a") setIsFarokh(true);
     if (address == "0x4298e663517593284ad4fe199b21815bd48a9969") setIsGremplin(true);
+    if (address == "0xCe90a7949bb78892F159F428D0dC23a8E3584d75") setIsCozomo(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
 
@@ -86,7 +85,7 @@ export default function CherryToadz({
     setClaimable(merkleTree.verify(proof, leaf, root));
   }, [address, didMint, ifBurnt, ifOwner]);
 
-  const moveTokenId = (forward) => {
+  const moveTokenId = forward => {
     if (forward) {
       if (tokenId == 5) {
         setTokenId(1);
@@ -127,7 +126,6 @@ export default function CherryToadz({
     );
   };
 
-
   const contracts = useContractLoader(provider, contractConfig, chainId);
   let contract;
   if (!customContract) {
@@ -140,7 +138,7 @@ export default function CherryToadz({
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
         <div className="pt-72 flex items-center justify-center text-center">
           <div>
-            <img class="" src={Toadz} />
+            <img src={Toadz} />
           </div>
         </div>
         {claimable && !didMint && (
@@ -150,12 +148,22 @@ export default function CherryToadz({
                 {isGremplin
                   ? "Thanks for making the coolest NFT collection ever!"
                   : claimable && isInfernal
-                  ? "Thanks for sending me down the NFT rabbit hole!"
+                  ? "Thanks for sending us down the NFT rabbit hole!"
                   : claimable && isFarokh
                   ? "Thanks for sharing about TOADZ on Twitter!"
-                  : "Thanks for creating the best community ever!"}
-                  
+                  : claimable && isMoti
+                  ? "Thanks for creating the best community ever!"
+                  : claimable && isCozomo
+                  ? "Thanks for being buying a Toadenza and for being an awesome force of culture!"
+                  : claimable && isCerise
+                  ? "I'd like to thank me for being me!"
+                  : "Croak!"}
               </p>
+            </div>
+            <div className="pt-30 flex items-center justify-center text-center">
+              <div>
+                <MintButton popCherry={popCherry} />
+              </div>
             </div>
           </div>
         )}
@@ -176,18 +184,6 @@ export default function CherryToadz({
             <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
           </div>
         )}
-        {/* <div className="flex justify-center">
-          <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-            There are 22 exclusive street wearables items available to mint for any{" "}
-            <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include cargo pants, jackets, hoodies and tees.
-            Burning your token will allow you to enter your shipping address and get your tokenized street wearable!
-          </p>
-        </div> */}
-        <div className="pt-30 flex items-center justify-center text-center">
-          <div>
-            <MintButton popCherry={popCherry}>Mint</MintButton>
-          </div>
-        </div>
       </div>
 
       <div>
@@ -198,34 +194,37 @@ export default function CherryToadz({
         </div>
 
         <div className="flex justify-center pb-5 pt-5 px-10">
-        <Card>
-          {/* <CardImage
-                src={DigFashion}
-                alt="Card Image"
-            /> */}
-          <CardBody>
-            <div className="h-full flex items-center justify-center text-center">
-              <Button
-                onClick={() => {
-                  moveTokenId(false);
-                }}
-              >
-              <img style={{width: "50px"}} src={left}/>
-              </Button>
-              <img src={`https://ipfs.io/ipfs/QmQkqQexsyEwqMWmjZyL88Rk5HGhzFocU4aAzP78afsnXH/${tokenId}.gif`}/>
-              <Button
-                onClick={() => {
-                  moveTokenId(true);
-                }}
-              >
-                <img style={{width: "50px"}} src={right}/>
-              </Button>
-            </div>
-          </CardBody>
-        </Card>
+          <Card>
+            <CardBody>
+              <div className="flex justify-center">
+                <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
+                  There are 22 exclusive street wearables items available to mint for any{" "}
+                  <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include pants, jackets, hoodies, tees and
+                  accessories. Burning your token will allow you to enter your shipping address and get your tokenized
+                  street wearable!
+                </p>
+              </div>
+              <div className="h-full flex items-center justify-center text-center">
+                <Button
+                  onClick={() => {
+                    moveTokenId(false);
+                  }}
+                >
+                  <img style={{ width: "50px" }} src={left} />
+                </Button>
+                <img src={`https://ipfs.io/ipfs/QmQkqQexsyEwqMWmjZyL88Rk5HGhzFocU4aAzP78afsnXH/${tokenId}.gif`} />
+                <Button
+                  onClick={() => {
+                    moveTokenId(true);
+                  }}
+                >
+                  <img style={{ width: "50px" }} src={right} />
+                </Button>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
       </div>
-      </div>
-
     </div>
   );
 }
