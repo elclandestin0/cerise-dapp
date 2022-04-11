@@ -42,8 +42,9 @@ contract CherryToadz is Ownable, ERC721 {
     // contract URIs
     string private _contractURI =
         "ipfs://QmRqerzgDbidKwNW8h24PQRfKbtqSns3FSwLWSWnLtkrnP";
-    string private _ipfsFolder = "bla";
-        // "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
+    string private _ipfsFolder = "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
+    string private _preReveal = "ipfs://QmNRaoT6UjmR9A7F9GJ7qkNF9Sdv7jHevdAQKLb1ZdcTxN";
+    
 
     constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
         root = merkleRoot;
@@ -95,13 +96,13 @@ contract CherryToadz is Ownable, ERC721 {
     }
 
     // only the owner can change the baseURI
-    function changeBaseURI(string memory baseURI_) public onlyOwner {
-        _ipfsFolder = baseURI_;
+    function reveal() public onlyOwner {
+        _preReveal = _ipfsFolder;
     }
 
     // the overridden _baseURI from ERC721
     function _baseURI() internal view virtual override returns (string memory) {
-        return _ipfsFolder;
+        return _preReveal;
     }
 
     function _leaf(address account) internal pure returns (bytes32) {
