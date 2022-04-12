@@ -9,9 +9,6 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract CherryToadz is Ownable, ERC721 {
     using Strings for uint256;
 
-    // reveal
-    bool public reveal = true;
-
     // Honorary members
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
     address public infernalToast = 0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B;
@@ -43,7 +40,7 @@ contract CherryToadz is Ownable, ERC721 {
     string private _contractURI =
         "ipfs://QmRqerzgDbidKwNW8h24PQRfKbtqSns3FSwLWSWnLtkrnP";
     string private _ipfsFolder = "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
-    string private _preReveal = "ipfs://QmNRaoT6UjmR9A7F9GJ7qkNF9Sdv7jHevdAQKLb1ZdcTxN";
+    string private _preReveal = "ipfs://QmT2Qm2cm27NxYkZ3uXDbLfFmmWKQQ6dYNsNKrFKYrAXgR";
     
 
     constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
