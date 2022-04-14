@@ -492,7 +492,7 @@ function App(props) {
         <Switch>
           <Route exact path="/">
           <CherryToadz
-              name="CeriseCryptoadzV1"
+              name="CherryToadz"
               price={price}
               signer={userSigner}
               provider={localProvider}
@@ -504,7 +504,7 @@ function App(props) {
           </Route>
           <Route exact path="/collections/cherrytoadz">
             <CherryToadz
-              name="CeriseCryptoadzV1"
+              name="CherryToadz"
               price={price}
               signer={userSigner}
               provider={localProvider}
@@ -570,10 +570,10 @@ function App(props) {
             </Link>
             <Link
               onClick={() => {
-                setRoute("/collections/cherrytoadz");
+                setRoute("/");
                 handleClose();
               }}
-              to="/collections/cherrytoadz"
+              to="/"
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
             </Link>

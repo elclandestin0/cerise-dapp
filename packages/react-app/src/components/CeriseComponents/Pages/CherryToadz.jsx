@@ -204,23 +204,6 @@ export default function CherryToadz({
                   street wearable!
                 </p>
               </div>
-              <div className="h-full flex items-center justify-center text-center">
-                <Button
-                  onClick={() => {
-                    moveTokenId(false);
-                  }}
-                >
-                  <img style={{ width: "50px" }} src={left} />
-                </Button>
-                <img src={`https://ipfs.io/ipfs/QmQkqQexsyEwqMWmjZyL88Rk5HGhzFocU4aAzP78afsnXH/${tokenId}.gif`} />
-                <Button
-                  onClick={() => {
-                    moveTokenId(true);
-                  }}
-                >
-                  <img style={{ width: "50px" }} src={right} />
-                </Button>
-              </div>
             </CardBody>
           </Card>
         </div>
