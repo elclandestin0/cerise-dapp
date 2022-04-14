@@ -1,9 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-// hardhat
-import "hardhat/console.sol";
-
 // OpenZeppelin contracts
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -12,8 +9,7 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract CherryToadz is Ownable, ERC721 {
     using Strings for uint256;
 
-    // reveal
-    bool public reveal = true;
+    bool public reveal;
 
     // Honorary members
     address public gremplin = 0x4298e663517593284Ad4FE199b21815BD48a9969;
@@ -35,6 +31,7 @@ contract CherryToadz is Ownable, ERC721 {
     uint256 public tokenId = 7;
 
     // Optional mapping for token URIs
+    mapping(address => uint256) public mintAmount;
     mapping(address => bool) public didMint;
     mapping(address => bool) public didBurn;
     mapping(address => uint256) public tokenOwned;
@@ -44,8 +41,9 @@ contract CherryToadz is Ownable, ERC721 {
     // contract URIs
     string private _contractURI =
         "ipfs://QmRqerzgDbidKwNW8h24PQRfKbtqSns3FSwLWSWnLtkrnP";
-    string private _ipfsFolder =
-        "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
+    string private _ipfsFolder = "ipfs://QmYwVKLXJ5ASfMmWh3Xjvom78Qxky5NbUuYViRx5DhcY6v/";
+    string private _preReveal = "ipfs://QmPgd4bG2oPGC6KRtZqZYWx3oWQk3A6GvxJi5iFfXxNiRN/";
+    
 
     constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
         root = merkleRoot;
@@ -66,20 +64,23 @@ contract CherryToadz is Ownable, ERC721 {
         require(tokenId < 22, "Max amount of tokens reached!");
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
         require(msg.value == 0.08 ether, "Not enough funds!");
-        if (msg.sender == infernalToast) {
+        require(mintAmount[msg.sender] < 4, "You can only mint four items!");
+        if (msg.sender == infernalToast && !didMint[infernalToast]) {
             _pop(infernalToast, 5);
-        } else if (msg.sender == gremplin) {
+        } else if (msg.sender == gremplin && !didMint[gremplin]) {
             _pop(gremplin, 1);
-        } else if (msg.sender == cozomo) {
+        } else if (msg.sender == cozomo && !didMint[cozomo]) {
             _pop(cozomo, 3);
-        } else if (msg.sender == moti) {
+        } else if (msg.sender == moti && !didMint[moti]) {
             _pop(moti, 2);
-        } else if (msg.sender == farokh) {
+        } else if (msg.sender == farokh && !didMint[farokh]) {
             _pop(farokh, 4);
-        } else if (msg.sender == cerise) {
+        }
+         else if (msg.sender == cerise && !didMint[cerise]) {
             _pop(cerise, 6);
-        } else {
-            _pop(msg.sender, ++tokenId);
+        } 
+        else {
+            _pop(msg.sender, tokenId++);
         }
     }
 
@@ -93,9 +94,18 @@ contract CherryToadz is Ownable, ERC721 {
         didBurn[msg.sender] = true;
     }
 
+    // only the owner can change the baseURI
+    function revealTokens() public onlyOwner {
+        reveal = true;
+    }
+
     // the overridden _baseURI from ERC721
     function _baseURI() internal view virtual override returns (string memory) {
+        if (reveal == false) {
+        return _preReveal;
+        } else {
         return _ipfsFolder;
+        }
     }
 
     function _leaf(address account) internal pure returns (bytes32) {
@@ -112,8 +122,13 @@ contract CherryToadz is Ownable, ERC721 {
     }
 
     function _pop(address _to, uint256 _tokenId) internal {
+        // mint and declare that the user has minted
         _mint(_to, _tokenId);
         didMint[msg.sender] = true;
+
+        // count how many tokens our user has minted
+        uint256 amountMinted = mintAmount[msg.sender] + 1;
+        mintAmount[msg.sender] = amountMinted;
         tokenOwned[msg.sender] = _tokenId;
     }
 
