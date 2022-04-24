@@ -57,13 +57,14 @@ export default function CherryToadz({
   const [isCerise, setIsCerise] = useState(false);
   const [isCozomo, setIsCozomo] = useState(false);
   const [didMint, setDidMint] = useState(false);
-  const [ownedToken, setOwnedToken] = useState(0);
-  const [ifOwner, setIfOwner] = useState(false);
+  const [publicSale, setPublicSale] = useState(false);
+  const [isPublicSale, setIsPublicSale] = useState(false);
   const [ifBurnt, setIfBurnt] = useState("");
 
   // fix states
   const [tokenId, setTokenId] = useState(1);
 
+  const contracts = useContractLoader(provider, contractConfig, chainId);
   useEffect(() => {
     console.log(tokenId);
     if (!address) {
@@ -83,27 +84,41 @@ export default function CherryToadz({
     const root = merkleTree.getHexRoot();
     setNullAddress(false);
     setClaimable(merkleTree.verify(proof, leaf, root));
-  }, [address, didMint, ifBurnt, ifOwner]);
 
-  const moveTokenId = forward => {
-    if (forward) {
-      if (tokenId == 5) {
-        setTokenId(1);
-      } else {
-        const id = tokenId + 1;
-        console.log(id);
-        setTokenId(id);
-      }
-    } else {
-      if (tokenId == 1) {
-        setTokenId(5);
-      } else {
-        const id = tokenId - 1;
-        console.log(id);
-        setTokenId(id);
-      }
+    const getDidMint = async () => {
+      const memo = await contracts?.["CherryToadz"].didMint(address);
+      setDidMint(memo);
+    };
+
+    const getIsPublicSale = async () => {
+      const sale_ = await contracts?.["CherryToadz"].isPublicSale();
+      setIsPublicSale(sale_);
+    };
+
+    if (address && contracts) {
+      getDidMint();
     }
-  };
+  }, [address, didMint, ifBurnt, contracts]);
+
+  // const moveTokenId = forward => {
+  //   if (forward) {
+  //     if (tokenId == 5) {
+  //       setTokenId(1);
+  //     } else {
+  //       const id = tokenId + 1;
+  //       console.log(id);
+  //       setTokenId(id);
+  //     }
+  //   } else {
+  //     if (tokenId == 1) {
+  //       setTokenId(5);
+  //     } else {
+  //       const id = tokenId - 1;
+  //       console.log(id);
+  //       setTokenId(id);
+  //     }
+  //   }
+  // };
 
   // reconstruct merkletree
   const merkleTree = new MerkleTree(
@@ -126,7 +141,6 @@ export default function CherryToadz({
     );
   };
 
-  const contracts = useContractLoader(provider, contractConfig, chainId);
   let contract;
   if (!customContract) {
     contract = contracts ? contracts[name] : "";
@@ -145,19 +159,23 @@ export default function CherryToadz({
           <div>
             <div>
               <p class="text-center text-2xl font-h1 p-4 text-neonGreen">
-                {isGremplin
+                {isGremplin && !didMint
                   ? "Thanks for making the coolest NFT collection ever!"
-                  : claimable && isInfernal
+                  : claimable && isInfernal && !didMint
                   ? "Thanks for sending us down the NFT rabbit hole!"
-                  : claimable && isFarokh
+                  : claimable && isFarokh && !didMint
                   ? "Thanks for sharing about TOADZ on Twitter!"
-                  : claimable && isMoti
+                  : claimable && isMoti && !didMint
                   ? "Thanks for creating the best community ever!"
-                  : claimable && isCozomo
+                  : claimable && isCozomo && !didMinte
                   ? "Thanks for being buying a Toadenza and for being an awesome force of culture!"
-                  : claimable && isCerise
+                  : claimable && isCerise && !didMint
                   ? "I'd like to thank me for being me!"
-                  : "Croak!"}
+                  : claimable && isPublicSale && !didMint
+                  ? "Croak!"
+                  : claimable && isPublicSale && didMint
+                  ? "Croak Again"
+                  : "The Uncroakening"}
               </p>
             </div>
             <div className="pt-30 flex items-center justify-center text-center">
