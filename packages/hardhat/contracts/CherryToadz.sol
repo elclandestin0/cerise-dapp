@@ -6,6 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
+
+error MintTimeNotPublic();
+
 contract CherryToadz is Ownable, ERC721 {
     using Strings for uint256;
 
@@ -85,6 +88,8 @@ contract CherryToadz is Ownable, ERC721 {
         } 
         else if (toadz_mint_sale_begin_time != 0 && block.timestamp > toadz_mint_sale_begin_time) {
             _pop(msg.sender, tokenId++);
+        } else {
+            revert MintTimeNotPublic();
         }
     }
 
