@@ -22,6 +22,9 @@ contract CherryToadz is Ownable, ERC721 {
     // to payout to
     address public save_the_children = 0xF84a7177E59F4A07799E36043b749E8D0c57AF11;
     address public we_are_studios = 0xCBAb6505F1521029278c2382c1De3B46102cB1B6;
+ 
+    uint256 public honorable_mint_sale_begin_time;
+    uint256 public toadz_mint_sale_begin_time;
 
 
     // merkle root
@@ -61,6 +64,7 @@ contract CherryToadz is Ownable, ERC721 {
     }
 
     function popCherry(bytes32[] calldata proof) public payable {
+        
         require(tokenId < 22, "Max amount of tokens reached!");
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
         require(msg.value == 0.08 ether, "Not enough funds!");
@@ -79,11 +83,15 @@ contract CherryToadz is Ownable, ERC721 {
          else if (msg.sender == cerise && !didMint[cerise]) {
             _pop(cerise, 6);
         } 
-        else {
+        else if (toadz_mint_sale_begin_time != 0 && block.timestamp > toadz_mint_sale_begin_time) {
             _pop(msg.sender, tokenId++);
         }
     }
 
+    function setToadzMintTime(uint256 timestamp) public onlyOwner {
+        toadz_mint_sale_begin_time = timestamp;
+    }
+ 
     function burn(uint256 id) public {
         require(
             ownerOf(id) == msg.sender,
