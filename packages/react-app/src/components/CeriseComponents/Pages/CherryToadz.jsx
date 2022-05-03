@@ -135,7 +135,7 @@ export default function CherryToadz({
     const proof = merkleTree.getHexProof(hashOwner(address));
     await tx(
       writeContracts.CherryToadz.popCherry(proof, {
-        value: ethers.utils.parseEther("0.08"),
+        value: ethers.utils.parseEther("0.2"),
         gasLimit: 300000,
       }),
     );
