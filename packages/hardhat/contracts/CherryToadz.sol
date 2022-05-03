@@ -25,7 +25,7 @@ contract CherryToadz is Ownable, ERC721 {
     // to payout to
     address public save_the_children = 0xF84a7177E59F4A07799E36043b749E8D0c57AF11;
     address public we_are_studios = 0xCBAb6505F1521029278c2382c1De3B46102cB1B6;
- 
+    uint256 public honorary_mint_time;
     uint256 public toadz_mint_sale_begin_time;
 
 
@@ -94,6 +94,10 @@ contract CherryToadz is Ownable, ERC721 {
 
     function setToadzMintTime(uint256 timestamp) public onlyOwner {
         toadz_mint_sale_begin_time = timestamp;
+    }
+
+    function setHonoraryMintTime(uint256 timestamp) public onlyOwner {
+        honorary_mint_time = timestamp;
     }
  
     function burn(uint256 id) public {
