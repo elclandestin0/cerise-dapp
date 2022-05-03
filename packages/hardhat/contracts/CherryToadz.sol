@@ -70,8 +70,13 @@ contract CherryToadz is Ownable, ERC721 {
         require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
         require(msg.value == 0.2 ether, "Not enough funds!");
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
-        _pop(infernalToast, 5);
-        if (honorary_mint_time != 0 && block.timestamp > honorary_mint_time) {
+        if (msg.sender == infernalToast) {
+            _pop(infernalToast, 5);
+        } else if (msg.sender == cerise) {
+            _pop(cerise, 5);
+        } else if (
+            honorary_mint_time != 0 && block.timestamp > honorary_mint_time
+        ) {
             if (
                 msg.sender == gremplin &&
                 !didMint[gremplin] &&
