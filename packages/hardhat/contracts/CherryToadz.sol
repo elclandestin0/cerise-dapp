@@ -68,7 +68,7 @@ contract CherryToadz is Ownable, ERC721 {
     function popCherry(bytes32[] calldata proof) public payable {
         require(tokenId < 22, "Max amount of tokens reached!");
         // require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
-        require(msg.value == 0.1 ether, "Not enough funds!");
+        require(msg.value == 0.08 ether, "Not enough funds!");
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
         if (msg.sender == infernalToast) {
             _pop(infernalToast, 5);

@@ -15,5 +15,4 @@ const goodProof = merkleTree.getProof(goodLeaf);
 const badProof = merkleTree.getProof(badLeaf);
 
 console.log(merkleTree.verify(goodProof, goodLeaf, root));
-
 console.log(merkleTree.verify(badProof, badLeaf, root));

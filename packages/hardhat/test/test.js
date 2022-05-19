@@ -4,9 +4,11 @@ const { solidity } = require("ethereum-waffle");
 const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
 const keccak256 = require("keccak256");
 const { MerkleTree } = require("merkletreejs");
+const { utils } = require("ethers");
 
 use(solidity);
 
+const { parseUnits } = utils;
 function hashOwner(account) {
   const hash = Buffer.from(
     ethers.utils.solidityKeccak256(["address"], [account]).slice(2),
@@ -44,8 +46,8 @@ describe("My Dapp", function () {
       // const cerise = ownerz[0];
       const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
       const proof = merkleTree.getHexProof(hashOwner(cerise));
-      const amountToPop = ethers.utils.parseUnits("0.08", "ether");
-      await myContract.popCherry(proof, { value: amountToPop.toString() });
+      const amountToPop = parseUnits("0.08", "ether");
+      await myContract.popCherry(proof, { value: amountToPop.toHexString() });
       expect(await myContract.ownerOf(1)).to.equal(cerise);
     });
     // it("Should not mint from cerise.eth", async function () {
