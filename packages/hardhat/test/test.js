@@ -39,13 +39,12 @@ describe("My Dapp", function () {
     it("Should deploy CherryToadz", async function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
       myContract = await CeriseCryptoadz.deploy(root);
-      console.log(myContract);
     });
     it("Should mint from accounts[0]", async function () {
-      const cerise = ownerz[0];
+      // const cerise = ownerz[0];
+      const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
       const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = ethers.utils.parseUnits("0.08", "ether");
-      console.log(amountToPop);
       await myContract.popCherry(proof, { value: amountToPop.toString() });
       expect(await myContract.ownerOf(1)).to.equal(cerise);
     });
