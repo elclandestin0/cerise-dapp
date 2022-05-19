@@ -1,13 +1,15 @@
-const { ethers } = require("hardhat");
-const { use, expect } = require("chai");
+const hardhat = require("hardhat");
+const { use } = require("chai");
+var should = require('chai').should();
 const { solidity } = require("ethereum-waffle");
 const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
 const keccak256 = require("keccak256");
 const { MerkleTree } = require("merkletreejs");
 const { utils } = require("ethers");
+const { hrtime } = require("process");
 
 use(solidity);
-
+const ethers = hardhat.ethers;
 const { parseUnits } = utils;
 function hashOwner(account) {
   const hash = Buffer.from(
@@ -42,14 +44,28 @@ describe("My Dapp", function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
       myContract = await CeriseCryptoadz.deploy(root);
     });
-    it("Should mint from accounts[0]", async function () {
+    it("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
       const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
       const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = parseUnits("0.08", "ether");
-      await myContract.popCherry(proof, { value: amountToPop.toHexString() });
-      expect(await myContract.ownerOf(1)).to.equal(cerise);
+      await myContract.popCherry(proof, { value: amountToPop.toHexString() }).should.be.revertedWith(`MintTimeNotPublic()`);
     });
+    it('Should allow someone to mint during public time', async function() {
+            // const cerise = ownerz[0];
+      const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
+      const proof = merkleTree.getHexProof(hashOwner(cerise));
+      const amountToPop = parseUnits("0.08", "ether");
+      const timestamp = "1752942620";
+      await myContract.setToadzMintTime(timestamp).then(async()=>{
+        console.log("after setting");
+        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [1752942620]);
+        await myContract.popCherry(proof, { value: amountToPop.toHexString() }).should.be.revertedWith(`MintTimeNotPublic()`);
+      });
+    })
+
+
+    // old tests may delete
     // it("Should not mint from cerise.eth", async function () {
     //   const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
     //   const proof = merkleTree.getHexProof(hashOwner(cerise));
