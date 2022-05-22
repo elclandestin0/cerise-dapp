@@ -1,6 +1,6 @@
 const hardhat = require("hardhat");
 const { use } = require("chai");
-var should = require('chai').should();
+var should = require("chai").should();
 const { solidity } = require("ethereum-waffle");
 const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
 const keccak256 = require("keccak256");
@@ -46,25 +46,33 @@ describe("My Dapp", function () {
     });
     it("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
-      const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
+      const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
       const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = parseUnits("0.08", "ether");
-      await myContract.popCherry(proof, { value: amountToPop.toHexString() }).should.be.revertedWith(`MintTimeNotPublic()`);
+      await myContract
+        .popCherry(proof, { value: amountToPop.toHexString() })
+        .should.be.revertedWith(`MintTimeNotPublic()`);
     });
-    it('Should allow someone to mint during public time', async function() {
-            // const cerise = ownerz[0];
-      const cerise = '0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17';
+    it("Should allow someone to mint during public time", async function () {
+      // const cerise = ownerz[0];
+      const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
       const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1752942620";
-      await myContract.setToadzMintTime(timestamp).then(async()=>{
-        console.log("after setting");
-        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [1752942620]);
-        await myContract.popCherry(proof, { value: amountToPop.toHexString() }).should.be.revertedWith(`MintTimeNotPublic()`);
+      await myContract.setToadzMintTime(timestamp).then(async () => {
+        const timeStamp = await myContract.toadz_mint_sale_begin_time();
+        console.log(
+          "just set the toadz time to ",
+          timeStamp
+        );
+        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
+          1852942620,
+        ]);
+        await myContract.popCherry(proof, { value: amountToPop.toHexString() });
       });
-    })
-
-
+    });
+    it("it allows toadz to mint for a set period of time", async function () {});
+    it("it allows anyone to mint during the public sale", async function () {});
     // old tests may delete
     // it("Should not mint from cerise.eth", async function () {
     //   const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
