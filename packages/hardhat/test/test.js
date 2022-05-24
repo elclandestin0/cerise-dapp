@@ -53,24 +53,33 @@ describe("My Dapp", function () {
         .popCherry(proof, { value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
     });
-    it("it allows toadz to mint for a set period of time", async function () {});
-    it("it allows anyone to mint during the public sale", async function () {});
+    it("it allows honorary toadz to mint for a set period of time", async function () {
+      const amountToPop = parseUnits("0.08", "ether");
+      const timestamp = "1702942620";
+      await myContract.setToadzMintTime(timestamp).then(async () => {
+        const timeStamp = await myContract.toadz_mint_sale_begin_time();
+        console.log("just set the honorary toadz mint time to ", timeStamp);
+        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
+          1712942620,
+        ]);
+        await myContract.popCherry({
+          value: amountToPop
+            .toHexString()
+            .should.be.revertedWith(`MintTimeNotPublic()`),
+        });
+      });
+    });
     it("Should allow someone to mint during public time", async function () {
       // const cerise = ownerz[0];
-      const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
-      const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1752942620";
       await myContract.setToadzMintTime(timestamp).then(async () => {
         const timeStamp = await myContract.toadz_mint_sale_begin_time();
-        console.log(
-          "just set the toadz time to ",
-          timeStamp
-        );
+        console.log("just set the toadz mint time to ", timeStamp);
         await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
           1852942620,
         ]);
-        await myContract.popCherry(proof, { value: amountToPop.toHexString() });
+        await myContract.popCherry({ value: amountToPop.toHexString() });
       });
     });
     // old tests may delete
