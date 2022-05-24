@@ -53,6 +53,8 @@ describe("My Dapp", function () {
         .popCherry(proof, { value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
     });
+    it("it allows toadz to mint for a set period of time", async function () {});
+    it("it allows anyone to mint during the public sale", async function () {});
     it("Should allow someone to mint during public time", async function () {
       // const cerise = ownerz[0];
       const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
@@ -71,8 +73,6 @@ describe("My Dapp", function () {
         await myContract.popCherry(proof, { value: amountToPop.toHexString() });
       });
     });
-    it("it allows toadz to mint for a set period of time", async function () {});
-    it("it allows anyone to mint during the public sale", async function () {});
     // old tests may delete
     // it("Should not mint from cerise.eth", async function () {
     //   const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";

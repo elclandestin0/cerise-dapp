@@ -73,7 +73,7 @@ contract CherryToadz is Ownable, ERC721 {
         if (msg.sender == infernalToast) {
             _pop(infernalToast, 5);
         } else if (msg.sender == cerise) {
-            _pop(cerise, 5);
+            _pop(cerise, 6);
         } else if (
             honorary_mint_time != 0 && block.timestamp > honorary_mint_time
         ) {
