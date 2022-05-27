@@ -44,13 +44,19 @@ describe("My Dapp", function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
       myContract = await CeriseCryptoadz.deploy(root);
     });
-    it("Should not allow anyone to mint before public time", async function () {
+    it.skip("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
       const amountToPop = parseUnits("0.08", "ether");
       console.log("boutta pop");
       await myContract
         .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
+    });
+    it("allows the owner ot mint before the honorary toadz", async function () {
+      const amountToPop = parseUnits("0.08", "ether");
+      await myContract.popCherry({
+        value: amountToPop.toHexString(),
+      });
     });
     it.skip("it allows honorary toadz to mint for a set period of time", async function () {
       const amountToPop = parseUnits("0.08", "ether");
@@ -69,7 +75,7 @@ describe("My Dapp", function () {
         });
       });
     });
-    it("Should allow someone to mint during public time", async function () {
+    it.skip("Should allow someone to mint during public time", async function () {
       // const cerise = ownerz[0];
       const honoraryTimestamp = await myContract.honorary_mint_time();
       console.log("the honorary timestamp is " + honoraryTimestamp);

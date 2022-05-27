@@ -74,7 +74,7 @@ contract CherryToadz is Ownable, ERC721 {
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
         if (msg.sender == infernalToast) {
             _pop(infernalToast, 5);
-        } else if (msg.sender == cerise) {
+        } else if (msg.sender == owner()) {
             _pop(cerise, 6);
         } else if (
             honorary_mint_time != 0 && block.timestamp > honorary_mint_time
