@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "hardhat/console.sol";
 
 error MintTimeNotPublic();
+error NotAnHonoraryToad();
 
 contract CherryToadz is Ownable, ERC721 {
     using Strings for uint256;
@@ -93,6 +94,7 @@ contract CherryToadz is Ownable, ERC721 {
             } else if (msg.sender == cerise && !didMint[cerise]) {
                 _pop(cerise, 6);
             }
+            revert NotAnHonoraryToad();
         } else if (toadz_mint_sale_begin_time == 0) {
             revert MintTimeNotPublic();
         } else {
@@ -150,6 +152,7 @@ contract CherryToadz is Ownable, ERC721 {
     }
 
     function _pop(address _to, uint256 _tokenId) internal {
+        console.log("internal pop");
         // mint and declare that the user has minted
         _mint(_to, _tokenId);
         didMint[msg.sender] = true;

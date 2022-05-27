@@ -52,12 +52,15 @@ describe("My Dapp", function () {
         .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
     });
-    it("it allows honorary toadz to mint for a set period of time", async function () {
+    it.skip("it allows honorary toadz to mint for a set period of time", async function () {
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1702942620";
-      await myContract.setToadzMintTime(timestamp).then(async () => {
-        const timeStamp = await myContract.toadz_mint_sale_begin_time();
-        console.log("just set the honorary toadz mint time to ", timeStamp);
+      await myContract.setHonoraryMintTime(timestamp).then(async () => {
+        const timeStamp = await myContract.honorary_mint_time();
+        console.log(
+          "just set the honorary toadz mint time to ",
+          timeStamp.toHexString()
+        );
         await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
           1712942620,
         ]);
@@ -68,6 +71,8 @@ describe("My Dapp", function () {
     });
     it("Should allow someone to mint during public time", async function () {
       // const cerise = ownerz[0];
+      const honoraryTimestamp = await myContract.honorary_mint_time();
+      console.log("the honorary timestamp is " + honoraryTimestamp);
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1752942620";
       await myContract.setToadzMintTime(timestamp).then(async () => {
