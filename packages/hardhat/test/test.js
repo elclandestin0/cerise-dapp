@@ -46,11 +46,10 @@ describe("My Dapp", function () {
     });
     it("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
-      const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
-      const proof = merkleTree.getHexProof(hashOwner(cerise));
       const amountToPop = parseUnits("0.08", "ether");
+      console.log("boutta pop");
       await myContract
-        .popCherry(proof, { value: amountToPop.toHexString() })
+        .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
     });
     it("it allows honorary toadz to mint for a set period of time", async function () {
@@ -63,9 +62,7 @@ describe("My Dapp", function () {
           1712942620,
         ]);
         await myContract.popCherry({
-          value: amountToPop
-            .toHexString()
-            .should.be.revertedWith(`MintTimeNotPublic()`),
+          value: amountToPop.toHexString(),
         });
       });
     });

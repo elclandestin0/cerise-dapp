@@ -5,6 +5,7 @@ pragma solidity >=0.8.0 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import "hardhat/console.sol";
 
 error MintTimeNotPublic();
 
@@ -92,13 +93,10 @@ contract CherryToadz is Ownable, ERC721 {
             } else if (msg.sender == cerise && !didMint[cerise]) {
                 _pop(cerise, 6);
             }
-        } else if (
-            toadz_mint_sale_begin_time != 0 &&
-            block.timestamp > toadz_mint_sale_begin_time
-        ) {
-            _pop(msg.sender, tokenId++);
-        } else {
+        } else if (toadz_mint_sale_begin_time == 0) {
             revert MintTimeNotPublic();
+        } else {
+            _pop(msg.sender, tokenId++);
         }
     }
 
