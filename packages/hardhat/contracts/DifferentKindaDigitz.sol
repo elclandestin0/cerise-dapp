@@ -7,8 +7,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract DifferentKindaDigitz is Ownable, ERC721 {
     address public nateHusser;
-    string public footVault = "ipfs://QmNZhJ7HZ39oacz4enpHhhHtWcYhWDg8xmyxjmQVvH1FB4/";
-    string private _contractURI = "ipfs://QmUYESMpAyYgTC2yeAvY8bQypvDF17qaTnKcvCmQomRGWw";
+    string public phoneBooth = "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr/";
+    string private _contractURI = "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr";
     bool public mintOnce = false;
     uint public tokenId = 1;
 

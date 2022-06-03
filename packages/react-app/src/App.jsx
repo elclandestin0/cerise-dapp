@@ -40,6 +40,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Home from "./components/CeriseComponents/Pages/Home/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
+import DifferentKindaDigitz from "./components/CeriseComponents/Pages/DifferentKindaDigitz";
 import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
 import RedeemCherryToadz from "./components/CeriseComponents/Pages/RedeemCherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
@@ -180,8 +181,7 @@ const web3Modal = new Web3Modal({
     // },
     "custom-walletlink": {
       display: {
-        logo:
-          "https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0",
+        logo: "https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0",
         name: "Coinbase",
         description: "Connect to Coinbase Wallet (not Coinbase App)",
       },
@@ -491,7 +491,7 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-          <CherryToadz
+            <CherryToadz
               name="CherryToadz"
               price={price}
               signer={userSigner}
@@ -535,6 +535,9 @@ function App(props) {
           <Route path="/about">
             <About />
           </Route>
+          <Route path="/different_kinda_digitz">
+            <DifferentKindaDigitz />
+          </Route>
         </Switch>
         <Modal active={open} toggler={() => setOpen(false)}>
           <ModalHeader toggler={() => setOpen(false)}>
@@ -577,6 +580,15 @@ function App(props) {
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
             </Link>
+            <Link
+              onClick={() => {
+                setRoute("/different_kinda_digitz");
+                handleClose();
+              }}
+              to="/different_kinda_digitz"
+            >
+              <h1 className="font-h1 hover:text-neon text-neonRed text-5xl">DifferentKindaDigitz</h1>
+            </Link>
             {/* <Link
               onClick={() => {
                 setRoute("/collections/cherrytoadz");
@@ -595,7 +607,9 @@ function App(props) {
           <div className="flex items-center justify-center text-center p-2">
             <img class="w-3/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
           </div>
-          <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">cerise.eth</div>
+          <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">
+            cerise.eth
+          </div>
         </div>
       </footer>
     </div>

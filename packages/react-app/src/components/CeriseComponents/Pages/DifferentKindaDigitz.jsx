@@ -15,14 +15,13 @@ import MintButton from "../Buttons/MintButton";
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
 
-
 // merkle tree stuff
 import { MerkleTree } from "merkletreejs";
 const keccak256 = require("keccak256");
 const tree = require("../../../utils/merkle-tree.json");
 import { ethers } from "ethers";
 
-export default function CherryToadz({
+export default function DifferentKindaDigitz({
   customContract,
   address,
   gasPrice,
@@ -190,29 +189,6 @@ export default function CherryToadz({
             <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
           </div>
         )}
-      </div>
-
-      <div>
-        <div className="flex justify-center">
-          <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
-            <span>22</span> CrypToadz Street Wearables
-          </h1>
-        </div>
-
-        <div className="flex justify-center pb-5 pt-5 px-10">
-          <Card>
-            <CardBody>
-              <div className="flex justify-center">
-                <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
-                  There are 22 exclusive street wearables items available to mint for any{" "}
-                  <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include pants, jackets, hoodies, tees and
-                  accessories. Burning your token will allow you to enter your shipping address and get your tokenized
-                  street wearable!
-                </p>
-              </div>
-            </CardBody>
-          </Card>
-        </div>
       </div>
     </div>
   );
