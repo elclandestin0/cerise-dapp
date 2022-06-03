@@ -106,4 +106,17 @@ describe("My Dapp", function () {
     //   );
     // });
   });
+  describe.only("DifferentKindaDigitz", function () {
+    it("Should deploy CherryToadz", async function () {
+      const DifferentKindaDigitz = await ethers.getContractFactory(
+        "DifferentKindaDigitz"
+      );
+      myContract = await DifferentKindaDigitz.deploy(
+        "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17"
+      );
+    });
+    it("only allows Nate Husser to mint", async function () {
+      await myContract.dialIn();
+    });
+  });
 });
