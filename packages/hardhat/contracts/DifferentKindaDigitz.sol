@@ -7,10 +7,12 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract DifferentKindaDigitz is Ownable, ERC721 {
     address public nateHusser;
-    string public phoneBooth = "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr/";
-    string private _contractURI = "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr";
+    string public phoneBooth =
+        "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr/";
+    string private _contractURI =
+        "ipfs://QmYdT8J3x3Hx7eQE2t9TqtUEKYUfG3XGwVYhZej8Rya8qr";
     bool public mintOnce = false;
-    uint public tokenId = 1;
+    uint256 public tokenId = 1;
 
     modifier onlyNateHusser() {
         require(msg.sender == nateHusser, "Only Nate Husser can mint!");
@@ -28,11 +30,11 @@ contract DifferentKindaDigitz is Ownable, ERC721 {
     }
 
     function contractURI() public view returns (string memory) {
-        return _contractURI; 
+        return _contractURI;
     }
 
-        // the overridden _baseURI from ERC721
+    // the overridden _baseURI from ERC721
     function _baseURI() internal view virtual override returns (string memory) {
-        return footVault;
+        return phoneBooth;
     }
 }
