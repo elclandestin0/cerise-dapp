@@ -5,12 +5,14 @@ pragma solidity >=0.8.0 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "hardhat/console.sol";
 
 error MintTimeNotPublic();
 error NotAnHonoraryToad();
 
 contract CherryToadz is Ownable, ERC721 {
+    using EnumerableSet for EnumerableSet.UintSet;
     using Strings for uint256;
 
     bool public reveal;
@@ -42,6 +44,8 @@ contract CherryToadz is Ownable, ERC721 {
     mapping(address => bool) public didBurn;
     mapping(address => uint256) public tokenOwned;
     mapping(uint256 => address) public whoBurnt;
+    mapping(address => EnumerableSet.UintSet) burntTokens;
+    mapping(uint256 => bool) public didShip;
     mapping(uint256 => string) private _tokenURIs;
 
     // contract URIs
@@ -110,7 +114,13 @@ contract CherryToadz is Ownable, ERC721 {
         );
         require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
         _burn(id);
+        EnumerableSet.add(burntTokens[msg.sender], id);
         didBurn[msg.sender] = true;
+    }
+    
+    function ship(uint256 id) public {
+        require(_canShip(id) == true, "Can't ship this token!");
+        didShip[id] = true;
     }
 
     // only the owner can change the baseURI
@@ -122,6 +132,20 @@ contract CherryToadz is Ownable, ERC721 {
         return block.timestamp > toadz_mint_sale_begin_time;
     }
 
+    // only the owner can change the baseURI
+    function revealTokens() public onlyOwner {
+        reveal = true;
+    }
+
+    function isPublicSale() external view returns (bool) {
+        return block.timestamp > toadz_mint_sale_begin_time;
+    }
+
+
+    function canShip(uint256 tokenId) public view returns (bool) {
+        return didBurn[msg.sender] && burntTokens[msg.sender].contains(tokenId);
+    }
+
     // the overridden _baseURI from ERC721
     function _baseURI() internal view virtual override returns (string memory) {
         if (reveal == false) {
@@ -129,6 +153,13 @@ contract CherryToadz is Ownable, ERC721 {
         } else {
             return _ipfsFolder;
         }
+    }
+            "Only the owner of the token can burn"
+        );
+        require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
+        _burn(id);
+        EnumerableSet.add(burntTokens[msg.sender], id);
+        didBurn[msg.sender] = true;
     }
 
     function _leaf(address account) internal pure returns (bytes32) {
@@ -152,7 +183,6 @@ contract CherryToadz is Ownable, ERC721 {
         // count how many tokens our user has minted
         uint256 amountMinted = mintAmount[msg.sender] + 1;
         mintAmount[msg.sender] = amountMinted;
-        tokenOwned[msg.sender] = _tokenId;
     }
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)
@@ -164,14 +194,5 @@ contract CherryToadz is Ownable, ERC721 {
             "ERC721URIStorage: URI set of nonexistent token"
         );
         _tokenURIs[tokenId] = _tokenURI;
-    }
-
-    function _beforeTokenTransfer(
-        address _from,
-        address _to,
-        uint256 _tokenId
-    ) internal virtual override {
-        delete tokenOwned[_from];
-        tokenOwned[_to] = _tokenId;
     }
 }
