@@ -42,7 +42,7 @@ import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import DifferentKindaDigitz from "./components/CeriseComponents/Pages/DifferentKindaDigitz";
 import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
-import RedeemCherryToadz from "./components/CeriseComponents/Pages/RedeemCherryToadz";
+import BurnCherryToadz from "./components/CeriseComponents/Pages/BurnCherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
@@ -514,8 +514,8 @@ function App(props) {
               writeContracts={writeContracts}
             />
           </Route>
-          <Route exact path="/collections/cherrytoadz/slushie">
-            <RedeemCherryToadz
+          <Route exact path="/collections/cherrytoadz/burn">
+            <BurnCherryToadz
               name="CeriseCryptoadzV1"
               price={price}
               signer={userSigner}

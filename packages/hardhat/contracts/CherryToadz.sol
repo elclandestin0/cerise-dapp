@@ -69,21 +69,16 @@ contract CherryToadz is Ownable, ERC721 {
 
     function popCherry() public payable {
         require(tokenId < 22, "Max amount of tokens reached!");
-        // require(_verify(_leaf(msg.sender), proof), "You don't own a toad!");
         require(msg.value == 0.08 ether, "Not enough funds!");
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
-        if (msg.sender == infernalToast) {
+        if (msg.sender == infernalToast && !didMint[infernalToast]) {
             _pop(infernalToast, 5);
-        } else if (msg.sender == owner()) {
+        } else if (msg.sender == owner() && !didMint[cerise]) {
             _pop(cerise, 6);
         } else if (
             honorary_mint_time != 0 && block.timestamp > honorary_mint_time
         ) {
-            if (
-                msg.sender == gremplin &&
-                !didMint[gremplin] &&
-                honorary_mint_time != 0
-            ) {
+            if (msg.sender == gremplin && !didMint[gremplin]) {
                 _pop(gremplin, 1);
             } else if (msg.sender == cozomo && !didMint[cozomo]) {
                 _pop(cozomo, 3);
@@ -91,8 +86,6 @@ contract CherryToadz is Ownable, ERC721 {
                 _pop(moti, 2);
             } else if (msg.sender == farokh && !didMint[farokh]) {
                 _pop(farokh, 4);
-            } else if (msg.sender == cerise && !didMint[cerise]) {
-                _pop(cerise, 6);
             }
             revert NotAnHonoraryToad();
         } else if (toadz_mint_sale_begin_time == 0) {
@@ -152,10 +145,9 @@ contract CherryToadz is Ownable, ERC721 {
     }
 
     function _pop(address _to, uint256 _tokenId) internal {
-        console.log("internal pop");
         // mint and declare that the user has minted
         _mint(_to, _tokenId);
-        didMint[msg.sender] = true;
+        didMint[_to] = true;
 
         // count how many tokens our user has minted
         uint256 amountMinted = mintAmount[msg.sender] + 1;

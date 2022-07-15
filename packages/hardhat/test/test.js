@@ -6,7 +6,6 @@ const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
 const keccak256 = require("keccak256");
 const { MerkleTree } = require("merkletreejs");
 const { utils } = require("ethers");
-const { hrtime } = require("process");
 
 use(solidity);
 const ethers = hardhat.ethers;
@@ -39,7 +38,7 @@ describe("My Dapp", function () {
     });
   });
 
-  describe("CherryToadz", function () {
+  describe.only("CherryToadz", function () {
     it("Should deploy CherryToadz", async function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
       myContract = await CeriseCryptoadz.deploy(root);
@@ -52,10 +51,30 @@ describe("My Dapp", function () {
         .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
     });
-    it("allows the owner ot mint before the honorary toadz", async function () {
+    it("allows the owner to mint before the honorary toadz", async function () {
       const amountToPop = parseUnits("0.08", "ether");
       await myContract.popCherry({
         value: amountToPop.toHexString(),
+      });
+    });
+
+    it("Should allow someone to mint during public time", async function () {
+      // const cerise = ownerz[0];\
+      const amountToPop = parseUnits("0.08", "ether");
+      const timestamp = "1752942620";
+      await myContract.setToadzMintTime(timestamp).then(async () => {
+        const timeStamp = await myContract.toadz_mint_sale_begin_time();
+        console.log("just set the toadz mint time to ", timeStamp);
+        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
+          1852942620,
+        ]);
+        await myContract.popCherry({ value: amountToPop.toHexString() });
+      });
+    });
+    it("Allows anyone to burn", async function () {
+      await myContract.burn("7").then(async () => {
+        console.log(await myContract.didBurn(accounts[0].address));
+        (await myContract.didBurn(accounts[0].address)).should.be.equal(true);
       });
     });
     it.skip("it allows honorary toadz to mint for a set period of time", async function () {
@@ -75,21 +94,6 @@ describe("My Dapp", function () {
         });
       });
     });
-    it.skip("Should allow someone to mint during public time", async function () {
-      // const cerise = ownerz[0];
-      const honoraryTimestamp = await myContract.honorary_mint_time();
-      console.log("the honorary timestamp is " + honoraryTimestamp);
-      const amountToPop = parseUnits("0.08", "ether");
-      const timestamp = "1752942620";
-      await myContract.setToadzMintTime(timestamp).then(async () => {
-        const timeStamp = await myContract.toadz_mint_sale_begin_time();
-        console.log("just set the toadz mint time to ", timeStamp);
-        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
-          1852942620,
-        ]);
-        await myContract.popCherry({ value: amountToPop.toHexString() });
-      });
-    });
     // old tests may delete
     // it("Should not mint from cerise.eth", async function () {
     //   const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";
@@ -106,7 +110,7 @@ describe("My Dapp", function () {
     //   );
     // });
   });
-  describe.only("DifferentKindaDigitz", function () {
+  describe("DifferentKindaDigitz", function () {
     it("Should deploy CherryToadz", async function () {
       const DifferentKindaDigitz = await ethers.getContractFactory(
         "DifferentKindaDigitz"
