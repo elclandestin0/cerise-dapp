@@ -53,6 +53,9 @@ describe("My Dapp", function () {
         (await myContract.didBurn(accounts[0].address)).should.be.equal(true);
       });
     });
+    it("Allows the owner who burnt the token to have the good shipped", async function () {
+      (await myContract.canShip("7")).should.be.equal(true);
+    });
     it.skip("it allows honorary toadz to mint for a set period of time", async function () {
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1702942620";

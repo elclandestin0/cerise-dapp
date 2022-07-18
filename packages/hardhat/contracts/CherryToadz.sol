@@ -44,8 +44,6 @@ contract CherryToadz is Ownable, ERC721 {
     mapping(address => EnumerableSet.UintSet) burntTokens;
     mapping(uint256 => bool) public didShip;
     mapping(uint256 => string) private _tokenURIs;
-    mapping(address => EnumerableSet.UintSet) burntTokens;
-    mapping(uint256 => bool) public didShip;
 
     // contract URIs
     string private _contractURI =
@@ -114,16 +112,6 @@ contract CherryToadz is Ownable, ERC721 {
         EnumerableSet.add(burntTokens[msg.sender], id);
         didBurn[msg.sender] = true;
     }
-    
-    function ship(uint256 id) public {
-        require(_canShip(id) == true, "Can't ship this token!");
-        didShip[id] = true;
-    }
-
-    function ship(uint256 id) public {
-        require(_canShip(id) == true, "Can't ship this token!");
-        didShip[id] = true;
-    }
 
     // only the owner can change the baseURI
     function revealTokens() public onlyOwner {
@@ -134,7 +122,7 @@ contract CherryToadz is Ownable, ERC721 {
         return block.timestamp > toadz_mint_sale_begin_time;
     }
 
-    function _canShip(uint256 tokenId) internal view returns (bool) {
+    function canShip(uint256 tokenId) public view returns (bool) {
         return didBurn[msg.sender] && burntTokens[msg.sender].contains(tokenId);
     }
 
@@ -145,13 +133,6 @@ contract CherryToadz is Ownable, ERC721 {
         } else {
             return _ipfsFolder;
         }
-    }
-            "Only the owner of the token can burn"
-        );
-        require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
-        _burn(id);
-        EnumerableSet.add(burntTokens[msg.sender], id);
-        didBurn[msg.sender] = true;
     }
 
     function _leaf(address account) internal pure returns (bytes32) {
