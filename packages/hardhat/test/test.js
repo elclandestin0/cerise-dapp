@@ -1,52 +1,27 @@
 const hardhat = require("hardhat");
 const { use } = require("chai");
-var should = require("chai").should();
+const should = require("chai").should();
 const { solidity } = require("ethereum-waffle");
-const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
-const keccak256 = require("keccak256");
-const { MerkleTree } = require("merkletreejs");
 const { utils } = require("ethers");
 
 use(solidity);
 const ethers = hardhat.ethers;
 const { parseUnits } = utils;
-function hashOwner(account) {
-  const hash = Buffer.from(
-    ethers.utils.solidityKeccak256(["address"], [account]).slice(2),
-    "hex"
-  );
-  return hash;
-}
 
 describe("My Dapp", function () {
-  let merkleTree;
-  let root;
   let accounts;
   before(async function () {
     accounts = await ethers.getSigners();
-    merkleTree = new MerkleTree(
-      ownerz.map((owner) => hashOwner(owner)),
-      keccak256,
-      { sortPairs: true }
-    );
-    root = merkleTree.getHexRoot();
-    console.log(root);
-    const fs = require("fs");
-    fs.writeFile("merkle-tree.json", JSON.stringify(merkleTree), (err) => {
-      if (err) throw err;
-      console.log("Data written to file");
-    });
   });
 
   describe.only("CherryToadz", function () {
     it("Should deploy CherryToadz", async function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
-      myContract = await CeriseCryptoadz.deploy(root);
+      myContract = await CeriseCryptoadz.deploy();
     });
     it.skip("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
       const amountToPop = parseUnits("0.08", "ether");
-      console.log("boutta pop");
       await myContract
         .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
