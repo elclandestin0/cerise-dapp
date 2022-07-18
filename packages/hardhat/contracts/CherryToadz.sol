@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 error MintTimeNotPublic();
 error NotAnHonoraryToad();
@@ -32,13 +33,9 @@ contract CherryToadz is Ownable, ERC721 {
     uint256 public honorary_mint_time;
     uint256 public toadz_mint_sale_begin_time;
 
-    // merkle root
-    bytes32 public immutable root;
-
     // first tokenID
     uint256 public tokenId = 7;
 
-    // Optional mapping for token URIs
     mapping(address => uint256) public mintAmount;
     mapping(address => bool) public didMint;
     mapping(address => bool) public didBurn;
@@ -47,6 +44,8 @@ contract CherryToadz is Ownable, ERC721 {
     mapping(address => EnumerableSet.UintSet) burntTokens;
     mapping(uint256 => bool) public didShip;
     mapping(uint256 => string) private _tokenURIs;
+    mapping(address => EnumerableSet.UintSet) burntTokens;
+    mapping(uint256 => bool) public didShip;
 
     // contract URIs
     string private _contractURI =
@@ -56,9 +55,7 @@ contract CherryToadz is Ownable, ERC721 {
     string private _preReveal =
         "ipfs://QmPgd4bG2oPGC6KRtZqZYWx3oWQk3A6GvxJi5iFfXxNiRN/";
 
-    constructor(bytes32 merkleRoot) ERC721("CherryToadz", "CTz") {
-        root = merkleRoot;
-    }
+    constructor() ERC721("CherryToadz", "CTz") {}
 
     // for opensea standards
     function contractURI() public view returns (string memory) {
@@ -123,13 +120,9 @@ contract CherryToadz is Ownable, ERC721 {
         didShip[id] = true;
     }
 
-    // only the owner can change the baseURI
-    function revealTokens() public onlyOwner {
-        reveal = true;
-    }
-
-    function isPublicSale() external view returns (bool) {
-        return block.timestamp > toadz_mint_sale_begin_time;
+    function ship(uint256 id) public {
+        require(_canShip(id) == true, "Can't ship this token!");
+        didShip[id] = true;
     }
 
     // only the owner can change the baseURI
@@ -141,8 +134,7 @@ contract CherryToadz is Ownable, ERC721 {
         return block.timestamp > toadz_mint_sale_begin_time;
     }
 
-
-    function canShip(uint256 tokenId) public view returns (bool) {
+    function _canShip(uint256 tokenId) internal view returns (bool) {
         return didBurn[msg.sender] && burntTokens[msg.sender].contains(tokenId);
     }
 
@@ -164,15 +156,6 @@ contract CherryToadz is Ownable, ERC721 {
 
     function _leaf(address account) internal pure returns (bytes32) {
         return keccak256(abi.encodePacked(account));
-    }
-
-    function _verify(bytes32 leaf, bytes32[] memory proof)
-        internal
-        view
-        returns (bool)
-    {
-        bool value = MerkleProof.verify(proof, root, leaf);
-        return value;
     }
 
     function _pop(address _to, uint256 _tokenId) internal {

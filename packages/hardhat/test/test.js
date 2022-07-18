@@ -1,5 +1,6 @@
 const hardhat = require("hardhat");
 const { use } = require("chai");
+const should = require("chai").should();
 const { solidity } = require("ethereum-waffle");
 const { utils } = require("ethers");
 
@@ -8,7 +9,6 @@ const ethers = hardhat.ethers;
 const { parseUnits } = utils;
 
 describe("My Dapp", function () {
-  let root;
   let accounts;
   let myContract;
   before(async function () {
@@ -18,12 +18,11 @@ describe("My Dapp", function () {
   describe.only("CherryToadz", function () {
     it("Should deploy CherryToadz", async function () {
       const CeriseCryptoadz = await ethers.getContractFactory("CherryToadz");
-      myContract = await CeriseCryptoadz.deploy(root);
+      myContract = await CeriseCryptoadz.deploy();
     });
     it.skip("Should not allow anyone to mint before public time", async function () {
       // const cerise = ownerz[0];
       const amountToPop = parseUnits("0.08", "ether");
-      console.log("boutta pop");
       await myContract
         .popCherry({ value: amountToPop.toHexString() })
         .should.be.revertedWith(`MintTimeNotPublic()`);
