@@ -7,7 +7,7 @@ module.exports = {
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
       h1: ["'Press Start 2P'", "cursive"],
-      body:["'Be Vietnam Pro'", "cursive"]
+      body: ["'Be Vietnam Pro'", "cursive"],
     },
     backgroundColor: theme => ({
       primary: "#380000",
@@ -16,6 +16,7 @@ module.exports = {
     }),
     backgroundImage: {
       test: "url('https://www.dropbox.com/s/fb3vhqzehmpm1t6/promo.gif?raw=1')",
+      burn: "url('https://c.tenor.com/WhD4AWN30YkAAAAC/clouds-moving.gif')",
     },
     textColor: {
       primary: "#ff0000",
@@ -24,7 +25,7 @@ module.exports = {
       neonPink: "#de00ff",
       neonYellow: "#f6fe00",
       neonBlue: "#00e4ff",
-      neonGreen: "#39FF14"
+      neonGreen: "#39FF14",
     },
     variants: {
       extend: {},

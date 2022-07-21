@@ -516,7 +516,7 @@ function App(props) {
           </Route>
           <Route exact path="/collections/cherrytoadz/burn">
             <BurnCherryToadz
-              name="CeriseCryptoadzV1"
+              name="BurnCherryToadz"
               price={price}
               signer={userSigner}
               provider={localProvider}
@@ -579,6 +579,15 @@ function App(props) {
               to="/"
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
+            </Link>
+            <Link
+              onClick={() => {
+                setRoute("/collections/cherrytoadz/burn");
+                handleClose();
+              }}
+              to="/collections/cherrytoadz/burn"
+            >
+              <h1 className="font-h1 hover:text-neon text-neonRed text-5xl">Burn CherryToadz</h1>
             </Link>
             <Link
               onClick={() => {
