@@ -8,7 +8,7 @@ use(solidity);
 const ethers = hardhat.ethers;
 const { parseUnits } = utils;
 
-describe("My Dapp", function () {
+describe("CherryToadz", function () {
   let accounts;
   let myContract;
   before(async function () {
@@ -39,40 +39,40 @@ describe("My Dapp", function () {
       const amountToPop = parseUnits("0.08", "ether");
       const timestamp = "1752942620";
       await myContract.setToadzMintTime(timestamp).then(async () => {
-        const timeStamp = await myContract.toadz_mint_sale_begin_time();
-        console.log("just set the toadz mint time to ", timeStamp);
         await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
           1852942620,
         ]);
-        await myContract.popCherry({ value: amountToPop.toHexString() });
+        await myContract
+          .popCherry({ value: amountToPop.toHexString() })
+          .then(async () => {
+            (await myContract.didMint(accounts[0].address)).should.be.equal(
+              true
+            );
+          });
       });
     });
     it("Allows anyone to burn", async function () {
       await myContract.burn("7").then(async () => {
-        console.log(await myContract.didBurn(accounts[0].address));
         (await myContract.didBurn(accounts[0].address)).should.be.equal(true);
       });
     });
     it("Allows the owner who burnt the token to have the good shipped", async function () {
-      (await myContract.canShip("7")).should.be.equal(true);
+      const [signer] = await ethers.getSigners();
+      console.log(signer);
+      // (await myContract.canShip("7")).should.be.equal(true);
     });
-    it.skip("it allows honorary toadz to mint for a set period of time", async function () {
-      const amountToPop = parseUnits("0.08", "ether");
-      const timestamp = "1702942620";
-      await myContract.setHonoraryMintTime(timestamp).then(async () => {
-        const timeStamp = await myContract.honorary_mint_time();
-        console.log(
-          "just set the honorary toadz mint time to ",
-          timeStamp.toHexString()
-        );
-        await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
-          1712942620,
-        ]);
-        await myContract.popCherry({
-          value: amountToPop.toHexString(),
-        });
-      });
-    });
+    // it.skip("it allows honorary toadz to mint for a set period of time", async function () {
+    //   const amountToPop = parseUnits("0.08", "ether");
+    //   const timestamp = "1702942620";
+    //   await myContract.setHonoraryMintTime(timestamp).then(async () => {
+    //     await hardhat.network.provider.send("evm_setNextBlockTimestamp", [
+    //       1712942620,
+    //     ]);
+    //     await myContract.popCherry({
+    //       value: amountToPop.toHexString(),
+    //     });
+    //   });
+    // });
     // old tests may delete
     // it("Should not mint from cerise.eth", async function () {
     //   const cerise = "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17";

@@ -123,8 +123,22 @@ contract CherryToadz is Ownable, ERC721 {
         return block.timestamp > toadz_mint_sale_begin_time;
     }
 
-    function canShip(uint256 tokenId) public view returns (bool) {
-        return didBurn[msg.sender] && burntTokens[msg.sender].contains(tokenId);
+    function canShip(
+        uint256 _tokenId,
+        bytes32 _hash,
+        bytes memory _signature
+    ) public view returns (bool) {
+        _recoverSigner(_hash, _signature);
+        return
+            didBurn[msg.sender] && burntTokens[msg.sender].contains(_tokenId);
+    }
+
+    function _recoverSigner(bytes32 _hash, bytes memory _signature)
+        internal
+        view
+    {
+        address recoveredSigner = ECDSA.recover(_hash, _signature);
+        console.log(recoveredSigner);
     }
 
     // the overridden _baseURI from ERC721
