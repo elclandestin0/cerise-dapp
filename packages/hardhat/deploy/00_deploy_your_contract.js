@@ -1,27 +1,6 @@
-// deploy/00_deploy_your_contract.js
-const { ethers } = require("hardhat");
-const { MerkleTree } = require("merkletreejs");
-const keccak256 = require("keccak256");
-const ownerz = require("../cryptoadz-ownerz-balances-snapshot.json");
-
-function hashOwner(account) {
-  const hash = Buffer.from(
-    ethers.utils.solidityKeccak256(["address"], [account]).slice(2),
-    "hex"
-  );
-  return hash;
-}
-
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
   const accounts = await getNamedAccounts();
-  const merkleTree = new MerkleTree(
-    ownerz.map((owner) => hashOwner(owner)),
-    keccak256,
-    { sortPairs: true }
-  );
-  const root = merkleTree.getHexRoot();
-  console.log(root);
 
   // await deployerWallet.sendTransaction({
   //   to: "0x9b68e31981dd220e682c491ea7593be01bd7b709",
@@ -31,7 +10,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   await deploy("CherryToadz", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: accounts.deployer,
-    args: [root],
     log: true,
   });
 

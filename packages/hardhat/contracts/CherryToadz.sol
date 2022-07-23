@@ -40,9 +40,9 @@ contract CherryToadz is Ownable, ERC721 {
     mapping(address => uint256) public mintAmount;
     mapping(address => bool) public didMint;
     mapping(address => bool) public didBurn;
-    mapping(address => uint256) public tokenOwned;
     mapping(uint256 => address) public whoBurnt;
-    mapping(address => EnumerableSet.UintSet) burntTokens;
+    mapping(address => EnumerableSet.UintSet) internal _ownedTokens;
+    mapping(address => EnumerableSet.UintSet) internal _burntTokens;
     mapping(uint256 => bool) public didShip;
     mapping(uint256 => string) private _tokenURIs;
 
@@ -61,6 +61,14 @@ contract CherryToadz is Ownable, ERC721 {
         return _contractURI;
     }
 
+    function ownedTokens() public view returns (uint256[] memory) {
+        return _ownedTokens[msg.sender].values();
+    }
+
+    function burntTokens() public view returns (uint256[] memory) {
+        return _burntTokens[msg.sender].values();
+    }
+
     // payout
     function pay() public payable onlyOwner {
         payable(save_the_children).transfer((address(this).balance * 50) / 100);
@@ -69,11 +77,11 @@ contract CherryToadz is Ownable, ERC721 {
 
     function popCherry() public payable {
         require(tokenId < 22, "Max amount of tokens reached!");
-        require(msg.value == 0.08 ether, "Not enough funds!");
+        require(msg.value == 0.1 ether, "Not enough funds!");
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
         if (msg.sender == infernalToast && !didMint[infernalToast]) {
             _pop(infernalToast, 5);
-        } else if (msg.sender == owner() && !didMint[cerise]) {
+        } else if (msg.sender == owner()) {
             _pop(cerise, 6);
         } else if (
             honorary_mint_time != 0 && block.timestamp > honorary_mint_time
@@ -110,7 +118,8 @@ contract CherryToadz is Ownable, ERC721 {
         );
         require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
         _burn(id);
-        EnumerableSet.add(burntTokens[msg.sender], id);
+        _burntTokens[msg.sender].add(id);
+        _ownedTokens[msg.sender].remove(id);
         didBurn[msg.sender] = true;
     }
 
@@ -128,17 +137,8 @@ contract CherryToadz is Ownable, ERC721 {
         bytes32 _hash,
         bytes memory _signature
     ) public view returns (bool) {
-        _recoverSigner(_hash, _signature);
         return
-            didBurn[msg.sender] && burntTokens[msg.sender].contains(_tokenId);
-    }
-
-    function _recoverSigner(bytes32 _hash, bytes memory _signature)
-        internal
-        view
-    {
-        address recoveredSigner = ECDSA.recover(_hash, _signature);
-        console.log(recoveredSigner);
+            didBurn[msg.sender] && _burntTokens[msg.sender].contains(_tokenId);
     }
 
     // the overridden _baseURI from ERC721
@@ -162,6 +162,7 @@ contract CherryToadz is Ownable, ERC721 {
         // count how many tokens our user has minted
         uint256 amountMinted = mintAmount[msg.sender] + 1;
         mintAmount[msg.sender] = amountMinted;
+        _ownedTokens[msg.sender].add(_tokenId);
     }
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)
@@ -173,5 +174,14 @@ contract CherryToadz is Ownable, ERC721 {
             "ERC721URIStorage: URI set of nonexistent token"
         );
         _tokenURIs[tokenId] = _tokenURI;
+    }
+
+    function _beforeTokenTransfer(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) internal virtual override {
+        _ownedTokens[_from].remove(_tokenId);
+        _ownedTokens[_to].add(_tokenId);
     }
 }

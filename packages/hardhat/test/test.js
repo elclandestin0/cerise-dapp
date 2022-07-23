@@ -8,11 +8,18 @@ use(solidity);
 const ethers = hardhat.ethers;
 const { parseUnits } = utils;
 
+const sign = (address, data) => {
+  return hardhat.network.provider.send("eth_sign", [
+    address,
+    ethers.utils.hexlify(ethers.utils.toUtf8Bytes(data)),
+  ]);
+};
+
 describe("CherryToadz", function () {
   let accounts;
   let myContract;
   before(async function () {
-    accounts = await ethers.getSigners();
+    accounts = await ethers.getSigners(2);
   });
 
   describe.only("CherryToadz", function () {
@@ -57,9 +64,12 @@ describe("CherryToadz", function () {
       });
     });
     it("Allows the owner who burnt the token to have the good shipped", async function () {
-      const [signer] = await ethers.getSigners();
-      console.log(signer);
-      // (await myContract.canShip("7")).should.be.equal(true);
+      // const hash = ethers.utils.toUtf8Bytes("test");
+      const sig = ethers.utils.splitSignature(
+        await sign(accounts[0].address, "test")
+      );
+      const hash = ethers.utils.hexlify(ethers.utils.toUtf8Bytes("test"));
+      await myContract.canShip("7", hash, sig);
     });
     // it.skip("it allows honorary toadz to mint for a set period of time", async function () {
     //   const amountToPop = parseUnits("0.08", "ether");

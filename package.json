@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.4.0",
+    "hardhat": "^2.10.1",
     "react-player": "^2.9.0"
   },
   "devDependencies": {

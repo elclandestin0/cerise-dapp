@@ -233,8 +233,6 @@ function App(props) {
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  console.log(injectedProvider);
-  const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider);
   const userSigner = useUserSigner(injectedProvider, localProvider);
   useEffect(() => {
     async function getAddress() {
@@ -248,7 +246,6 @@ function App(props) {
 
   // You can warn the user if you would like them to be on a specific network
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
-  console.log(localChainId);
   const selectedChainId =
     userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks

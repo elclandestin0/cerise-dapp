@@ -1,6 +1,5 @@
 // react
 import React, { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
 
 // scaffold hooks
 import { useContractLoader } from "eth-hooks";
@@ -14,7 +13,6 @@ import MintButton from "../Buttons/MintButton";
 // material tailwind
 import Card from "@material-tailwind/react/Card";
 import CardBody from "@material-tailwind/react/CardBody";
-
 
 // merkle tree stuff
 import { MerkleTree } from "merkletreejs";
@@ -35,9 +33,6 @@ export default function CherryToadz({
 }) {
   const tx = Transactor(signer, gasPrice);
 
-  // States to show different mint types on the button
-  const [claimable, setClaimable] = useState();
-  const [nullAddress, setNullAddress] = useState(false);
   const [isInfernal, setIsInfernal] = useState(false);
   const [isGremplin, setIsGremplin] = useState(false);
   const [isFarokh, setIsFarokh] = useState(false);
@@ -45,18 +40,12 @@ export default function CherryToadz({
   const [isCerise, setIsCerise] = useState(false);
   const [isCozomo, setIsCozomo] = useState(false);
   const [didMint, setDidMint] = useState(false);
-  const [publicSale, setPublicSale] = useState(false);
   const [isPublicSale, setIsPublicSale] = useState(false);
-  const [ifBurnt, setIfBurnt] = useState("");
-
   // fix states
-  const [tokenId, setTokenId] = useState(1);
 
   const contracts = useContractLoader(provider, contractConfig, chainId);
   useEffect(() => {
-    console.log(tokenId);
-    if (!address) {
-      setNullAddress(true);
+    if (!address && !contracts) {
       return;
     }
 
@@ -66,12 +55,6 @@ export default function CherryToadz({
     if (address == "0xCe90a7949bb78892F159F428D0dC23a8E3584d75") setIsCozomo(true);
     if (address == "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address == "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
-
-    const proof = merkleTree.getHexProof(hashOwner(address));
-    const leaf = hashOwner(address);
-    const root = merkleTree.getHexRoot();
-    setNullAddress(false);
-    setClaimable(merkleTree.verify(proof, leaf, root));
 
     const getDidMint = async () => {
       const memo = await contracts?.["CherryToadz"].didMint(address);
@@ -86,43 +69,11 @@ export default function CherryToadz({
     if (address && contracts) {
       getDidMint();
     }
-  }, [address, didMint, ifBurnt, contracts]);
-
-  // const moveTokenId = forward => {
-  //   if (forward) {
-  //     if (tokenId == 5) {
-  //       setTokenId(1);
-  //     } else {
-  //       const id = tokenId + 1;
-  //       console.log(id);
-  //       setTokenId(id);
-  //     }
-  //   } else {
-  //     if (tokenId == 1) {
-  //       setTokenId(5);
-  //     } else {
-  //       const id = tokenId - 1;
-  //       console.log(id);
-  //       setTokenId(id);
-  //     }
-  //   }
-  // };
-
-  // reconstruct merkletree
-  const merkleTree = new MerkleTree(
-    tree.leaves.map(leaf => Buffer.from(leaf.data)),
-    keccak256,
-    { sortPairs: true },
-  );
-
-  const hashOwner = owner => {
-    return Buffer.from(ethers.utils.solidityKeccak256(["address"], [owner]).slice(2), "hex");
-  };
+  }, [address, didMint, contracts]);
 
   const popCherry = async () => {
-    const proof = merkleTree.getHexProof(hashOwner(address));
     await tx(
-      writeContracts.CherryToadz.popCherry(proof, {
+      writeContracts.CherryToadz.popCherry({
         value: ethers.utils.parseEther("0.1"),
         gasLimit: 300000,
       }),
@@ -143,25 +94,25 @@ export default function CherryToadz({
             <img src={Toadz} />
           </div>
         </div>
-        {claimable && !didMint && (
+        {address && (
           <div>
             <div>
               <p class="text-center text-2xl font-h1 p-4 text-neonGreen">
                 {isGremplin && !didMint
                   ? "Thanks for making the coolest NFT collection ever!"
-                  : claimable && isInfernal && !didMint
+                  : isInfernal && !didMint
                   ? "Thanks for sending us down the NFT rabbit hole!"
-                  : claimable && isFarokh && !didMint
+                  : isFarokh && !didMint
                   ? "Thanks for sharing about TOADZ on Twitter!"
-                  : claimable && isMoti && !didMint
+                  : isMoti && !didMint
                   ? "Thanks for creating the best community ever!"
-                  : claimable && isCozomo && !didMinte
+                  : isCozomo && !didMinte
                   ? "Thanks for being buying a Toadenza and for being an awesome force of culture!"
-                  : claimable && isCerise && !didMint
+                  : isCerise && !didMint
                   ? "I'd like to thank me for being me!"
-                  : claimable && isPublicSale && !didMint
+                  : isPublicSale && !didMint
                   ? "Croak!"
-                  : claimable && isPublicSale && didMint
+                  : isPublicSale && didMint
                   ? "Croak Again"
                   : "The Uncroakening"}
               </p>
@@ -173,21 +124,9 @@ export default function CherryToadz({
             </div>
           </div>
         )}
-        {claimable && didMint && (
+        {!address && (
           <div>
-            <p class="text-center text-2xl px-5 pt-16 font-h1 p-4">You can only mint once from the V1 collection!</p>
-          </div>
-        )}
-        {!claimable && !nullAddress && !ifBurnt && (
-          <div>
-            <p class="text-center text-2xl font-h1 p-4 px-5 pt-16">
-              Sorry <span class="text-neonYellow text-xl">{address?.substring(0, 6)}</span>! You do not own a toad.{" "}
-            </p>
-          </div>
-        )}
-        {!claimable && nullAddress && (
-          <div>
-            <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to check if you own a toad!</p>
+            <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to mint a CherryToad!</p>
           </div>
         )}
       </div>
@@ -195,7 +134,7 @@ export default function CherryToadz({
       <div>
         <div className="flex justify-center">
           <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
-            <span>22</span> CrypToadz Street Wearables
+            CrypToadz Street Wearables
           </h1>
         </div>
 

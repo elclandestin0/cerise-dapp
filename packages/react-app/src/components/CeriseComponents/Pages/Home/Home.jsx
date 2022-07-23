@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div>
       <div className="bg-test bg-cover bg-no-repeat bg-center text-primary image-height">
-      {/* <video loop autoPlay>
+        {/* <video loop autoPlay>
         <source
           src="https://www.dropbox.com/s/3ihmt9sbevdj6xq/token%2325.mp4?raw=1"
           type="video/mp4"
