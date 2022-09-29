@@ -39,19 +39,22 @@ export default function CherryToadz({
 
   const contracts = useContractLoader(provider, contractConfig, chainId);
 
-  const isPublicSale = useMemo(async () => {
-    return await contracts?.["CherryToadz"].isPublicSale();
-  }, [contracts]);
+  const isPublicSale = true;
+  const didMint = true;
+  const getBalance = 3;
+  // const isPublicSale = useMemo(async () => {
+  //   return await contracts?.["CherryToadz"].isPublicSale();
+  // }, [contracts]);
 
-  const didMint = useMemo(async () => {
-    return await contracts?.["CherryToadz"].didMint(address);
-  }, [contracts]);
+  // const didMint = useMemo(async () => {
+  //   return await contracts?.["CherryToadz"].didMint(address);
+  // }, [contracts]);
 
-  const getBalance = useMemo(async () => {
-    await contracts?.["CherryToadz"].balanceOf(address).then(x => {
-      return x;
-    });
-  }, [contracts, address]);
+  // const getBalance = useMemo(async () => {
+  //   await contracts?.["CherryToadz"].balanceOf(address).then(x => {
+  //     return x;
+  //   });
+  // }, [contracts, address]);
 
   const popCherry = async () => {
     await tx(

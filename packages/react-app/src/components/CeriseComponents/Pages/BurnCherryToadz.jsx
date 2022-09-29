@@ -44,12 +44,12 @@ export default function CherryToadz({
       return;
     }
 
-    const getOwnedTokens = async () => {
-      const memo = await contracts?.["CherryToadz"]?.ownedTokens().then(x => {
-        console.log(x);
-      });
-    };
-    getOwnedTokens();
+    // const getOwnedTokens = async () => {
+    //   await contracts?.["CherryToadz"]?.ownedTokens().then(x => {
+    //     return x;
+    //   });
+    // };
+    // getOwnedTokens();
   }, [address, ifBurnt, contracts]);
 
   // const moveTokenId = forward => {

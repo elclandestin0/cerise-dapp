@@ -69,7 +69,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.4.0",
     "hardhat": "^2.10.1",
-    "react-player": "^2.9.0"
+    "react-player": "^2.9.0",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "husky": "^7.0.2"
