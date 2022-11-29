@@ -42,19 +42,6 @@ export default function CherryToadz({
   const isPublicSale = true;
   const didMint = true;
   const getBalance = 3;
-  // const isPublicSale = useMemo(async () => {
-  //   return await contracts?.["CherryToadz"].isPublicSale();
-  // }, [contracts]);
-
-  // const didMint = useMemo(async () => {
-  //   return await contracts?.["CherryToadz"].didMint(address);
-  // }, [contracts]);
-
-  // const getBalance = useMemo(async () => {
-  //   await contracts?.["CherryToadz"].balanceOf(address).then(x => {
-  //     return x;
-  //   });
-  // }, [contracts, address]);
 
   const popCherry = async () => {
     await tx(
@@ -95,7 +82,7 @@ export default function CherryToadz({
           <div>
             <div>
               <p class="text-center text-2xl font-h1 p-4 text-neonGreen">
-                {isGremplin && !didMint
+                {/* {isGremplin && !didMint
                   ? "Thanks for making the coolest NFT collection ever!"
                   : isInfernal && !didMint
                   ? "Thanks for sending us down the NFT rabbit hole!"
@@ -111,14 +98,15 @@ export default function CherryToadz({
                   ? `Croak! }`
                   : isPublicSale && didMint
                   ? `Croak! You have ${getBalance.toString()} clothes you can redeem!`
-                  : "The Uncroakening"}
+                  : "The Uncroakening"} */}
+                This collection is closed!
               </p>
             </div>
-            <div className="pt-30 flex items-center justify-center text-center">
+            {/* <div className="pt-30 flex items-center justify-center text-center">
               <div>
                 <MintButton popCherry={popCherry} />
               </div>
-            </div>
+            </div> */}
           </div>
         )}
         {!address && (
@@ -131,21 +119,21 @@ export default function CherryToadz({
       <div>
         <div className="flex justify-center">
           <h1 className="font-h1 text-neonGreen text-4xl px-5 pt-16 text-center text-neonRed">
-            CrypToadz Street Wearables
+            Digital Fashion items coming soon
           </h1>
         </div>
 
         <div className="flex justify-center pb-5 pt-5 px-10">
           <Card>
             <CardBody>
-              <div className="flex justify-center">
+              {/* <div className="flex justify-center">
                 <p className="text-neonGreen text-base font-h1 text-neonGreen text-justify px-3 md:px-24 lg:px-48 xl:px-96">
                   There are 22 exclusive street wearables items available to mint for any{" "}
                   <a href="https://cryptoadz.io/">CrypTOADZ</a> owners. These include pants, jackets, hoodies, tees and
                   accessories. Burning your token will allow you to enter your shipping address and get your tokenized
                   street wearable!
                 </p>
-              </div>
+              </div> */}
             </CardBody>
           </Card>
         </div>

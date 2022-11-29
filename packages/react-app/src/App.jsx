@@ -40,9 +40,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Home from "./components/CeriseComponents/Pages/Home/Home";
 import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
-import DifferentKindaDigitz from "./components/CeriseComponents/Pages/DifferentKindaDigitz";
 import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
-import BurnCherryToadz from "./components/CeriseComponents/Pages/BurnCherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
@@ -512,29 +510,11 @@ function App(props) {
               writeContracts={writeContracts}
             />
           </Route>
-          <Route exact path="/collections/cherrytoadz/burn">
-            <BurnCherryToadz
-              name="BurnCherryToadz"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-              writeContracts={writeContracts}
-            />
-          </Route>
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/collections">
-            <Collections />
-          </Route>
           <Route path="/about">
             <About />
-          </Route>
-          <Route path="/different_kinda_digitz">
-            <DifferentKindaDigitz />
           </Route>
         </Switch>
         <Modal active={open} toggler={() => setOpen(false)}>
@@ -577,24 +557,6 @@ function App(props) {
               to="/"
             >
               <h1 className="font-h1 hover:text-neon text-neonYellow text-5xl">CherryTOADZ</h1>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/collections/cherrytoadz/burn");
-                handleClose();
-              }}
-              to="/collections/cherrytoadz/burn"
-            >
-              <h1 className="font-h1 hover:text-neon text-neonRed text-5xl">Burn CherryToadz</h1>
-            </Link>
-            <Link
-              onClick={() => {
-                setRoute("/different_kinda_digitz");
-                handleClose();
-              }}
-              to="/different_kinda_digitz"
-            >
-              <h1 className="font-h1 hover:text-neon text-neonRed text-5xl">DifferentKindaDigitz</h1>
             </Link>
             {/* <Link
               onClick={() => {
