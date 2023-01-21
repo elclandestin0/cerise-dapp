@@ -15,10 +15,10 @@ module.exports = {
       red: "#ff0000",
     }),
     backgroundImage: {
-      test: "url('https://previews.dropbox.com/p/thumb/ABsGUBEeSafoEM44WDqbQ5w8Esh6kUGcCCtNDZkHr7104Dhahw5t4bEV0UBlS3sfTBQApCkZghEZW845M4Gzui8lztKkTqnudenAPswAKQdADqsuE9whOAIG6YA_tDH91om0IgSpfK18RppZ8He5qOVdOoLT_RD-9n80xq57HZZ4WcyLEYsmA7BaUZvSi55IinVTSx2X9IrDcgOPmFE-S2gncK7UeMsHrpdTgrm2BSz5wDwXmgqaiFIZhH2s_uhfLnh8T03zEXTgGAnihfq462Z0GMy4MqKubgLWrE5Qj9nLq3hdTx6sR10RswC9yXy4moTA-kCdyH307GljnUC1424M9I6Q-ZZSTLr8xeWVfs_jqQtQ8ovvFey-zrbxGKDfCgeFvxKLsAmN6jvQ_0a3egfl/p.gif')",
+      test: "url('https://previews.dropbox.com/p/thumb/ABznqFDKqkihpGkQONQrDx8xdQHW5Jer138LKGcchG6mKUaoIYZrpo3cNg8wmlmpwFNBGLmYhAerDgKE98ZQIEvBb2kn0vVZ49WsuJsYylkNrqNObAJ_ALE1SX9KNAHSi07VlwAmMTnidATfwag_iyxGtxoDkJC5uaXJKZoJi7IxRsKv6zPT895362dbCPHXqU4VLf3UrRRvLvB1s_RmTQa8dAQPdCNN5qzRZx3HYz1ZDf5y95ENMyYDsfwgSjlMkrbh4EI90T_flY07FfKGnq19CFz404VLTPVr8PeO3Q83a-unnCFh8o-4xpBjAFNK3o4moDEg4otbl0qONbIiqOPRBHn0iB_X3VKCf5CepcgaUGcqbZstOraHWby5_myPxjo6jofZaetUIu9ExTwIpprqTvFsop4Q39xT1JXqy1VAyvDZYMpyfyh1jdiS1XjEENc/p.gif')",
       burn: "url('https://c.tenor.com/WhD4AWN30YkAAAAC/clouds-moving.gif')",
     },
-    textColor: {
+    colors: {
       primary: "#ff0000",
       neon: "#39FF14",
       neonRed: "#ff1818",

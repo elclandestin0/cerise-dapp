@@ -68,7 +68,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.goerli; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -112,7 +112,7 @@ const walletLink = new WalletLink({
 });
 
 // WalletLink provider
-const walletLinkProvider = walletLink.makeWeb3Provider(`https://rinkeby.infura.io/v3/${INFURA_ID}`, 4);
+const walletLinkProvider = walletLink.makeWeb3Provider(`https://goerli.infura.io/v3/${INFURA_ID}`, 5);
 
 // Portis ID: 6255fb2b-58c8-433b-a2c9-62098c05ddc9
 /*
@@ -142,6 +142,7 @@ const web3Modal = new Web3Modal({
         rpc: {
           1: `https://mainnet.infura.io/v3/${INFURA_ID}`, // mainnet // For more WalletConnect providers: https://docs.walletconnect.org/quick-start/dapps/web3-provider#required
           4: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
+          5: `https://goerli.infura.io/v3/${INFURA_ID}`,
           42: `https://kovan.infura.io/v3/${INFURA_ID}`,
           100: "https://dai.poa.network", // xDai
         },
