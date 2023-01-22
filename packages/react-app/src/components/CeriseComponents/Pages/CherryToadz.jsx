@@ -27,6 +27,8 @@ export default function CherryToadz({
   chainId,
   contractConfig,
   writeContracts,
+  readContracts,
+  mainnetContracts,
 }) {
   const tx = Transactor(signer, gasPrice);
   const [isInfernal, setIsInfernal] = useState(false);
@@ -35,6 +37,7 @@ export default function CherryToadz({
   const [isMoti, setIsMoti] = useState(false);
   const [isCerise, setIsCerise] = useState(false);
   const [isCozomo, setIsCozomo] = useState(false);
+  const [toadzBalance, setToadzBalance] = useState(0);
   // fix states
 
   const contracts = useContractLoader(provider, contractConfig, chainId);
@@ -42,7 +45,8 @@ export default function CherryToadz({
   const isPublicSale = true;
   const didMint = true;
   const getBalance = 3;
-
+  const toadzContract = mainnetContracts.TOADZ;
+  console.log(toadzContract);
   const popCherry = async () => {
     await tx(
       writeContracts.CherryToadz.popCherry({
@@ -52,7 +56,12 @@ export default function CherryToadz({
     );
   };
 
-  useEffect(() => {
+  const getToadzBalance = async address => {
+    const toadzBalance = await toadzContract.balanceOf(address);
+    return toadzBalance;
+  };
+
+  useEffect(async () => {
     if (!address && !contracts) {
       return;
     }
@@ -63,6 +72,8 @@ export default function CherryToadz({
     if (address === "0x8bd8795cbeed15f8d5074f493c53b39c11ed37b2") setIsMoti(true);
     if (address === "0xe0110C6EE2138Ecf9962a6f9f6Ad329cDFE1FA17") setIsCerise(true);
   }, [address, contracts]);
+
+  console.log(toadzBalance);
 
   let contract;
   if (!customContract) {
@@ -81,7 +92,7 @@ export default function CherryToadz({
         {address && (
           <div>
             <div>
-              <p class="text-center text-2xl font-h1 p-4 text-neonGreen">
+              <p className="text-center text-2xl font-h1 p-4 text-neonGreen">
                 {/* {isGremplin && !didMint
                   ? "Thanks for making the coolest NFT collection ever!"
                   : isInfernal && !didMint
@@ -99,7 +110,7 @@ export default function CherryToadz({
                   : isPublicSale && didMint
                   ? `Croak! You have ${getBalance.toString()} clothes you can redeem!`
                   : "The Uncroakening"} */}
-                This collection is closed!
+                You own {toadzBalance} Toadz!
               </p>
             </div>
             {/* <div className="pt-30 flex items-center justify-center text-center">
@@ -111,7 +122,7 @@ export default function CherryToadz({
         )}
         {!address && (
           <div>
-            <p class="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to mint a CherryToad!</p>
+            <p className="text-center text-neonGreen text-2xl font-h1 p-4 px-5 pt-16">Login to mint a CherryToad!</p>
           </div>
         )}
       </div>

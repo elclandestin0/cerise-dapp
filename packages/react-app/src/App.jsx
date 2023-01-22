@@ -205,8 +205,8 @@ function App(props) {
       : rinkebyInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
-  const [address, setAddress] = useState();
-  const [open, setOpen] = useState();
+  const [address, setAddress] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -266,12 +266,10 @@ function App(props) {
   const contractConfig = { deployedContracts: deployedContracts || {}, externalContracts: externalContracts || {} };
 
   // Load in your local 📝 contract and read a value from it:
-  const readContracts = useContractLoader(localProvider, contractConfig, 4);
-
-  // keep track of a variable from the contract in the local React state:
+  const readContracts = useContractLoader(localProvider, contractConfig, 1);
 
   // If you want to make 🔐 write transactions to your contracts, use the userSigner:
-  const writeContracts = useContractLoader(userSigner, contractConfig, 4);
+  const writeContracts = useContractLoader(userSigner, contractConfig, 1);
   // EXTERNAL CONTRACT EXAMPLE:
   //
   // If you want to bring in the mainnet DAI contract it would look like:
@@ -497,6 +495,7 @@ function App(props) {
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
               writeContracts={writeContracts}
+              mainnetContracts={mainnetContracts}
             />
           </Route>
           <Route exact path="/collections/cherrytoadz">
@@ -509,6 +508,7 @@ function App(props) {
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
               writeContracts={writeContracts}
+              readContracts={readContracts}
             />
           </Route>
           <Route path="/home">
@@ -520,7 +520,7 @@ function App(props) {
         </Switch>
         <Modal active={open} toggler={() => setOpen(false)}>
           <ModalHeader toggler={() => setOpen(false)}>
-            <h1 className="text-primary text-3xl">Pages</h1>
+            <p className="text-primary text-3xl">Pages</p>
           </ModalHeader>
           <ModalBody>
             {/* <Link
@@ -575,7 +575,7 @@ function App(props) {
       <footer>
         <div className="bg-footer pt-16 pl-8 pb-16">
           <div className="flex items-center justify-center text-center p-2">
-            <img class="w-3/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
+            <img className="w-3/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
           </div>
           <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">
             cerise.eth

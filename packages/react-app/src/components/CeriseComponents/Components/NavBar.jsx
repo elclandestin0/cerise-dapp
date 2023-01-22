@@ -1,4 +1,3 @@
-// import { Button } from "antd";
 import React from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "../../Address";
@@ -18,10 +17,7 @@ import NavItem from "@material-tailwind/react/NavItem";
 
 export default function NavBar({
   address,
-  userSigner,
-  localProvider,
   mainnetProvider,
-  price,
   minimized,
   web3Modal,
   loadWeb3Modal,
@@ -61,16 +57,16 @@ export default function NavBar({
   return (
     <Navbar>
       <NavbarContainer className="pt-4 pb-4">
-        <NavItem>
+        <NavItem key="menu">
           <MenuButton handleOpen={handleOpen} />
         </NavItem>
-        <NavItem>
+        <NavItem key="img">
           <H2 variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <img src={CeriseLogo} style={{ width: 80 }} />
           </H2>
         </NavItem>
         {/* {display} */}
-        <NavItem>{modalButtons}</NavItem>
+        <NavItem key="wallet">{modalButtons}</NavItem>
       </NavbarContainer>
     </Navbar>
   );
