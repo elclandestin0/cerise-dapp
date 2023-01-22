@@ -8,7 +8,7 @@ import Button from "@material-tailwind/react/Button";
 // CERISE COMPONENTS
 import ConnectButton from "../Buttons/ConnectButton";
 import MenuButton from "../Buttons/MenuButton";
-import CeriseLogo from "../../../assets/x.gif";
+import CeriseLogo from "../../../assets/cherry_updated.png";
 
 // tailwind material
 import Navbar from "@material-tailwind/react/Navbar";

@@ -50,7 +50,7 @@ export default function CherryToadz({
   const popCherry = async () => {
     await tx(
       writeContracts.CherryToadz.popCherry({
-        value: ethers.utils.parseEther("0.1"),
+        // value: ethers.utils.parseEther("0.1"),
         gasLimit: 300000,
       }),
     );
@@ -110,14 +110,14 @@ export default function CherryToadz({
                   : isPublicSale && didMint
                   ? `Croak! You have ${getBalance.toString()} clothes you can redeem!`
                   : "The Uncroakening"} */}
-                You own {toadzBalance} Toadz!
+                You can mint {toadzBalance} T-shirts!
               </p>
             </div>
-            {/* <div className="pt-30 flex items-center justify-center text-center">
+            <div className="pt-30 flex items-center justify-center text-center">
               <div>
                 <MintButton popCherry={popCherry} />
               </div>
-            </div> */}
+            </div>
           </div>
         )}
         {!address && (

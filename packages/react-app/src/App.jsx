@@ -44,7 +44,6 @@ import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
 
 // assets
-import CeriseLogo from "./assets/cherry_updated.png";
 import useUserSigner from "./hooks/UserSigner";
 
 const { ethers } = require("ethers");
@@ -574,9 +573,6 @@ function App(props) {
       {/* FOOTER */}
       <footer>
         <div className="bg-footer pt-16 pl-8 pb-16">
-          <div className="flex items-center justify-center text-center p-2">
-            <img className="w-3/12 md:w-2/12 lg:w-2/12 xl:w-2/12" src={CeriseLogo} />
-          </div>
           <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">
             cerise.eth
           </div>
