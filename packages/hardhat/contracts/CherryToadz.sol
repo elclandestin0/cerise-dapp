@@ -9,11 +9,12 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "./Cerise.sol";
 
 error MintTimeNotPublic();
 error NotAnHonoraryToad();
 
-contract CherryToadz is Ownable, ERC721 {
+contract CherryToadz is Ownable, ERC721, Scoreboard {
     using EnumerableSet for EnumerableSet.UintSet;
     using Strings for uint256;
 
@@ -41,8 +42,6 @@ contract CherryToadz is Ownable, ERC721 {
     mapping(address => bool) public didMint;
     mapping(address => bool) public didBurn;
     mapping(uint256 => address) public whoBurnt;
-    mapping(address => EnumerableSet.UintSet) internal _ownedTokens;
-    mapping(address => EnumerableSet.UintSet) internal _burntTokens;
     mapping(uint256 => bool) public didShip;
     mapping(uint256 => string) private _tokenURIs;
 
@@ -75,7 +74,7 @@ contract CherryToadz is Ownable, ERC721 {
         payable(we_are_studios).transfer((address(this).balance * 50) / 100);
     }
 
-    function popCherry() public payable {
+    function _popCherry() public payable {
         require(tokenId < 22, "Max amount of tokens reached!");
         require(msg.value == 0.1 ether, "Not enough funds!");
         require(mintAmount[msg.sender] < 4, "You can only mint four items!");
@@ -118,6 +117,7 @@ contract CherryToadz is Ownable, ERC721 {
         );
         require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
         _burn(id);
+        _countBurn();
         _burntTokens[msg.sender].add(id);
         _ownedTokens[msg.sender].remove(id);
         didBurn[msg.sender] = true;
@@ -162,6 +162,7 @@ contract CherryToadz is Ownable, ERC721 {
         // count how many tokens our user has minted
         uint256 amountMinted = mintAmount[msg.sender] + 1;
         mintAmount[msg.sender] = amountMinted;
+        _countMint();
         _ownedTokens[msg.sender].add(_tokenId);
     }
 

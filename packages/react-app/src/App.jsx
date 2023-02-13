@@ -42,6 +42,7 @@ import Collections from "./components/CeriseComponents/Pages/Collections";
 import About from "./components/CeriseComponents/Pages/About";
 import CherryToadz from "./components/CeriseComponents/Pages/CherryToadz";
 import NavBar from "./components/CeriseComponents/Components/NavBar";
+import CeriseLogo from "../src/assets/cerise-new-logo.png";
 
 // assets
 import useUserSigner from "./hooks/UserSigner";
@@ -574,7 +575,7 @@ function App(props) {
       <footer>
         <div className="bg-footer pt-16 pl-8 pb-16">
           <div className="flex items-center justify-center text-center p-2 text-2xl font-h1 text-neonRed">
-            cerise.eth
+            <img src={CeriseLogo} width="150" />
           </div>
         </div>
       </footer>
