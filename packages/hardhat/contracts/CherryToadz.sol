@@ -124,7 +124,7 @@ contract CherryToadz is Ownable, ERC721 {
         );
         require(didBurn[msg.sender] == false, "You can't burn a burnt token!");
         _burn(id);
-        _scoreboard.countBurn();
+        _scoreboard.countBurn(msg.sender);
         _burntTokens[msg.sender].add(id);
         _ownedTokens[msg.sender].remove(id);
         didBurn[msg.sender] = true;
@@ -169,12 +169,8 @@ contract CherryToadz is Ownable, ERC721 {
         // count how many tokens our user has minted
         uint256 amount = mintAmount[msg.sender] + 1;
         mintAmount[msg.sender] = amount;
-        _scoreboard.countMint();
+        _scoreboard.countMint(msg.sender);
         // _ownedTokens[msg.sender].add(_tokenId);
-    }
-
-    function score() public view returns (uint256) {
-        return _scoreboard.amountMinted();
     }
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)

@@ -9,21 +9,31 @@ contract Scoreboard is IScoreboard {
 
     event MintCounted();
 
-    function countMint() external override {
-        _mintAmount[msg.sender]++;
-        console.log(_mintAmount[msg.sender]);
+    function countMint(address minter) external override {
+        _mintAmount[minter]++;
         emit MintCounted();
     }
 
-    function countBurn() external override {
-        _burntAmount[msg.sender] += 1;
+    function countBurn(address burner) external override {
+        _burntAmount[burner] += 1;
     }
 
-    function amountMinted() public view virtual override returns (uint256) {
-        return _mintAmount[msg.sender];
+    function amountMinted(address minter)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        return _mintAmount[minter];
     }
 
-    function amountBurnt() public view override returns (uint256) {
-        return _burntAmount[msg.sender];
+    function amountBurnt(address burner)
+        public
+        view
+        override
+        returns (uint256)
+    {
+        return _burntAmount[burner];
     }
 }

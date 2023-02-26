@@ -32,19 +32,32 @@ describe("CherryToadz", function () {
       const Cerise = await ethers.getContractFactory("CeriseDayOnez");
       scoreboardContract = await Scoreboard.deploy();
       myContract = await CeriseCryptoadz.deploy(scoreboardContract.address);
-      ceriseContract = await Cerise.deploy();
+      ceriseContract = await Cerise.deploy(scoreboardContract.address);
     });
+
     it("Should count a scoreboard point for every cherrytoad mint", async () => {
-      const tx = await myContract.popCherry();
-      const receipt = await tx.wait();
-      console.log(
-        receipt.events?.filter((x) => {
-          return x.event == "MintCounted";
-        })
-      );
-      console.log(tx);
-      const txCall = await myContract.score();
-      expect(txCall).to.equal(1);
+      const rand = [0, 1, 2, 3, 4];
+      rand.forEach(async (element) => {
+        await myContract.popCherry();
+      });
+      const txCall = await scoreboardContract.amountMinted(accounts[0].address);
+      expect(txCall).to.equal(5);
+    });
+
+    it("Can mint a sock", async () => {
+      await ceriseContract.mintSockz();
+      const sockzAmount = await ceriseContract.sockzAmount();
+      expect(sockzAmount).to.equal(24);
+    });
+
+    it("Can mint a tuque", async () => {
+      await ceriseContract.mintTuque();
+      const sockzAmount = await ceriseContract.tuqueAmount();
+      expect(sockzAmount).to.equal(14);
+    });
+
+    it("Cannot mint a Tee", async () => {
+      await expect(ceriseContract.mintTee()).to.be.reverted;
     });
   });
 });

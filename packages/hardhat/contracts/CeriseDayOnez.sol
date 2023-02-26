@@ -9,11 +9,13 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "./Scoreboard.sol";
+import "./IScoreboard.sol";
 
-contract CeriseDayOnez is Ownable, ERC1155, Scoreboard {
+contract CeriseDayOnez is Ownable, ERC1155 {
     using EnumerableSet for EnumerableSet.UintSet;
     using Strings for uint256;
+
+    IScoreboard internal _scoreboard;
 
     // cerise tokens
     mapping(uint256 => bool) private _didShip;
@@ -41,27 +43,68 @@ contract CeriseDayOnez is Ownable, ERC1155, Scoreboard {
     string private _preReveal =
         "ipfs://QmPgd4bG2oPGC6KRtZqZYWx3oWQk3A6GvxJi5iFfXxNiRN/";
 
-    constructor() ERC1155("") {}
+    constructor(address _score) ERC1155("") {
+        _scoreboard = IScoreboard(_score);
+    }
 
-    function mintCeriseToken() public {
-        if (amountMinted() == 1 && sockzAmount > 0) {
-            _mint(msg.sender, TUQUE, 1, "");
-            sockzAmount--;
-        } else if (amountMinted() == 5 && tuqueAmount > 0) {
-            _mint(msg.sender, SOCKZ, 1, "");
-            tuqueAmount--;
-        } else if (amountMinted() == 25 && teeAmount > 0) {
-            _mint(msg.sender, TEE, 1, "");
-            teeAmount--;
-        } else if (amountMinted() == 50 && hoodieAmount > 0) {
-            _mint(msg.sender, HOODIE, 1, "");
-            hoodieAmount--;
-        } else if (amountMinted() == 75 && pantzAmount > 0) {
-            _mint(msg.sender, PANTZ, 1, "");
-            pantzAmount--;
-        } else if (amountMinted() == 100 && jacketAmount > 0) {
-            _mint(msg.sender, JACKET, 1, "");
-            jacketAmount--;
-        }
+    function mintSockz() public {
+        console.log(_scoreboard.amountMinted(msg.sender));
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 1,
+            "Not enough points!"
+        );
+        require(sockzAmount > 0, "Out of sockz!");
+        _mint(msg.sender, SOCKZ, 1, "");
+        sockzAmount--;
+    }
+
+    function mintTuque() public {
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 5,
+            "Not enough points!"
+        );
+        require(tuqueAmount > 0, "Out of tuques!");
+        _mint(msg.sender, TUQUE, 1, "");
+        tuqueAmount--;
+    }
+
+    function mintTee() public {
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 25,
+            "Not enough points!"
+        );
+        require(teeAmount > 0, "Out of tees!");
+        _mint(msg.sender, TEE, 1, "");
+        tuqueAmount--;
+    }
+
+    function mintHoodie() public {
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 50,
+            "Not enough points!"
+        );
+        require(hoodieAmount > 0, "Out of hoodies!");
+        _mint(msg.sender, HOODIE, 1, "");
+        hoodieAmount--;
+    }
+
+    function mintPantz() public {
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 75,
+            "Not enough points!"
+        );
+        require(pantzAmount > 0, "Out of pantz!");
+        _mint(msg.sender, PANTZ, 1, "");
+        pantzAmount--;
+    }
+
+    function mintJacket() public {
+        require(
+            _scoreboard.amountMinted(msg.sender) >= 100,
+            "Not enough points!"
+        );
+        require(jacketAmount > 0, "Out of jackets!");
+        _mint(msg.sender, JACKET, 1, "");
+        jacketAmount--;
     }
 }
